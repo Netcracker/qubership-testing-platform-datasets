@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!-- CREATE TABLE FILTERS -->
+    <changeSet author="dataset" id="CREATE TABLE FILTER">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="FILTERS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FILTERS">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VA_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- FK FILTERS → VISIBILITY_AREA -->
+    <changeSet author="dataset" id="Contraint VA-FILTER">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_VA_FILTER"
+                        foreignKeyTableName="FILTERS"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="VA_ID"
+                                 baseTableName="FILTERS"
+                                 constraintName="FK_VA_FILTER"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="VISIBILITY_AREA"/>
+    </changeSet>
+
+    <!-- CREATE TABLE FILTER_DSL_LABELS -->
+    <changeSet author="dataset" id="create DSL_LABEL binding to filter">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="FILTER_DSL_LABELS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FILTER_DSL_LABELS">
+            <column name="FILTER_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DSL_LABEL_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- FK FILTER_DSL_LABELS → FILTERS -->
+    <changeSet author="dataset" id="Contraint FILETER-FILTER_DSL_LABELS">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_FILTER_FILTER_DSL_LABELS"
+                        foreignKeyTableName="FILTER_DSL_LABELS"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="FILTER_ID"
+                                 baseTableName="FILTER_DSL_LABELS"
+                                 constraintName="FK_FILTER_FILTER_DSL_LABELS"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="FILTERS"/>
+    </changeSet>
+
+    <!-- CREATE TABLE FILTER_DS_LABELS -->
+    <changeSet author="dataset" id="create DS_LABEL binding to filter">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="FILTER_DS_LABELS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FILTER_DS_LABELS">
+            <column name="FILTER_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DS_LABEL_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- FK FILTER_DS_LABELS → FILTERS -->
+    <changeSet author="dataset" id="Contraint FILETER-FILTER_DS_LABELS">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_FILTER_FILTER_DS_LABELS"
+                        foreignKeyTableName="FILTER_DS_LABELS"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="FILTER_ID"
+                                 baseTableName="FILTER_DS_LABELS"
+                                 constraintName="FK_FILTER_FILTER_DS_LABELS"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="FILTERS"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="dataset" id="FK_ATTRIBUTE(ATTRIBUTE_TYPE_ID)-ATTRIBUTE_TYPE(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_ATTRIBUTE(ATTRIBUTE_TYPE_ID)-ATTRIBUTE_TYPE(ID)"
+                        foreignKeyTableName="ATTRIBUTE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="ATTRIBUTE" baseColumnNames="ATTRIBUTE_TYPE_ID"
+                                 referencedTableName="ATTRIBUTE_TYPE"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_ATTRIBUTE(ATTRIBUTE_TYPE_ID)-ATTRIBUTE_TYPE(ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_ATTRIBUTE(DATASETLIST_ID)-DATASETLIST(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_ATTRIBUTE(DATASETLIST_ID)-DATASETLIST(ID)"
+                        foreignKeyTableName="ATTRIBUTE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="ATTRIBUTE" baseColumnNames="DATASETLIST_ID"
+                                 referencedTableName="DATASETLIST" referencedColumnNames="ID"
+                                 constraintName="FK_ATTRIBUTE(DATASETLIST_ID)-DATASETLIST(ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_ATTRIBUTE(TYPE_DATASETLIST_ID)-DATASETLIST(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_ATTRIBUTE(TYPE_DATASETLIST_ID)-DATASETLIST(ID)"
+                        foreignKeyTableName="ATTRIBUTE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="ATTRIBUTE" baseColumnNames="TYPE_DATASETLIST_ID"
+                                 referencedTableName="DATASETLIST" referencedColumnNames="ID"
+                                 constraintName="FK_ATTRIBUTE(TYPE_DATASETLIST_ID)-DATASETLIST(ID)"/>
+    </changeSet>
+</databaseChangeLog>

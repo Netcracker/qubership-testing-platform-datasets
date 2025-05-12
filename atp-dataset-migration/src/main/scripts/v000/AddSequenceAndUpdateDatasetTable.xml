@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!-- CREATE SEQUENCE -->
+    <changeSet author="dataset" id="ADD SEQUENCE">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="SEQUENCE_DATASET"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="SEQUENCE_DATASET"
+                        incrementBy="1"
+                        startValue="1"/>
+    </changeSet>
+
+    <!-- ADD COLUMN -->
+    <changeSet author="dataset" id="ADD COLUMN">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="DATASET" columnName="ORDERING"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="DATASET">
+            <column name="ORDERING" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- UPDATE TABLE -->
+    <changeSet author="dataset" id="UPDATE TABLE">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM DATASET WHERE ORDERING IS NOT NULL
+            </sqlCheck>
+        </preConditions>
+        <update tableName="DATASET">
+            <column name="ORDERING" valueSequenceNext="SEQUENCE_DATASET"/>
+            <where>ID IN (SELECT ID FROM DATASET ORDER BY UPPER(NAME), ID)</where>
+        </update>
+    </changeSet>
+
+    <!-- MODIFY COLUMN NOT NULL -->
+    <changeSet author="dataset" id="MODIFY COLUMN NOT NULL">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT CASE WHEN is_nullable = 'NO' THEN 1 ELSE 0 END
+                FROM information_schema.columns
+                WHERE table_name = 'dataset' AND column_name = 'ordering'
+            </sqlCheck>
+        </preConditions>
+        <addNotNullConstraint tableName="DATASET"
+                              columnName="ORDERING"
+                              columnDataType="BIGINT"/>
+    </changeSet>
+
+</databaseChangeLog>

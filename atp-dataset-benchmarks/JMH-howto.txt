@@ -1,0 +1,17 @@
+After creation of aggregation pom
+you can use command:
+mvn archetype:generate -DinteractiveMode=false -DarchetypeGroupId=org.openjdk.jmh -DarchetypeArtifactId=jmh-java-benchmark-archetype -DgroupId=org.sample -DartifactId=test -Dversion=1.0
+to generate a JMH module from archetype
+as described in http://openjdk.java.net/projects/code-tools/jmh/
+
+benchmark samples is here: http://hg.openjdk.java.net/code-tools/jmh/file/a128fd4a5901/jmh-samples/src/main/java/org/openjdk/jmh/samples/
+
+Now we have module for benchmark tests.
+We should add dependencies to our production modules to be able to write tests and pack an uberjar with our production modules plus jmh itself.
+It is the recommended approach.
+
+After packaging of benchmarks module we've got the target/benchmarks.jar which has no dependencies.
+We can copy it to the different environments, run and collect data.
+The run command is like:
+java -jar target/benchmarks.jar -rf json
+see JMH-run.cmd

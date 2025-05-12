@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="dataset" id="U_ATTRIBUTE(DATASETLIST_ID,NAME)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM information_schema.table_constraints
+                WHERE constraint_type = 'UNIQUE'
+                AND constraint_name = 'U_ATTRIBUTE(DATASETLIST_ID,NAME)'
+                AND table_name = 'attribute'
+            </sqlCheck>
+        </preConditions>
+
+        <addUniqueConstraint
+                tableName="ATTRIBUTE"
+                columnNames="DATASETLIST_ID,NAME"
+                constraintName="U_ATTRIBUTE(DATASETLIST_ID,NAME)"/>
+    </changeSet>
+
+</databaseChangeLog>

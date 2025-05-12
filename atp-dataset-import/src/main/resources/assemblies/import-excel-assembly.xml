@@ -1,0 +1,35 @@
+<assembly
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+    <id>import-excel-assembly</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <excludes>
+                <exclude>org.qubership.atp.dataset:atp-dataset-q-classes-generation
+                </exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/q-classes</outputDirectory>
+            <includes>
+                <include>org.qubership.atp.dataset:atp-dataset-q-classes-generation
+                </include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>start_import.bat</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

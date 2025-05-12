@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!-- CREATE TABLE TEST_PLAN -->
+    <changeSet id="CREATE TABLE TEST_PLAN" author="dataset">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="TEST_PLAN"/>
+            </not>
+        </preConditions>
+        <createTable tableName="TEST_PLAN">
+            <column name="ID" type="${uuid_type}" defaultValue="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VISIBILITY_AREA_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- UNIQUE CONSTRAINT ON (NAME, VISIBILITY_AREA_ID) -->
+    <changeSet author="dataset" id="U_TEST_PLAN(NAME,VISIBILITY_AREA_ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM information_schema.table_constraints
+                WHERE constraint_type = 'UNIQUE'
+                AND constraint_name = 'U_TEST_PLAN(NAME,VISIBILITY_AREA_ID)'
+                AND table_name = 'test_plan'
+            </sqlCheck>
+        </preConditions>
+        <addUniqueConstraint tableName="TEST_PLAN"
+                             columnNames="NAME,VISIBILITY_AREA_ID"
+                             constraintName="U_TEST_PLAN(NAME,VISIBILITY_AREA_ID)"/>
+    </changeSet>
+
+    <!-- FK TEST_PLAN → VISIBILITY_AREA -->
+    <changeSet id="FK_TEST_PLAN(VISIBILITY_AREA_ID)-VISIBILITY_AREA(ID)" author="dataset">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_TEST_PLAN(VISIBILITY_AREA_ID)-VISIBILITY_AREA(ID)"
+                        foreignKeyTableName="TEST_PLAN"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="TEST_PLAN"
+                                 baseColumnNames="VISIBILITY_AREA_ID"
+                                 constraintName="FK_TEST_PLAN(VISIBILITY_AREA_ID)-VISIBILITY_AREA(ID)"
+                                 referencedTableName="VISIBILITY_AREA"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <!-- ADD COLUMN TEST_PLAN_ID TO DATASETLIST -->
+    <changeSet id="ADD COLUMN DATASETLIST(TEST_PLAN_ID)" author="dataset">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="DATASETLIST" columnName="TEST_PLAN_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="DATASETLIST">
+            <column name="TEST_PLAN_ID" type="${uuid_type}">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <!-- FK DATASETLIST(TEST_PLAN_ID) → TEST_PLAN(ID) -->
+    <changeSet id="FK_DATASETLIST(TEST_PLAN_ID)-TEST_PLAN(ID)" author="dataset">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_DATASETLIST(TEST_PLAN_ID)-TEST_PLAN(ID)"
+                        foreignKeyTableName="DATASETLIST"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="DATASETLIST"
+                                 baseColumnNames="TEST_PLAN_ID"
+                                 constraintName="FK_DATASETLIST(TEST_PLAN_ID)-TEST_PLAN(ID)"
+                                 referencedTableName="TEST_PLAN"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

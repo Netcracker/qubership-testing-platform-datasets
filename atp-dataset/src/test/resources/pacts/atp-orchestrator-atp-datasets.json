@@ -1,0 +1,122 @@
+{
+  "provider": {
+    "name": "atp-datasets"
+  },
+  "consumer": {
+    "name": "atp-orchestrator"
+  },
+  "interactions": [
+    {
+      "description": "GET /attachment/{parameterUuid} OK",
+      "request": {
+        "method": "GET",
+        "path": "/attachment/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Disposition": "attachment; filename*=UTF-8''name"
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /dsl/ds/all OK",
+      "request": {
+        "method": "POST",
+        "path": "/dsl/ds/all",
+        "body": [
+          "c2737427-05e4-4c17-8032-455539deaa01",
+          "c2737427-05e4-4c17-8032-455539deaa02"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "dataSetId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "dataSetName": "string",
+            "dataSetListName": "string",
+            "dataSetListId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].dataSetId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetListId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetListName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].dataSetId": {
+              "type": "Uuid"
+            },
+            "$[0].dataSetListId": {
+              "type": "Uuid"
+            },
+            "$[0].dataSetListName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].dataSetName": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

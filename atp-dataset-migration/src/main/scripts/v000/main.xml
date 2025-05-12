@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--<preConditions>
+        &lt;!&ndash; These changes should only be run against a schema with major version 0 &ndash;&gt;
+        <sqlCheck expectedResult="0">
+            SELECT NVL(MAX(id),0)
+            FROM databasechangelog
+            WHERE author='MajorVersion'
+        </sqlCheck>
+    </preConditions>-->
+    <changeSet author="dataset" id="FILL ATTR TYPES">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM ATTRIBUTE_TYPE WHERE NAME IN ('TEXT', 'FILE', 'LIST', 'DSL')
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="v000/fillAttributeTypes.sql"/>
+    </changeSet>
+    <include file="v000/AddTable(ListValues).xml"/>
+    <include file="v000/AddTables(Label,DSLabel,DSLLabel).xml"/>
+    <include file="v000/AddSequenceAndUpdateDatasetTable.xml"/>
+    <include file="v000/AddTable(Filters).xml"/>
+    <changeSet author="dataset" id="ADD CHANGE ATTR TYPES">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM ATTRIBUTE_TYPE WHERE NAME = 'CHANGE'
+            </sqlCheck>
+        </preConditions>
+        <sqlFile path="v000/addStructureChangeAttrType.sql"/>
+    </changeSet>
+    <include file="v000/AddColumnsToAttributeKey/changes.xml"/>
+    <include file="v000/AddTable(TestPlan)AndAddColumnToDSL.xml"/>
+    <include file="v000/AddUniqueConstraintForAttributeTable/changes.xml"/>
+    <include file="v000/DropNotNullConstraintForFieldOrdering.xml"/>
+    <include file="v000/CreateIndexes.sql"/>
+    <include file="v000/AddJaversTables.sql"/>
+    <include file="v000/AddColumnsForDSLTable.sql"/>
+    <include file="v000/EscapeSingleQuote/changes.xml"/>
+</databaseChangeLog>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dataset" id="CREATE TABLE LABEL">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LABEL"/>
+            </not>
+        </preConditions>
+        <createTable tableName="LABEL">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="dataset" id="U_LABEL(NAME)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM information_schema.table_constraints
+                WHERE constraint_type = 'UNIQUE'
+                AND constraint_name = 'U_LABEL(NAME)'
+                AND table_name = 'label';
+            </sqlCheck>
+        </preConditions>
+        <addUniqueConstraint tableName="LABEL" columnNames="NAME"
+                             constraintName="U_LABEL(NAME)"/>
+    </changeSet>
+    <changeSet author="dataset" id="CREATE TABLE DATASET_LABEL">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="DATASET_LABEL"/>
+            </not>
+        </preConditions>
+        <createTable tableName="DATASET_LABEL">
+            <column name="DATASET_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LABEL_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="dataset" id="U_DATASET_LABEL(DATASET_ID,LABEL_ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM information_schema.table_constraints
+                WHERE constraint_type = 'UNIQUE'
+                AND constraint_name = 'U_DATASET_LABEL(DATASET_ID,LABEL_ID)'
+                AND table_name = 'dataset_label';
+            </sqlCheck>
+        </preConditions>
+        <addUniqueConstraint tableName="DATASET_LABEL" columnNames="DATASET_ID,LABEL_ID"
+                             constraintName="U_DATASET_LABEL(DATASET_ID,LABEL_ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_DATASET_LABEL(DATASET_ID)-DATASET(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_DATASET_LABEL(DATASET_ID)-DATASET(ID)"
+                        foreignKeyTableName="DATASET_LABEL"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="DATASET_LABEL" baseColumnNames="DATASET_ID"
+                                 referencedTableName="DATASET"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_DATASET_LABEL(DATASET_ID)-DATASET(ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_DATASET_LABEL(LABEL_ID)-LABEL(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_DATASET_LABEL(LABEL_ID)-LABEL(ID)"
+                        foreignKeyTableName="DATASET_LABEL"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="DATASET_LABEL" baseColumnNames="LABEL_ID"
+                                 referencedTableName="LABEL"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_DATASET_LABEL(LABEL_ID)-LABEL(ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="CREATE TABLE DATASETLIST_LABEL">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="DATASETLIST_LABEL"/>
+            </not>
+        </preConditions>
+        <createTable tableName="DATASETLIST_LABEL">
+            <column name="DATASETLIST_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LABEL_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="dataset" id="U_DATASETLIST_LABEL(DATASETLIST_ID,LABEL_ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM information_schema.table_constraints
+                WHERE constraint_type = 'UNIQUE'
+                AND constraint_name = 'U_DATASETLIST_LABEL(DATASETLIST_ID,LABEL_ID)'
+                AND table_name = 'datasetlist_label';
+            </sqlCheck>
+        </preConditions>
+        <addUniqueConstraint tableName="DATASETLIST_LABEL" columnNames="DATASETLIST_ID,LABEL_ID"
+                             constraintName="U_DATASETLIST_LABEL(DATASETLIST_ID,LABEL_ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_DATASETLIST_LABEL(DATASETLIST_ID)-DATASETLIST(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_DATASETLIST_LABEL(DATASETLIST_ID)-DATASETLIST(ID)"
+                        foreignKeyTableName="DATASETLIST_LABEL"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="DATASETLIST_LABEL" baseColumnNames="DATASETLIST_ID"
+                                 referencedTableName="DATASETLIST"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_DATASETLIST_LABEL(DATASETLIST_ID)-DATASETLIST(ID)"/>
+    </changeSet>
+    <changeSet author="dataset" id="FK_DATASETLIST_LABEL(LABEL_ID)-LABEL(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_DATASETLIST_LABEL(LABEL_ID)-LABEL(ID)"
+                        foreignKeyTableName="DATASETLIST_LABEL"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="DATASETLIST_LABEL" baseColumnNames="LABEL_ID"
+                                 referencedTableName="LABEL"
+                                 referencedColumnNames="ID"
+                                 constraintName="FK_DATASETLIST_LABEL(LABEL_ID)-LABEL(ID)"/>
+    </changeSet>
+</databaseChangeLog>

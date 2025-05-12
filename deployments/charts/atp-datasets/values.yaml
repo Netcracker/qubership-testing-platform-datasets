@@ -1,0 +1,212 @@
+PAAS_PLATFORM: "KUBERNETES"
+ATP_NET: ""
+NODES_COUNT: "1"
+# CPU core request
+CPU_REQUEST: "0.05"
+# CPU core limit
+CPU_LIMIT: "0.5"
+# Memory request
+MEMORY_REQUEST: "512Mi"
+# Memory limit
+MEMORY_LIMIT: "1280Mi"
+# Limits memory usage of service
+MAX_RAM: "1024m"
+PRE_POST_CPU_REQUEST: "0.05"
+PRE_POST_CPU_LIMIT: "0.5"
+PRE_POST_MEMORY_REQUEST: "50Mi"
+PRE_POST_MEMORY_LIMIT: "500Mi"
+# Additional java options
+ADDITIONAL_JAVA_OPTIONS: "-XX:MaxRAMPercentage=80.0"
+# expression describing the start time of the job
+ATP_ARCHIVE_CRON_EXPRESSION: "0 0 0 * * ?"
+# name of javers archive job
+ATP_ARCHIVE_JOB_NAME: "atp-dataset-archive-job"
+ATP_INTERNAL_GATEWAY_ENABLED: "false"
+ATP_LAST_REVISION_COUNT: "200"
+# Db name for gridfs db
+DATASET_GRIDFS_DB: ""
+# Password for gridfs db
+DATASET_GRIDFS_PASSWORD: ""
+# User for gridfs db
+DATASET_GRIDFS_USER: ""
+# Name of db
+DATASET_PG_DB: ""
+# Password for itf db
+DATASET_PG_PASSWORD: ""
+# User for db
+DATASET_PG_USER: ""
+# Which docker image should be used to deploy
+DOCKER_TAG: "artifactory-service-address/path-to-image"
+# Name mongo grid DB
+EI_GRIDFS_DB: ""
+# Password mongo grid DB
+EI_GRIDFS_PASSWORD: ""
+# User mongo grid DB
+EI_GRIDFS_USER: ""
+# Public key for encrypted values
+ENCRYPTION_PUBLIC_KEY: ""
+# Seed for encrypted values
+ENCRYPTION_SALT: "1234"
+# Disable/enable eureka client
+EUREKA_CLIENT_ENABLED: "false"
+FEIGN_ATP_CATALOGUE_NAME: "ATP-CATALOGUE"
+FEIGN_ATP_CATALOGUE_ROUTE: "api/atp-catalogue/v1"
+FEIGN_ATP_CATALOGUE_URL: "" # TO_BE_REPLACED
+FEIGN_ATP_EI_NAME: "ATP-EXPORT-IMPORT"
+FEIGN_ATP_EI_ROUTE: "api/atp-export-import/v1"
+FEIGN_ATP_EI_URL: "" # TO_BE_REPLACED
+EI_CLEAN_JOB_ENABLED: "true"
+EI_CLEAN_JOB_WORKDIR: "exportimport/node"
+EI_CLEAN_SCHEDULED_JOB_PERIOD_MS: "86400000"
+EI_CLEAN_JOB_FILE_DELETE_AFTER_MS: "172800000"
+FEIGN_ATP_INTERNAL_GATEWAY_NAME: "atp-internal-gateway"
+FEIGN_ATP_MACROS_NAME: "ATP-MACROS"
+FEIGN_ATP_MACROS_ROUTE: "api/atp-macros/v1"
+FEIGN_ATP_MACROS_URL: "" # TO_BE_REPLACED
+FEIGN_ATP_USERS_NAME: "ATP-USERS-BACKEND"
+FEIGN_ATP_USERS_ROUTE: "api/atp-users-backend/v1"
+FEIGN_ATP_USERS_URL: "" # TO_BE_REPLACED
+# Host of graylog
+GRAYLOG_HOST: "tcp:graylog-service-address"
+# This option turns on or off logging in graylog
+GRAYLOG_ON: "true"
+# Port of graylog
+GRAYLOG_PORT: "12201"
+# Hist mongo grid DB
+GRIDFS_DB_ADDR: "gridfs.mongocluster.svc"
+# Port mongo grid DB
+GRIDFS_DB_PORT: "27017"
+# Custom hostname for http service route.  Leave blank for default hostname, e.g.: <application-name>-<project>.<default-domain-suffix>
+# Variable "HOSTNAME_HTTPS" was never used
+# HTTPS enabled
+HTTPS_ENABLE: "false"
+# This option turns Javers on or off.
+JAVERS_ENABLED: "true"
+JMX_ENABLE: "true"
+JMX_PORT: "3000"
+JMX_RMI_PORT: "3001"
+KAFKA_ENABLE: "false"
+KAFKA_PROJECT_EVENT_CONSUMER_TOPIC_NAME: ""
+KAFKA_SERVERS: "kafka:9092"
+KAFKA_SERVICE_ENTITIES_TOPIC: ""
+KAFKA_SERVICE_ENTITIES_TOPIC_PARTITION: "1"
+KAFKA_SERVICE_ENTITIES_TOPIC_REPLICATION_FACTOR: ""
+SERVICE_ENTITIES_MIGRATION_ENABLED: "true"
+# Url atp-keycloak with auth
+KEYCLOAK_AUTH_URL: "https://atp-keycloak-service-address/auth"
+# Keycloak enabled
+KEYCLOAK_ENABLED: "true"
+# Keycloak realm
+KEYCLOAK_REALM: "atp2"
+# Host or IP of gridfs db
+MONGO_DB_ADDR: "mongos.mongocluster.svc"
+# Port for gridfs db
+MONGO_DB_PORT: "27017"
+# Host of db
+PG_DB_ADDR: "pg-common.postgrescluster.svc"
+# Port of db
+PG_DB_PORT: "5432"
+# enabling profiler option
+PROFILER_ENABLED: "false"
+# Rest end point for projects
+PROJECT_INFO_ENDPOINT: "/api/v1/users/projects"
+# host of profiler collector
+REMOTE_DUMP_HOST: "profiler-collector-service.profiler.svc"
+# port of profiler collector
+REMOTE_DUMP_PORT: "1710"
+# Security Context properties
+# enabled is a flag to enable Security Context
+SECURITY_CONTEXT_ENABLED: false
+# runAsUser is the user ID used to run the container
+podSecurityContext:
+  runAsUser: 1000
+  fsGroup: 1000
+containerSecurityContext: {}
+# Deployment Config/Service name.
+SERVICE_NAME: "atp-datasets"
+# Deployment Config/Service type.
+SERVICE_PORT_TYPE: "NodePort"
+SERVICE_REGISTRY_URL: "http://atp-registry-service:8761/eureka"
+# Set to ATP2 to enable Prometheus scrapping
+SERVICE_TYPE: "ATP2"
+# Spring profile for security
+SPRING_PROFILES: "disable-security"
+# Vault service URL, required when ENCRYPT = vault
+# Variable "VAULT_URL" was never used
+ZIPKIN_ENABLE: "false"
+ZIPKIN_PROBABILITY: "1.0"
+ZIPKIN_URL: "http://zipkin.zipkin.svc:9411"
+# Custom hostname for Route
+SERVICE_HOSTNAME: "atp-dataset-service-address"
+# Placeholder for Public key for ENCRYPT
+ATP_CRYPTO_KEY: ""
+# Placeholder for Private key for ENCRYPT
+ATP_CRYPTO_PRIVATE_KEY: ""
+KAFKA_GROUP_ID: "dataset"
+# Keycloak client name
+KEYCLOAK_CLIENT_NAME: "atp-dataset"
+# Keycloak secret
+KEYCLOAK_SECRET: ""
+# SSL enabling for ingresses
+TLS_ENABLED: true
+# description: "Encyption option. One of
+# - dev (default, encrypt inside app);
+# - secrets (encrypt keys in Openshift secrets);
+# - vault (encrypt keys in Openshift secrets). Required also variable VAULT_ADMIN_TOKEN"
+ENCRYPT: "dev"
+# Enable Vault integration
+VAULT_ENABLE: "false"
+# Vault service URL, required when ENCRYPT = vault
+VAULT_URI: ""
+# Placeholder for Vault role-id
+VAULT_ROLE_ID: "atp-dataset"
+# Placeholder for Vault namespace
+VAULT_NAMESPACE: "atp-devci"
+# Consul
+CONSUL_PREFIX: "devci"
+CONSUL_ENABLED: "false"
+CONSUL_HEALTH_CHECK_ENABLED: "false"
+CONSUL_URL: ""
+CONSUL_PORT: 8500
+CONSUL_TOKEN: ""
+# Common logging
+ATP_HTTP_LOGGING: "true"
+ATP_HTTP_LOGGING_HEADERS: "true"
+ATP_HTTP_LOGGING_HEADERS_IGNORE: "Authorization"
+ATP_HTTP_LOGGING_URI_IGNORE: "/deployment/readiness /deployment/liveness"
+# logging level
+LOG_LEVEL: "INFO"
+# locale resolver
+LOCALE_RESOLVER: "en"
+# Migration module liquibase
+MIGRATION_MODULE_LAUNCH_ENABLED: "true"
+SWAGGER_ENABLED: "false"
+TERMINATION_POLICY: "Redirect"
+# Audit Logging topic
+AUDIT_LOGGING_ENABLE: "false"
+AUDIT_LOGGING_TOPIC_NAME: ""
+AUDIT_LOGGING_TOPIC_PARTITIONS: "1"
+AUDIT_LOGGING_TOPIC_REPLICAS: ""
+KAFKA_REPORTING_SERVERS: "kafka:9092"
+#Enabling installation of external link for service
+EXTERNAL_LINK_ENABLED: false
+nodeSelector: {}
+#Example:  "nodeSelector": {"kubernetes.io/hostname": "worker-kuber"}
+#Hazelcast
+HAZELCAST_CLUSTER_NAME: "atp-hc"
+HAZELCAST_ENABLE: true
+HAZELCAST_ADDRESS: "atp-hazelcast:5701"
+HEAPDUMP_ENABLED: false
+#Example: "extraEnvs": [
+#    {
+#      "name": "DISABLE_INSTALL_DEMO_CONFIG",
+#      "value": "true"
+#    },
+#    {
+#      "name": "DISABLE_SECURITY_PLUGIN",
+#      "value": "true"
+#    }
+#  ]
+extraEnvs: []
+keepHookLogs: false
+HELPER_IMAGE: "artifactory-service-address/path-to-image"

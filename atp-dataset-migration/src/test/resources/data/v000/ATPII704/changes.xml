@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="datasets-team" id="CREATE TABLE">
+        <createTable tableName="REFERENCE_ALIAS"
+                     remarks="">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="OBJECT_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REFERENCE_ALIAS_TYPE" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="REFERENCE_ALIAS_TYPE"
+                     remarks="">
+            <column name="ID" type="SMALLINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="datasets-team"
+               id="FK_REFERENCE_ALIAS(REFERENCE_ALIAS_TYPE)-REFERENCE_ALIAS_TYPE(ID)">
+        <addForeignKeyConstraint baseColumnNames="REFERENCE_ALIAS_TYPE"
+                                 baseTableName="REFERENCE_ALIAS"
+                                 constraintName="FK_REFERENCE_ALIAS-REFERENCE_ALIAS_TYPE"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="REFERENCE_ALIAS_TYPE"/>
+    </changeSet>
+    <include file="v000\ATPII704\fillReferenceAliasTypes.sql"/>
+</databaseChangeLog>
