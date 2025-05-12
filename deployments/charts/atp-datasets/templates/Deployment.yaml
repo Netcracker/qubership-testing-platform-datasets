@@ -1,0 +1,98 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: '{{ .Values.SERVICE_NAME }}'
+  labels:
+    app: '{{ .Values.SERVICE_NAME }}'
+    name: '{{ .Values.SERVICE_NAME }}'
+    servicetype: '{{ .Values.SERVICE_TYPE }}'
+spec:
+  strategy:
+    type: RollingUpdate
+  replicas: {{ .Values.NODES_COUNT }}
+  selector:
+    matchLabels:
+      name: '{{ .Values.SERVICE_NAME }}'
+      app: '{{ .Values.SERVICE_NAME }}'
+      deploymentconfig: '{{ .Values.SERVICE_NAME }}'
+  template:
+    metadata:
+      labels:
+        name: '{{ .Values.SERVICE_NAME }}'
+        app: '{{ .Values.SERVICE_NAME }}'
+        deploymentconfig: '{{ .Values.SERVICE_NAME }}'
+        servicetype: '{{ .Values.SERVICE_TYPE }}'
+    spec:
+      terminationGracePeriodSeconds: 60
+      {{- if .Values.SECURITY_CONTEXT_ENABLED }}
+      securityContext:
+        {{- include "securityContext.pod" . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.HEAPDUMP_ENABLED }}
+      volumes:
+        - name: heapdumps
+          emptyDir: {}
+      {{- end }}
+      containers:
+        - name: '{{ .Values.SERVICE_NAME }}'
+          image: '{{ .Values.DOCKER_TAG }}'
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: '{{ .Values.MEMORY_REQUEST }}'
+              cpu: '{{ .Values.CPU_REQUEST }}'
+            limits:
+              memory: '{{ .Values.MEMORY_LIMIT }}'
+              cpu: '{{ .Values.CPU_LIMIT }}'
+          {{- if .Values.SECURITY_CONTEXT_ENABLED }}
+          securityContext:
+            {{- include "securityContext.container" . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.HEAPDUMP_ENABLED }}
+          volumeMounts:
+            - mountPath: /tmp/diagnostic
+              name: heapdumps
+          {{- end }}
+          ports:
+            - containerPort: 9000
+              name: ssl
+            - containerPort: 8080
+              name: web
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "/service_dataset/pre-stop.sh" ]
+          livenessProbe:
+            httpGet:
+              path: /rest/deployment/liveness
+              port: 8080
+              httpHeaders:
+                - name: Content-Type
+                  value: application/json
+            initialDelaySeconds: 240
+            periodSeconds: 30
+            timeoutSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /rest/deployment/readiness
+              port: 8080
+              httpHeaders:
+                - name: Content-Type
+                  value: application/json
+            initialDelaySeconds: 180
+            periodSeconds: 30
+            timeoutSeconds: 15
+            failureThreshold: 5
+          env:
+            {{- include "env.cloud" . | indent 12 }}
+            - name: CLOUD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          {{- if .Values.extraEnvs }}
+          {{- toYaml .Values.extraEnvs | nindent 12 }}
+          {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{- .Values.nodeSelector | toYaml | nindent 8 }}
+        {{ end }}

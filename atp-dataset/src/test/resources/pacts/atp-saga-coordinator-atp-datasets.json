@@ -1,0 +1,213 @@
+{
+  "provider": {
+    "name": "atp-datasets"
+  },
+  "consumer": {
+    "name": "atp-saga-coordinator"
+  },
+  "interactions": [
+    {
+      "description": "POST /saga/dsl/copy OK",
+      "request": {
+        "method": "POST",
+        "path": "/saga/dsl/copy",
+        "headers": {
+          "X-Saga-Session-Id": "261d76a5-1b4d-481c-8eb5-30f7c355d5ff",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "prevNamePattern": "string",
+          "dataSetListIds": [
+            "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          ],
+          "updateReferences": true,
+          "postfix": "string",
+          "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+        },
+        "matchingRules": {
+          "body": {
+            "$.projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.dataSetListIds": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.dataSetListIds[*]": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.updateReferences": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.postfix": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.prevNamePattern": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.projectId": {
+              "type": "Uuid"
+            },
+            "$.dataSetListIds[*]": {
+              "type": "Uuid"
+            },
+            "$.postfix": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.prevNamePattern": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "copyId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "originalId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "datasets": {
+              "ef0acfd4-a83d-47e1-a4ce-0d36f7c69751": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+            }
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].copyId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].originalId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].datasets.*": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].copyId": {
+              "type": "Uuid"
+            },
+            "$[0].originalId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /saga/dsl/revert OK",
+      "request": {
+        "method": "POST",
+        "path": "/saga/dsl/revert",
+        "headers": {
+          "X-Saga-Session-Id": "261d76a5-1b4d-481c-8eb5-30f7c355d5ff",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "projectId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+        },
+        "matchingRules": {
+          "body": {
+            "$.projectId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.projectId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

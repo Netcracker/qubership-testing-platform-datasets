@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dataset" id="ADD TABLE USER_SETTINGS">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="USER_SETTINGS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_SETTINGS">
+            <column name="USER_ID" type="${uuid_type}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ATTRIBUTES_SORT_TYPE" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

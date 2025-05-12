@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: saga-controller
+    description: Saga controller
+paths:
+  /saga/dsl/copy:
+    post:
+      tags:
+        - saga-controller
+      summary: Copies data set lists by request
+      operationId: copyDataSetLists
+      parameters:
+        - name: X-Saga-Session-Id
+          in: header
+          required: true
+          description: Saga transaction id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/CopyDataSetListsRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: 'data-set-list-controller-v1.yaml#/components/schemas/CopyDataSetListsResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /saga/dsl/revert:
+    post:
+      tags:
+        - saga-controller
+      summary: Revert copied data set lists by request
+      operationId: revertDataSetLists
+      parameters:
+        - name: X-Saga-Session-Id
+          in: header
+          required: true
+          description: Saga transaction id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/RevertRequest'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    CopyDataSetListsRequest:
+      type: object
+      required:
+        - projectId
+        - dataSetListIds
+        - prevNamePattern
+      properties:
+        projectId:
+          type: string
+          format: uuid
+        dataSetListIds:
+          description: list of data set list ids that need to copy
+          type: array
+          items:
+            type: string
+            format: uuid
+        updateReferences:
+          type: boolean
+        postfix:
+          type: string
+        prevNamePattern:
+          type: string
+    RevertRequest:
+      type: object
+      required:
+        - projectId
+      properties:
+        projectId:
+          type: string
+          format: uuid

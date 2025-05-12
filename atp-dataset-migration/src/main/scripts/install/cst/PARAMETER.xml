@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="dataset" id="FK_PARAMETER(DATASET_ID)-DATASET(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_PARAMETER(DATASET_ID)-DATASET(ID)"
+                        foreignKeyTableName="PARAMETER"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="PARAMETER" baseColumnNames="DATASET_ID"
+                                 referencedTableName="DATASET" referencedColumnNames="ID"
+                                 constraintName="FK_PARAMETER(DATASET_ID)-DATASET(ID)"/>
+    </changeSet>
+</databaseChangeLog>

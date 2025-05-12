@@ -1,0 +1,823 @@
+{
+  "provider": {
+    "name": "atp-datasets"
+  },
+  "consumer": {
+    "name": "atp-catalogue"
+  },
+  "interactions": [
+    {
+      "description": "DELETE /ds/{dataSetId} OK",
+      "request": {
+        "method": "DELETE",
+        "path": "/ds/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 204
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "DELETE /dsl/{dataSetListId} OK",
+      "request": {
+        "method": "DELETE",
+        "path": "/dsl/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 204
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /ds/{dataSetId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/ds/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "string",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /dsl/va/{vaId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/dsl/va/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "labels": [
+              {
+
+              }
+            ],
+            "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string",
+            "testPlan": {
+
+            }
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].createdBy": {
+              "type": "Uuid"
+            },
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].modifiedBy": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /dsl/{dataSetListId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/dsl/c2737427-05e4-4c17-8032-455539deaa01"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "createdBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "labels": [
+            {
+
+            }
+          ],
+          "modifiedBy": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "name": "string",
+          "testPlan": {
+
+          }
+        },
+        "matchingRules": {
+          "body": {
+            "$.createdBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.modifiedBy": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.createdBy": {
+              "type": "Uuid"
+            },
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.modifiedBy": {
+              "type": "Uuid"
+            },
+            "$.name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /dsl/{dataSetListId}/ds OK",
+      "request": {
+        "method": "GET",
+        "path": "/dsl/c2737427-05e4-4c17-8032-455539deaa01/ds"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/compare/detailed OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/compare/detailed",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "leftDatasetId": "b35170a0-dd79-4968-95dc-3108d5f3d8c3",
+          "rightDatasetId": "6b165b8e-f7af-4861-aac3-419cc0d90665",
+          "page": 0,
+          "size": 1
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "rightDatasetId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "total": 100,
+          "leftDatasetName": "string",
+          "rightDatasetName": "string",
+          "rightDslName": "string",
+          "attributes": [
+            {
+              "attributeName": "string",
+              "rightAttributeType": "FILE",
+              "status": "NOT EQUAL"
+            }
+          ],
+          "leftDatasetId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "leftDslName": "string"
+        },
+        "matchingRules": {
+          "body": {
+            "$.leftDatasetId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.leftDatasetName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.leftDslName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.rightDatasetId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.rightDatasetName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.rightDslName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.total": {
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.rightAttributeType": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "(CHANGE|DSL|ENCRYPTED|FILE|LIST|TEXT)"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.attributeName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.status": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "(EQUAL|NOT EQUAL|INCOMPATIBLE TYPES)"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.leftDatasetId": {
+              "type": "Uuid"
+            },
+            "$.leftDatasetName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.leftDslName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.rightDatasetId": {
+              "type": "Uuid"
+            },
+            "$.rightDatasetName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.rightDslName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.total": {
+              "type": "RandomInt",
+              "min": 0,
+              "max": 2147483647
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.rightAttributeType": {
+              "type": "Regex",
+              "regex": "(CHANGE|DSL|ENCRYPTED|FILE|LIST|TEXT)"
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.attributeName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$.attributes[0].leftAttributeValue.rightAttributeValue.status": {
+              "type": "Regex",
+              "regex": "(EQUAL|NOT EQUAL|INCOMPATIBLE TYPES)"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/bulk OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/c2737427-05e4-4c17-8032-455539deaa01/atp/bulk",
+        "query": {
+          "evaluate": [
+            "evaluate"
+          ],
+          "countOfEvaluates": [
+            "1"
+          ]
+        },
+        "body": {
+          "param1": "val1"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/object/bulk OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/c2737427-05e4-4c17-8032-455539deaa01/atp/object/bulk",
+        "query": {
+          "evaluate": [
+            "evaluate"
+          ],
+          "countOfEvaluates": [
+            "1"
+          ]
+        },
+        "body": {
+          "param1": "val1"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/optimized/bulk OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/c2737427-05e4-4c17-8032-455539deaa01/atp/optimized/bulk",
+        "query": {
+          "evaluate": [
+            "evaluate"
+          ],
+          "countOfEvaluates": [
+            "1"
+          ]
+        },
+        "body": {
+          "param1": "val1"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /dsl/copy OK",
+      "request": {
+        "method": "POST",
+        "path": "/dsl/copy",
+        "body": {
+          "dataSetListIds": [
+            "c2737427-05e4-4c17-8032-455539deaa01",
+            "c2737427-05e4-4c17-8032-455539deaa02"
+          ],
+          "postfix": "postfix",
+          "prevNamePattern": "prevNamePattern",
+          "updateReferences": false
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "copyId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "originalId": "e2490de5-5bd3-43d5-b7c4-526e33f71304"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].copyId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].originalId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].copyId": {
+              "type": "Uuid"
+            },
+            "$[0].originalId": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /dsl/dependenciesRecursive OK",
+      "request": {
+        "method": "POST",
+        "path": "/dsl/dependenciesRecursive",
+        "body": [
+          "c2737427-05e4-4c17-8032-455539deaa01",
+          "c2737427-05e4-4c17-8032-455539deaa02"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "name": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].id": {
+              "type": "Uuid"
+            },
+            "$[0].name": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /dsl/ds/all OK",
+      "request": {
+        "method": "POST",
+        "path": "/dsl/ds/all",
+        "body": [
+          "c2737427-05e4-4c17-8032-455539deaa01",
+          "c2737427-05e4-4c17-8032-455539deaa02"
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "dataSetId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "dataSetListId": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+            "dataSetListName": "string",
+            "dataSetName": "string"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$[0].dataSetId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetListId": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetListName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[0].dataSetName": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$[0].dataSetId": {
+              "type": "Uuid"
+            },
+            "$[0].dataSetListId": {
+              "type": "Uuid"
+            },
+            "$[0].dataSetListName": {
+              "type": "RandomString",
+              "size": 20
+            },
+            "$[0].dataSetName": {
+              "type": "RandomString",
+              "size": 20
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /parameter/update/bulk OK",
+      "request": {
+        "method": "POST",
+        "path": "/parameter/update/bulk",
+        "query": {
+          "dataSetListId": [
+            "c2737427-05e4-4c17-8032-455539deaa01"
+          ],
+          "dataSetReference": [
+            "c2737427-05e4-4c17-8032-455539deaa03"
+          ],
+          "modifiedWhen": [
+            "1"
+          ],
+          "dataSetId": [
+            "c2737427-05e4-4c17-8032-455539deaa04"
+          ]
+        },
+        "body": [
+          "c2737427-05e4-4c17-8032-455539deaa01",
+          "c2737427-05e4-4c17-8032-455539deaa02"
+        ]
+      },
+      "response": {
+        "status": 200
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS dsl_name ON dataset(name, datasetlist_id);

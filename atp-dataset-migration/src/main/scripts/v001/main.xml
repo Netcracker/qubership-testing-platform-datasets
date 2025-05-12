@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <include file="v001/UpdateTypeColumnKeyTableAttributeKey.sql"/>
+    <include file="v001/AddAttributeType.sql"/>
+    <include file="v001/DropConstraintIfExistForAttributeTable.sql"/>
+    <include file="v001/ClearDuplicateOfNameOfDsl.sql"/>
+    <include file="v001/CreateOrReplaceFunctionsAndTriggers.sql"/>
+    <include file="v001/EncryptedTypeChangeID.sql"/>
+    <include file="v001/CreateIndexIfExistForDsTable.sql"/>
+    <include file="v001/AddSourceId.sql"/>
+    <include file="v001/AddIdxForSourceId.sql"/>
+    <include file="v001/DeduplicateParameter.sql"/>
+    <include file="v001/ModifiedWhenAndCreatedWhenSetTimestamp.sql"/>
+    <include file="v001/SetNotNullOnDslTimestamps.sql"/>
+    <include file="v001/AddTable(User_settings).xml"/>
+    <include file="v001/AddColumnLockedForDsTable.sql"/>
+    <include file="v001/RemoveNotCorrectParameters.sql"/>
+    <include file="v001/DeleteLostOverlaps.sql"/>
+    <include file="v001/OneValueParameterCheck.sql"/>
+    <include file="v001/UpdateParametersListValueData.xml"/>
+    <include file="v001/AddNewColumnForSagaTransaction.sql"/>
+</databaseChangeLog>

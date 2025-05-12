@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dataset" id="CREATE TABLE">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LIST_VALUES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="LIST_VALUES"
+                     remarks="">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ATTRIBUTE_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEXT" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="dataset" id="FK_PARAMETER(LIST)-LIST_VALUES(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_PARAMETER-LIST_VALUES"
+                        foreignKeyTableName="PARAMETER"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="LIST"
+                                 baseTableName="PARAMETER"
+                                 constraintName="FK_PARAMETER-LIST_VALUES"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="LIST_VALUES"/>
+    </changeSet>
+
+    <changeSet author="dataset" id="FK_LIST_VALUES(ATTRIBUTE_ID)-ATTRIBUTE(ID)">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists
+                        foreignKeyName="FK_LIST_VALUES-ATTRIBUTE"
+                        foreignKeyTableName="LIST_VALUES"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="ATTRIBUTE_ID"
+                                 baseTableName="LIST_VALUES"
+                                 constraintName="FK_LIST_VALUES-ATTRIBUTE"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="ATTRIBUTE"/>
+    </changeSet>
+</databaseChangeLog>

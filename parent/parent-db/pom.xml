@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.qubership.atp.dataset</groupId>
+        <artifactId>atp-dataset-parent-db-properties</artifactId>
+        <version>${atp.service.version}</version>
+        <relativePath>../parent-db-properties/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>atp-dataset-parent-db</artifactId>
+    <packaging>pom</packaging>
+    <name>parent-db</name>
+    <profiles>
+        <profile>
+            <id>db-postgresql</id>
+            <activation>
+                <property>
+                    <name>stage</name>
+                </property>
+            </activation>
+            <properties>
+                <jdbc.Url>${pg.jdbc.Url}</jdbc.Url>
+                <jdbc.Driver>${pg.jdbc.Driver}</jdbc.Driver>
+                <jdbc.User>${pg.jdbc.User}</jdbc.User>
+                <jdbc.Password>${pg.jdbc.Password}</jdbc.Password>
+                <jdbc.Dialect>${pg.jdbc.Dialect}</jdbc.Dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.qubership.atp.dataset</groupId>
+                    <artifactId>atp-dataset-q-classes-generation</artifactId>
+                    <classifier>pg</classifier>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

@@ -1,0 +1,36 @@
+{
+  "provider": {
+    "name": "atp-datasets"
+  },
+  "consumer": {
+    "name": "atp-itf-stubs"
+  },
+  "interactions": [
+    {
+      "description": "GET /attachment/{parameterUuid} OK",
+      "request": {
+        "method": "GET",
+        "path": "/attachment/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Disposition": "attachment; filename=\"name\""
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

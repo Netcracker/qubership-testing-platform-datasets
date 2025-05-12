@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dataset" id="CREATE TABLE">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PARAMETER"/>
+            </not>
+        </preConditions>
+        <createTable tableName="PARAMETER"
+                     remarks="">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="DATASET_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ATTRIBUTE_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STRING" type="VARCHAR"/>
+            <column name="FILE" type="${uuid_type}"/>
+            <column name="LIST" type="${uuid_type}"/>
+            <column name="DS" type="${uuid_type}"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

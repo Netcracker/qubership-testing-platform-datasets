@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.qubership.atp.dataset</groupId>
+        <artifactId>atp-dataset-parent-java</artifactId>
+        <version>${atp.service.version}</version>
+        <relativePath>../parent-java/pom.xml</relativePath>
+    </parent>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>atp-dataset-parent-db-properties</artifactId>
+    <name>parent-db-properties</name>
+
+    <properties>
+        <querydslPackageName>org.qubership.atp.dataset.db.generated</querydslPackageName>
+
+        <pg.jdbc.Url>jdbc:postgresql://localhost:5432/datasets</pg.jdbc.Url>
+        <pg.jdbc.Driver>org.postgresql.Driver</pg.jdbc.Driver>
+        <pg.jdbc.User>postgres</pg.jdbc.User>
+        <pg.jdbc.Password>admin</pg.jdbc.Password>
+        <pg.jdbc.Dialect>com.querydsl.sql.PostgreSQLTemplates</pg.jdbc.Dialect>
+
+        <gridfs.database>dsgridfs</gridfs.database>
+        <gridfs.host>localhost</gridfs.host>
+        <gridfs.port>27017</gridfs.port>
+        <gridfs.user>dsuser</gridfs.user>
+        <gridfs.password>dspass</gridfs.password>
+
+        <drop.database.for.tests>false</drop.database.for.tests>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+        </dependency>
+    </dependencies>
+</project>

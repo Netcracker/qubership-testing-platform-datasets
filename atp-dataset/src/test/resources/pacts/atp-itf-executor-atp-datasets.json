@@ -1,0 +1,294 @@
+{
+  "provider": {
+    "name": "atp-datasets"
+  },
+  "consumer": {
+    "name": "atp-itf-executor"
+  },
+  "interactions": [
+    {
+      "description": "GET /attachment/{parameterUuid} OK",
+      "request": {
+        "method": "GET",
+        "path": "/attachment/7c9dafe9-2cd1-4ffc-ae54-45867f2b9701"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Disposition": "attachment; filename=\"name\""
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /attribute/dsl/{dataSetListId}/itf OK",
+      "request": {
+        "method": "GET",
+        "path": "/attribute/dsl/7c9dafe9-2cd1-4ffc-ae54-45867f2b9703/itf"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          "1ATTRIBUTE",
+          "2ATTRIBUTE"
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /ds/{dataSetId}/itf OK",
+      "request": {
+        "method": "GET",
+        "path": "/ds/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/itf"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "key": "context"
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /dsl/va/{vaId} OK",
+      "request": {
+        "method": "GET",
+        "path": "/dsl/va/7c9dafe9-2cd1-4ffc-ae54-45867f2b9703"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "createdBy": "f0c1d2ba-7c99-4e0b-a39d-0566f2ae9f25",
+            "modifiedBy": "f0c1d2ba-7c99-4e0b-a39d-0566f2ae9f26",
+            "testPlan": {
+              "id": "c2737427-05e4-4c17-8032-455539deaa02"
+            }
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /dsl/{dataSetListId}/ds OK",
+      "request": {
+        "method": "GET",
+        "path": "/dsl/7c9dafe9-2cd1-4ffc-ae54-45867f2b9703/ds",
+        "query": {
+          "label": [
+            "label"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": "c2737427-05e4-4c17-8032-455539deaa01",
+            "name": "dataSetName"
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "GET /va OK",
+      "request": {
+        "method": "GET",
+        "path": "/va"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "dataSetLists": [
+              "c2737427-05e4-4c17-8032-455539deaa03"
+            ],
+            "id": "c2737427-05e4-4c17-8032-455539deaa02",
+            "name": "visibilityArea"
+          }
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/atp",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query": {
+          "evaluate": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "parameters": {
+            "1ATTRIBUTE": {
+              "type": "TEXT"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/object OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/atp/object",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query": {
+          "evaluate": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "parameters": {
+            "1ATTRIBUTE": {
+              "type": "TEXT"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/objectExtended OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/atp/objectExtended",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query": {
+          "evaluate": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "parameters": {
+            "1ATTRIBUTE": {
+              "type": "TEXT"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    },
+    {
+      "description": "POST /ds/{dataSetId}/atp/optimized OK",
+      "request": {
+        "method": "POST",
+        "path": "/ds/7c9dafe9-2cd1-4ffc-ae54-45867f2b9702/atp/optimized",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query": {
+          "evaluate": [
+            "true"
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "parameters": {
+            "1ATTRIBUTE": {
+              "type": "TEXT"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "all ok"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.23"
+    }
+  }
+}

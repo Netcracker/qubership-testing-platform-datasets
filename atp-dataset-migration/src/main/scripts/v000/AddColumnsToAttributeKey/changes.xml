@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!-- ADD COLUMNS AND FOREIGN KEYS -->
+    <changeSet author="dataset" id="add columns to attribute_key">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="ATTRIBUTE_KEY" columnName="DATASETLIST_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="ATTRIBUTE_KEY">
+            <column name="DATASETLIST_ID" type="${uuid_type}"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="DATASETLIST_ID"
+                                 baseTableName="ATTRIBUTE_KEY"
+                                 constraintName="FK_DATASETLIST_ID-DATASETLIST"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="DATASETLIST"/>
+        <addColumn tableName="ATTRIBUTE_KEY">
+            <column name="DATASET_ID" type="${uuid_type}"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="DATASET_ID"
+                                 baseTableName="ATTRIBUTE_KEY"
+                                 constraintName="FK_DATASET_ID-DATASET"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="DATASET"/>
+        <addColumn tableName="ATTRIBUTE_KEY">
+            <column name="ATTRIBUTE_ID" type="${uuid_type}"/>
+        </addColumn>
+        <addForeignKeyConstraint baseColumnNames="ATTRIBUTE_ID"
+                                 baseTableName="ATTRIBUTE_KEY"
+                                 constraintName="FK_ATTRIBUTE_ID-ATTRIBUTE"
+                                 referencedColumnNames="ID"
+                                 referencedTableName="ATTRIBUTE"/>
+    </changeSet>
+
+    <!-- ADD NOT NULL CONSTRAINTS -->
+    <changeSet author="dataset" id="add nonnull constraints to attribute_key">
+        <preConditions onError="WARN" onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT CASE WHEN is_nullable = 'NO' THEN 1 ELSE 0 END
+                FROM information_schema.columns
+                WHERE table_name = 'attribute_key' AND column_name = 'datasetlist_id'
+            </sqlCheck>
+        </preConditions>
+        <addNotNullConstraint columnName="DATASETLIST_ID"
+                              tableName="ATTRIBUTE_KEY"
+                              columnDataType="${uuid_type}"/>
+        <addNotNullConstraint columnName="DATASET_ID"
+                              tableName="ATTRIBUTE_KEY"
+                              columnDataType="${uuid_type}"/>
+        <addNotNullConstraint columnName="ATTRIBUTE_ID"
+                              tableName="ATTRIBUTE_KEY"
+                              columnDataType="${uuid_type}"/>
+        <addNotNullConstraint columnName="KEY"
+                              tableName="ATTRIBUTE_KEY"
+                              columnDataType="${uuid_type}"/>
+    </changeSet>
+</databaseChangeLog>

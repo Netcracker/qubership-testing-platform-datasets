@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="Update ListValue for Parameters v2" author="dataset">
+        <validCheckSum>8:a451ede4c81d62c49e25cc8e4a622021</validCheckSum>
+        <comment>Update listValue data in parameters</comment>
+        <customChange class="org.qubership.atp.dataset.db.migration.customchange.task.ListValueCustomChange">
+        </customChange>
+    </changeSet>
+
+</databaseChangeLog>

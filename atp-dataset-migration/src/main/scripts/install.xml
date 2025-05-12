@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_type" value="uuid" dbms="h2"/>
+
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
+    <property name="uuid_function" value="random_uuid()" dbms="h2"/>
+
+    <changeSet id="1" author="dataset">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+
+    <includeAll path="install/tab"/>
+    <includeAll path="install/cst"/>
+
+    <changeSet author="MajorVersion" id="0"/>
+
+</databaseChangeLog>

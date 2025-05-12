@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="SEND SERVICE ENTITIES TO KAFKA" author="datasets-team">
+        <validCheckSum>8:a6d4c66d59b4bebce82baff4d16d0031</validCheckSum>
+        <preConditions onFail="CONTINUE">
+            <changeLogPropertyDefined property="service.entities.migration.enabled" value="true"/>
+        </preConditions>
+        <comment>Sending service entities to kafka topic.</comment>
+        <customChange class="org.qubership.atp.dataset.db.migration.v1.ServiceEntitiesMigrationCustomChange">
+            <param name="serviceName" value="${spring.application.name}"/>
+        </customChange>
+    </changeSet>
+
+</databaseChangeLog>

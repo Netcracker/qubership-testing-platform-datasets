@@ -1,0 +1,13 @@
+CREATE INDEX IF NOT EXISTS param_attr_idx ON parameter (attribute_id);
+CREATE INDEX IF NOT EXISTS key_attr_key_idx ON attribute_key (key);
+CREATE INDEX IF NOT EXISTS param_ds_idx ON parameter (dataset_id);
+CREATE INDEX IF NOT EXISTS attr_dsl_idx ON attribute (datasetlist_id);
+CREATE INDEX IF NOT EXISTS ds_dsl_idx ON dataset (datasetlist_id);
+CREATE INDEX IF NOT EXISTS dsl_attr_key_idx ON attribute_key (datasetlist_id);
+CREATE INDEX IF NOT EXISTS ds_attr_key_idx ON attribute_key (dataset_id);
+CREATE INDEX IF NOT EXISTS attr_attr_key_idx ON attribute_key (attribute_id);
+CREATE INDEX IF NOT EXISTS dsl_id_dsl_label_idx ON datasetlist_label (datasetlist_id);
+CREATE INDEX IF NOT EXISTS ds_id_ds_label_idx ON dataset_label (dataset_id);
+CREATE INDEX IF NOT EXISTS va_id_test_plan_idx ON test_plan (visibility_area_id);
+CREATE INDEX if not exists attribute_key_dsl_ds_idx ON attribute_key (dataset_id, datasetlist_id);
+CREATE INDEX if not exists parameter_attribute_id_idx ON parameter (attribute_id, dataset_id);

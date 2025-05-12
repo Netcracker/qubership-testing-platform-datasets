@@ -1,0 +1,58 @@
+{
+ "projectId": "ATP.DATASETS",
+ "files": [
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/attachment-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/attribute-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/data-set-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/data-set-list-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/data-set-list-lazy-loading-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/engine-integration-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/health-check-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/history-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/label-filter-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/parameter-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/test-plan-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/user-controller-v1.yaml",
+   "publish": true
+  },
+  {
+   "fileId": "atp-dataset-openapi-specifications/v1/visibility-area-controller-v1.yaml",
+   "publish": true
+  }
+ ],
+ "refs": []
+}

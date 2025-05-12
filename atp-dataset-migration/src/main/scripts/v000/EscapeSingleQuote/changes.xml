@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="dataset" id="Escape single quote for date macros">
+        <validCheckSum>8:29d2e080fbd10fc502697d99d62302ea</validCheckSum>
+        <customChange class="org.qubership.atp.dataset.db.migration.customchange.task.EscapeQuoteDateMacrosTask">
+        </customChange>
+    </changeSet>
+
+</databaseChangeLog>
+
