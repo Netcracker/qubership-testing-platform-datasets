@@ -41,9 +41,6 @@ import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
 
-/**
- * ATPII-1354
- */
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
@@ -120,7 +117,6 @@ public class ItfSerializationTest extends AbstractTest {
         assertEquals(expected, actual);
     }
 
-    // ATPII-1406
     @Disabled
     @Test
     public void targetDslParameterSerializedWhenItIsNotInitialized() throws IOException {

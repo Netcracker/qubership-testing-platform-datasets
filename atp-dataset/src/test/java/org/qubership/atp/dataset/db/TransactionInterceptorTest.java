@@ -45,7 +45,6 @@ import org.qubership.atp.dataset.service.direct.VisibilityAreaService;
 @ContextConfiguration(classes = {TransactionTestConfiguration.class})
 public class TransactionInterceptorTest {
 
-    // TODO ATPII-39305 resolve PSQLException
     private final String dslName = "TransactionInterceptorTestDsl";
     private final String dslNameRenamed = "TransactionInterceptorTestDslAfterRename";
     @Autowired
