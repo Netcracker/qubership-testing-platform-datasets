@@ -26,9 +26,6 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.direct.AliasWrapperService;
 import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
 
-/**
- * ATPII-3231
- */
 public class RefToRefTestData {
 
     protected static class AbstractCase implements Supplier<VisibilityArea> {

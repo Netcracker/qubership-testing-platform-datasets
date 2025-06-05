@@ -60,9 +60,8 @@ public class CopyDslITCase extends AbstractApiIntegrationCase {
         String url = fileData.getUrl();
         DataSet dataSet = copy.getDataSets().get(0);
         String urlOfCopiedFileVariable = dataSet.getParameters().get(2).getFileData().getUrl();
-        //For ATPII-9567
         Assertions.assertNotEquals(url, urlOfCopiedFileVariable);
-        //WA FOR ATPII-7564
+        //WA FOR -7564
         copy.getDataSets().stream().flatMap(ds -> ds.getParameters().stream()).forEach(parameterService::delete);
     }
 

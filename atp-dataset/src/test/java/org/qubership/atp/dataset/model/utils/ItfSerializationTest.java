@@ -168,9 +168,6 @@ public class ItfSerializationTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    /**
-     * ATPII-1566
-     */
     @Test
     public void serializeDataSet_SameParameterUsedTwiceAndOneIsOverlapped_NotOverlappedParameterHasDefaultValue() throws Exception {
         String expectedJson = "{\"Age\":\"20\",\"AgeLV\":\"20\",\"Home\":{\"Floor\":\"3\",\"FloorLV\":\"3\"},\"Work\":{\"Floor\":\"5\",\"FloorLV\":\"5\"}}";
@@ -179,9 +176,6 @@ public class ItfSerializationTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    /**
-     * ATPII-1566
-     */
     @Test
     public void serializeDataSet_SameParameterUsedTwiceAndOneIsOverlappedInTheMiddleGroup_OverlappedParameterHasActualValueAtTopLayer() throws Exception {
         String expectedJson = "{\"Home\":{\"Postal Code\":{\"Code\":\"PC#OfHome\",\"CodeLV\":\"PC#OfHome\"}},\"Work\":{\"Postal Code\":{\"Code\":\"PC#OfWork\",\"CodeLV\":\"PC#OfWork\"}}}";

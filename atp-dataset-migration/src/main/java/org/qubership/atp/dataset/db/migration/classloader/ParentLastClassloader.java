@@ -116,9 +116,7 @@ public class ParentLastClassloader extends URLClassLoader {
     /**
      * Load class from current classloader. In case the liquibase started executing new one
      * changeset, then classloader will load compatible jars with q-classes and shaded jar with
-     * required dependencies. So, if package start with v000.ATPII671.CustomChangeSet Then
-     * classloader will load jars from {@code sourcePath}/v000/ATPII671 Which of q-classes jar will
-     * be loaded? It depends of {@code jdbc_type}.
+     * required dependencies. Which of q-classes jar will be loaded? It depends on {@code jdbc_type}.
      *
      * @param className target class name.
      * @return the {@link Class}

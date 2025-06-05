@@ -49,8 +49,7 @@ public class Settings {
      * @param dslName                 dame of a data set list, to migrate "child" data sets into.
      * @param defaultGroupDataSetName name of a data set to be used for group "parent" data sets.
      * @param rootAttr                if TRUE, all parameters under "default" group will be migrated
-     *                                into root of data set list: no "default" group will be
-     *                                created. See ATPII-3798.
+     *                                into root of data set list: no "default" group will be created.
      */
     public Settings(@Nonnull String excelFolder,
                     @Nullable String parentFileName,
