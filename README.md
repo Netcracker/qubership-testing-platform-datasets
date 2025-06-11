@@ -1,7 +1,7 @@
 # Qubership Testing Platform Datasets Service
 
 ## Description
-The module is used to store and manage test case data.
+Datasets Service is used to store and manage test case data.
 
 ### Key entities
 
