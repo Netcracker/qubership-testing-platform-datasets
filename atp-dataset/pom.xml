@@ -17,10 +17,11 @@
             -Dgridfs.user=dsuser -Dgridfs.password=dspass
             -Dspring.config.location="target/config/application.properties"
             -Dspring.cloud.bootstrap.location="target/config/bootstrap.properties"
-            -Djdbc.Url=${jdbc.Url}
-            -Djdbc.Driver=${jdbc.Driver}
-            -Djdbc.User=${jdbc.User}
-            -Djdbc.Password=${jdbc.Password}
+            -Djdbc.Url=${pg.jdbc.Url}
+            -Djdbc.Driver=${pg.jdbc.Driver}
+            -Djdbc.User=${pg.jdbc.User}
+            -Djdbc.Password=${pg.jdbc.Password}
+            -Djdbc.Dialect=${pg.jdbc.Dialect}
             -Djunit.jupiter.execution.parallel.enabled=true
             -Djunit.jupiter.execution.parallel.mode.default=concurrent
             -Djunit.jupiter.execution.parallel.mode.classes.default=concurrent
@@ -463,11 +464,11 @@
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>oridool</groupId>
             <artifactId>liquibase-locking</artifactId>
             <version>${liquibase.locking.version}</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

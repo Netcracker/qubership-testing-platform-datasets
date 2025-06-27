@@ -16,11 +16,11 @@
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
         <atp.service.version>0.0.1.LOCAL</atp.service.version>
-        <atp.auth.version>1.2.59</atp.auth.version>
-        <atp.common.version>0.0.42</atp.common.version>
-        <atp-crypt.version>0.0.19</atp-crypt.version>
+        <atp.auth.version>1.2.60</atp.auth.version>
+        <atp.common.version>0.0.43</atp.common.version>
+        <atp-crypt.version>0.0.20</atp-crypt.version>
         <atp.integration.version>0.2.38</atp.integration.version>
-        <ei.version>0.2.38</ei.version>
+        <ei.version>0.2.40</ei.version>
         <macros.core.version>1.0.26</macros.core.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
