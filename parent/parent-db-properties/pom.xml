@@ -20,7 +20,7 @@
         <pg.jdbc.Url>jdbc:postgresql://localhost:5432/datasets</pg.jdbc.Url>
         <pg.jdbc.Driver>org.postgresql.Driver</pg.jdbc.Driver>
         <pg.jdbc.User>postgres</pg.jdbc.User>
-        <pg.jdbc.Password>admin</pg.jdbc.Password>
+        <pg.jdbc.Password>postgres</pg.jdbc.Password>
         <pg.jdbc.Dialect>com.querydsl.sql.PostgreSQLTemplates</pg.jdbc.Dialect>
 
         <gridfs.database>dsgridfs</gridfs.database>
