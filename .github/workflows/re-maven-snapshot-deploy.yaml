@@ -46,8 +46,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRESQL_USER: postgres
-          POSTGRESQL_PASSWORD: postgres
+          POSTGRESQL_USER: datasets
+          POSTGRESQL_PASSWORD: datasets
           POSTGRESQL_DATABASE: datasets
           POSTGRESQL_ADMIN_PASSWORD: postgres
         options: >-
