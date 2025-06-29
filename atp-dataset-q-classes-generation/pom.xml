@@ -5,13 +5,14 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db-properties</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.2.3-SNAPSHOT</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>atp-dataset-q-classes-generation</artifactId>
+    <name>atp-dataset-q-classes-generation</name>
     <properties>
         <src.dir>src/main/java</src.dir>
     </properties>

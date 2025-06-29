@@ -5,10 +5,9 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.2.3-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
-
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>atp-dataset-import</artifactId>
@@ -18,10 +17,11 @@
             -Djavax.net.ssl.keyStorePassword="123456" -Dgridfs.database=dsgridfs
             -Dgridfs.host=localhost -Dgridfs.port=27017
             -Dgridfs.user=dsuser -Dgridfs.password=dspass
-            -Djdbc.Url=${jdbc.Url}
-            -Djdbc.Driver=${jdbc.Driver}
-            -Djdbc.User=${jdbc.User}
-            -Djdbc.Password=${jdbc.Password}
+            -Djdbc.Url=${pg.jdbc.Url}
+            -Djdbc.Driver=${pg.jdbc.Driver}
+            -Djdbc.User=${pg.jdbc.User}
+            -Djdbc.Password=${pg.jdbc.Password}
+            -Djdbc.Dialect=${pg.jdbc.Dialect}
             -Djunit.jupiter.execution.parallel.enabled=true
             -Djunit.jupiter.execution.parallel.mode.default=concurrent
             -Djunit.jupiter.execution.parallel.mode.classes.default=concurrent
