@@ -62,9 +62,9 @@ jobs:
           dry-run: false
           tags: ${{steps.metadata.outputs.result}}
           download-artifact: true
-          custom-image-name: qubership-testing-platform-ram
-          download-artifact-path: build-context/qubership-testing-platform-ram/qubership-testing-platform-ram
-          component: '[{"name": "qubership-testing-platform-ram", "file": "./Dockerfile", "context": "."}]'
+          custom-image-name: qubership-testing-platform-datasets
+          download-artifact-path: build-context/qubership-testing-platform-datasets/qubership-testing-platform-datasets
+          component: '[{"name": "qubership-testing-platform-datasets", "file": "./Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -75,7 +75,7 @@ jobs:
           dry-run: false
           tags: ${{steps.metadata.outputs.result}}
           download-artifact: false
-          custom-image-name: qubership-testing-platform-ram-transfer
-          component: '[{"name": "qubership-testing-platform-ram-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
+          custom-image-name: qubership-testing-platform-datasets-transfer
+          component: '[{"name": "qubership-testing-platform-datasets-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
