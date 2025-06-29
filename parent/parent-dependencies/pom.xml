@@ -6,7 +6,7 @@
 
     <groupId>org.qubership.atp.dataset</groupId>
     <artifactId>atp-dataset-parent-dependencies</artifactId>
-    <version>${atp.service.version}</version>
+    <version>1.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>parent-dependencies</name>
 
@@ -15,7 +15,6 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
-        <atp.service.version>0.0.1.LOCAL</atp.service.version>
         <atp.auth.version>1.2.60</atp.auth.version>
         <atp.common.version>0.0.43</atp.common.version>
         <atp-crypt.version>0.0.20</atp-crypt.version>
@@ -39,7 +38,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>

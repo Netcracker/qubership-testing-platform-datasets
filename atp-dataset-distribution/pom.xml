@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-dependencies</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.2.3-SNAPSHOT</version>
         <relativePath>../parent/parent-dependencies/pom.xml</relativePath>
     </parent>
 

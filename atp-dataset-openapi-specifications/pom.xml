@@ -7,12 +7,13 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-dependencies</artifactId>
-        <version>${atp.service.version}</version>
+        <version>1.2.3-SNAPSHOT</version>
         <relativePath>../parent/parent-dependencies/pom.xml</relativePath>
     </parent>
 
     <artifactId>atp-dataset-openapi-specifications</artifactId>
-    <version>${atp.service.version}</version>
+    <name>atp-dataset-openapi-specifications</name>
+    <version>1.2.3-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <build>
