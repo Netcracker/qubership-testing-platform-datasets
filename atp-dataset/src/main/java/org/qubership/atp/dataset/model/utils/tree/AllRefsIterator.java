@@ -29,8 +29,8 @@ import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Sets;
 
 /**
- * Takes parents in form of iterator. Iterates over parents themselves plus over it's children,
- * returned by {@link #getChildren(java.lang.Object)}. Omits nulls and duplicates. May be used to traverse a
+ * Takes parents in form of iterator. Iterates over parents themselves plus over its children,
+ * returned by {@link #getChildren(Object)}. Omits nulls and duplicates. May be used to traverse a
  * tree.
  */
 public abstract class AllRefsIterator<T> extends AbstractIterator<T> {
