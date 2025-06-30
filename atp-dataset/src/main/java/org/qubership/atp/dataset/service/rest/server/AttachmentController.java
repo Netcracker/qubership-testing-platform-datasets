@@ -77,12 +77,12 @@ public class AttachmentController /*extends AttachmentControllerApi*/ {
     }
 
     /**
-     * Upload file and store it to {@link com.mongodb.gridfs.GridFS}.
+     * Upload file and store it to GridFS.
      *
      * @param parameterUuid target {@link Parameter#getId()}
      * @param contentType   content type in http request format
      * @param fileName      target file name
-     * @param file          {@link InputStream} of file
+     * @param file          InputStream of file
      * @return transfer object of {@link FileData}
      */
     @PreAuthorize("@entityAccess.checkAccess("
@@ -98,11 +98,11 @@ public class AttachmentController /*extends AttachmentControllerApi*/ {
     }
 
     /**
-     * Upload file and store it to {@link com.mongodb.gridfs.GridFS}.
+     * Upload file and store it to GridFS.
      *
      * @param contentType content type in http request format
      * @param fileName    target file name
-     * @param file        {@link InputStream} of file
+     * @param file        InputStream of file
      * @return transfer object of {@link FileData}
      */
     @PreAuthorize("@entityAccess.checkAccess("
