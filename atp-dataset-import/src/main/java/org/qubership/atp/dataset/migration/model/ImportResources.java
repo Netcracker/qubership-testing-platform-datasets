@@ -73,7 +73,8 @@ public class ImportResources implements Closeable {
      * @param bookName           - target excel file name
      * @param groupDataSetName   - default data set for group parameter with default values(parent);
      *                           name for all groups datasets(child)
-     * @throws Exception - error occurred
+     * @throws IOException - in case IO errors occurred,
+     * @throws InvalidFormatException - in case invalid Excel File format.
      */
     public static ImportResources create(DsServicesFacade services,
                                          String visibilityAreaName,

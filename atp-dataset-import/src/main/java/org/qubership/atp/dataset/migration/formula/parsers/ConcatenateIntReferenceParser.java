@@ -32,7 +32,7 @@ public class ConcatenateIntReferenceParser implements ExcelFormulaAdapter {
     private final ExcelFormulasEvaluator evaluator;
 
     /**
-     * creates parser instance for formulas evaluation (A & B & C).
+     * creates parser instance for formulas evaluation.
      *
      * @param evaluator used to calculate internal functions in formulas
      */
