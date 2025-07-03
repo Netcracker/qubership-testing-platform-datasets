@@ -188,7 +188,10 @@ public class DataSetListServiceImpl implements DataSetListService {
         macroContext.setMacroContextService(macroContextService);
         macroContext.setMacrosCalculator(macrosCalculator);
         UUID visibilityArea = dataSetList.getVisibilityArea().getId();
-        List<MacrosDto> macrosDtoList = macrosFeignClient.findAllByProject(visibilityArea).getBody();
+        List<MacrosDto> macrosDtoList = macrosFeignClient.findNonTechnicalMacrosByProject(visibilityArea).getBody();
+        if (nonNull(macrosDtoList)) {
+            log.info("macrosDtoList size is  {}", macrosDtoList.size());
+        }
         List<Macros> macros = new MacrosDtoConvertService().convertList(macrosDtoList, Macros.class);
         macroContext.setMacros(macros);
         return macroContext;

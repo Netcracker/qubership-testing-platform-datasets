@@ -160,7 +160,10 @@ public class JpaDataSetServiceImpl implements JpaDataSetService {
         List<JSONObject> result = new ArrayList<>();
         int cnt = numberOfCopies;
         List<MacrosDto> macrosDtoList = macrosFeignClient
-                .findAllByProject(dataSetListContext.getVisibilityAreaId()).getBody();
+                .findNonTechnicalMacrosByProject(dataSetListContext.getVisibilityAreaId()).getBody();
+        if (null != macrosDtoList) {
+            log.info("size for macrosDtoList received is: {}", macrosDtoList.size());
+        }
         List<Macros> macros = new MacrosDtoConvertService().convertList(macrosDtoList, Macros.class);
         while (cnt > 0) {
             MacroContext macroContext = new MacroContext();

@@ -56,7 +56,7 @@ public class GroupContext implements Serializable {
 
     /**
      * Group context with hierarchy.
-     * */
+     */
     public GroupContext(List<DataSetContext> previousLevelDataSets,
                         Attribute parentDataSetListReferenceAttribute,
                         OverlapNode overlaps,

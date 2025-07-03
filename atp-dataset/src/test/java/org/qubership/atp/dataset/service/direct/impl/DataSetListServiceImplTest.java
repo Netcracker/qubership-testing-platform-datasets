@@ -616,7 +616,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
         DataSet dataSet2 = dataSetService.create(dsl.getId(), "ds2");
         Attribute attribute1 = attributeService
                 .create(dsl.getId(), 0, "macros1",
-                AttributeType.TEXT, null, null);
+                        AttributeType.TEXT, null, null);
         Attribute attribute2 = attributeService
                 .create(dsl.getId(), 1, "macros2",
                         AttributeType.TEXT, null, null);
@@ -630,6 +630,8 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
                 "69#RANDOMBETWEEN(1,1)", null, null);
         Mockito.when(macrosFeignClient.findAllByProject(any(UUID.class)))
                 .thenReturn( new ResponseEntity<>(Collections.singletonList(macrosDto), HttpStatus.OK));
+        Mockito.when(macrosFeignClient.findNonTechnicalMacrosByProject(any(UUID.class)))
+                .thenReturn( new ResponseEntity<>(Collections.singletonList(macrosDto), HttpStatus.OK));
         Mockito.when(macrosCalculator.calculate(any(), any(), any())).thenReturn("OK_MACRO_VALUE");
         Mockito.when(macrosDto.getName()).thenReturn("RANDOMBETWEEN");
 
@@ -640,6 +642,44 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
         assertEquals("Simple text", dataSetListUi.getAttributes().get(0).getParameters().get(1).getValue());
         assertEquals("Simple text2", dataSetListUi.getAttributes().get(1).getParameters().get(0).getValue());
         assertEquals("69OK_MACRO_VALUE", dataSetListUi.getAttributes().get(1).getParameters().get(1).getValue());
+
+        visibilityAreaService.delete(area.getId());
+    }
+
+    @Test
+    public void test_UiManDataSetList_emptyNonTechnicalMacrosList() throws DuplicateKeyException {
+        ReflectionTestUtils.setField(dataSetListService, "macroFeignUrl", "testUrl");
+        VisibilityArea area = visibilityAreaService.create("TestVA");
+        DataSetList dsl = dataSetListService.create(area.getId(), "dsl", null);
+        DataSet dataSet1 = dataSetService.create(dsl.getId(), "ds1");
+        DataSet dataSet2 = dataSetService.create(dsl.getId(), "ds2");
+        Attribute attribute1 = attributeService
+                .create(dsl.getId(), 0, "macros1",
+                        AttributeType.TEXT, null, null);
+        Attribute attribute2 = attributeService
+                .create(dsl.getId(), 1, "macros2",
+                        AttributeType.TEXT, null, null);
+        Parameter parameter1 = parameterService.create(dataSet1.getId(), attribute1.getId(),
+                "32#RANDOMBETWEEN(31,31)", null, null);
+        Parameter parameter2 = parameterService.create(dataSet2.getId(), attribute1.getId(),
+                "Simple text", null, null);
+        Parameter parameter3 = parameterService.create(dataSet1.getId(), attribute2.getId(),
+                "Simple text2", null, null);
+        Parameter parameter4 = parameterService.create(dataSet2.getId(), attribute2.getId(),
+                "69#RANDOMBETWEEN(1,1)", null, null);
+        Mockito.when(macrosFeignClient.findAllByProject(any(UUID.class)))
+                .thenReturn( new ResponseEntity<>(Collections.singletonList(macrosDto), HttpStatus.OK));
+        Mockito.when(macrosFeignClient.findNonTechnicalMacrosByProject(any(UUID.class)))
+                .thenReturn( new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK));
+        Mockito.when(macrosDto.getName()).thenReturn("RANDOMBETWEEN");
+
+        UiManDataSetList dataSetListUi = dataSetListService.getAsTree(
+                dsl.getId(), true, null, null, null, null, false, true);
+
+        assertEquals("32#RANDOMBETWEEN(31,31)", dataSetListUi.getAttributes().get(0).getParameters().get(0).getValue());
+        assertEquals("Simple text", dataSetListUi.getAttributes().get(0).getParameters().get(1).getValue());
+        assertEquals("Simple text2", dataSetListUi.getAttributes().get(1).getParameters().get(0).getValue());
+        assertEquals("69#RANDOMBETWEEN(1,1)", dataSetListUi.getAttributes().get(1).getParameters().get(1).getValue());
 
         visibilityAreaService.delete(area.getId());
     }
