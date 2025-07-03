@@ -58,7 +58,7 @@ public class CacheConfiguration {
     private String hazelcastServerAddress;
     @Value("${spring.cache.hazelcast.server.enable}")
     private boolean hazelcastServerEnable;
-    @Value("${spring.cache.hazelcast.server.port}")
+    @Value("${spring.cache.hazelcast.server.port:5701}")
     private int hazelcastServerPort;
     @Value("${server.port}")
     private String serverPort;

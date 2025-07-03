@@ -38,7 +38,7 @@ import lombok.Setter;
 
 /**
  * Used for referenced DSL node view.
- * */
+ */
 @Getter
 @Setter
 public class RefDataSetListFlat {

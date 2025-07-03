@@ -25,7 +25,7 @@
         <atp-crypt.version>0.0.20</atp-crypt.version>
         <atp.integration.version>0.2.38</atp.integration.version>
         <ei.version>0.2.40</ei.version>
-        <macros.core.version>1.0.26</macros.core.version>
+        <macros.core.version>1.0.27</macros.core.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
         <querydsl.version>5.0.0</querydsl.version>
