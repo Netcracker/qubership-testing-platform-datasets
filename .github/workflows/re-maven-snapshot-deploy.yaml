@@ -142,6 +142,9 @@ jobs:
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=postgres psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
+      - name: Install mongo shell client
+        run: sudo apt-get update && sudo apt-get install -y mongodb-clients
+
       - name: Wait for MongoDB to be ready
         run: |
           for i in {1..30}; do
