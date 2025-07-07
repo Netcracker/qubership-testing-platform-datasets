@@ -142,9 +142,6 @@ jobs:
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=postgres psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
-      - name: Install mongo shell client
-        run: sudo apt-get update && sudo apt-get install -y mongodb-clients
-
       - name: Wait for MongoDB to be ready
         run: |
           for i in {1..30}; do
@@ -156,9 +153,15 @@ jobs:
             sleep 5
           done
 
-      - name: Create Mongo user
+      - name: Create Mongo user via docker mongo shell
         run: |
-          mongo dsgridfs --eval "printjson(db.createUser({user: 'dsuser',pwd: 'dspass',roles: ['readWrite'] }))"
+          docker run --rm --network container:${{ job.services.mongo.id }} mongo:3.6.2 \
+            mongo dsgridfs --host mongo --eval "
+              printjson(db.createUser({
+                user: 'dsuser',
+                pwd: 'dspass',
+                roles: [{ role: 'readWrite', db: 'dsgridfs' }]
+              }))"
 
       - name: Cache local Maven repository
         uses: actions/cache@v4
