@@ -55,6 +55,15 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+      mongo:
+        image: mongo:3.6.2
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
       - name: "Checkout code"
@@ -132,6 +141,21 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=postgres psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          for i in {1..30}; do
+            if mongo --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
+              echo "MongoDB is ready"
+              break
+            fi
+            echo "Waiting for MongoDB..."
+            sleep 5
+          done
+
+      - name: Create Mongo user
+        run: |
+          mongo dsgridfs --eval "printjson(db.createUser({user: 'dsuser',pwd: 'dspass',roles: ['readWrite'] }))"
 
       - name: Cache local Maven repository
         uses: actions/cache@v4

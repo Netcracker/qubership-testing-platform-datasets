@@ -1119,8 +1119,7 @@
                         <version>4.2.0</version>
                         <configuration>
                             <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <failOnViolation>false</failOnViolation>
-                            <generateHtml>true</generateHtml>
+]                            <generateHtml>true</generateHtml>
                             <generateXml>true</generateXml>
                             <generatePdf>true</generatePdf>
                             <targetPercentage>47%</targetPercentage>
