@@ -163,13 +163,6 @@ jobs:
                 roles: [{ role: 'readWrite', db: 'dsgridfs' }]
               }))"
 
-      - name: Upload surefire reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-dumps
-          path: target/surefire-reports/
-
       - name: Cache local Maven repository
         uses: actions/cache@v4
         with:
