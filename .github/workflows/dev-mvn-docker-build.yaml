@@ -33,7 +33,7 @@ jobs:
     uses: ./.github/workflows/re-maven-snapshot-deploy.yaml
     with:
       java-version: "21"
-      additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/datasets -Dpg.jdbc.User=datasets -Dpg.jdbc.Password=datasets -Dpg.jdbc.Dialect=com.querydsl.sql.PostgreSQLTemplates"
+      additional-mvn-args: "-Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/datasets -Dpg.jdbc.User=datasets -Dpg.jdbc.Password=datasets -Dpg.jdbc.Dialect=com.querydsl.sql.PostgreSQLTemplates -Dgridfs.database=dsgridfs -Dgridfs.host=mongodb://localhost:27017/dsgridfs -Dgridfs.port=27017 -Dgridfs.user=dsuser -Dgridfs.password=dspass"
       target-store: "maven-central"
     secrets:
       maven-username: ${{ secrets.MAVEN_USER }}
