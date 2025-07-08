@@ -206,9 +206,9 @@ jobs:
           name: qubership-testing-platform-datasets
           path: '**/target'
 
-      - name: Upload surefire reports
+      - name: Upload all target files (debug)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: surefire-dumps
-          path: target/surefire-reports/
+          name: target-all
+          path: target/
