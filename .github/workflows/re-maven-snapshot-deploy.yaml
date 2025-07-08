@@ -205,10 +205,3 @@ jobs:
         with:
           name: qubership-testing-platform-datasets
           path: '**/target'
-
-      - name: Upload all target files (debug)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: target-all
-          path: target/
