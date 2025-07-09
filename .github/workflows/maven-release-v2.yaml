@@ -48,7 +48,7 @@ on:
       mvn-args:
         description: 'Additional maven arguments to pass (e.g. -DskipTests=true -Dmaven.javadoc.skip=true)'
         required: false
-        default: '-Pdb-postgresql -Pmigration-on-build-pg -Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/datasets -Dpg.jdbc.User=datasets -Dpg.jdbc.Password=datasets'
+        default: '-Pdb-postgresql -Pmigration-on-build-pg -Dstage=release -Dstage=test -Denable-analyzers=true -Dpg.jdbc.Url=jdbc:postgresql://localhost:5432/datasets -Dpg.jdbc.User=datasets -Dpg.jdbc.Password=datasets -Dgridfs.database=dsgridfs -Dspring.data.mongodb.uri=mongodb://localhost:27017/dsgridfs -Dgridfs.port=27017 -Dgridfs.user=dsuser -Dgridfs.password=dspass'
         type: string
       build-docker:
         description: 'Build Docker image'
@@ -78,6 +78,15 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+      mongo:
+        image: mongo:3.6.2
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
       - name: Wait for Postgres to be ready
@@ -95,6 +104,26 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=datasets psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          for i in {1..30}; do
+          if mongo --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
+           echo "MongoDB is ready"
+           break
+          fi
+          echo "Waiting for MongoDB..."
+          sleep 5
+          done
+      - name: Create Mongo user via docker mongo shell
+        run: |
+          docker run --rm --network container:${{ job.services.mongo.id }} mongo:3.6.2 \
+            mongo dsgridfs --host mongo --eval "
+              printjson(db.createUser({
+                user: 'dsuser',
+                pwd: 'dspass',
+                roles: [{ role: 'readWrite', db: 'dsgridfs' }]
+              }))"
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
         uses: netcracker/qubership-workflow-hub/actions/maven-release@v1.0.1
@@ -133,6 +162,15 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
+      mongo:
+        image: mongo:3.6.2
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
     steps:
       - name: Wait for Postgres to be ready
         run: |
@@ -148,6 +186,26 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y postgresql-client
           PGPASSWORD=datasets psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          for i in {1..30}; do
+            if mongo --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
+              echo "MongoDB is ready"
+              break
+            fi
+            echo "Waiting for MongoDB..."
+            sleep 5
+          done
+      - name: Create Mongo user via docker mongo shell
+        run: |
+          docker run --rm --network container:${{ job.services.mongo.id }} mongo:3.6.2 \
+            mongo dsgridfs --host mongo --eval "
+              printjson(db.createUser({
+                user: 'dsuser',
+                pwd: 'dspass',
+                roles: [{ role: 'readWrite', db: 'dsgridfs' }]
+              }))"
 
       - name: "Prepare app token"
         uses: actions/create-github-app-token@v1
