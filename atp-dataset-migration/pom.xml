@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db-properties</artifactId>
-        <version>1.3.158-SNAPSHOT</version>
+        <version>1.3.158</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
 
@@ -410,7 +408,7 @@
                                         <argument>--add-opens=java.base/java.lang=ALL-UNNAMED</argument>
                                         <argument>--add-opens=java.base/java.util=ALL-UNNAMED</argument>
                                         <argument>-classpath</argument>
-                                        <classpath/>
+                                        <classpath />
                                         <argument>org.qubership.atp.dataset.db.migration.Main
                                         </argument>
                                     </arguments>
