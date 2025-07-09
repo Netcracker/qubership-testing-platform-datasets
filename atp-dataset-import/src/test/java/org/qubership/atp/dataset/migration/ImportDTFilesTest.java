@@ -224,7 +224,7 @@ public class ImportDTFilesTest {
     }
 
     @Test
-    public void importFromAtp_TransformAtpMacroRAND_CovertedToDataSetMacroRANDBETWEEN() throws Exception {
+    public void importFromAtp_TransformAtpMacroRAND_ConvertedToDataSetMacroRANDBETWEEN() throws Exception {
         String va_name = "importVariablesWithMacros_2";
         services.va.getAll().stream()
                 .filter(va -> va.getName().equals(va_name))
@@ -263,23 +263,23 @@ public class ImportDTFilesTest {
         String mail1Value = OverlapIterator.create(ds, mail1.getId(), Collections.singleton
                 (dslIntoEmailContact.getId()
                 )).next().asReachable().getValue().get();
-        assertEquals("#RANDOMBETWEEN(0,9)at@yandex.ru", mail1Value);
+        assertEquals("#RANDOMBETWEEN(0,9)example@example.com", mail1Value);
         String mail2Value = OverlapIterator.create(ds, mail2.getId(), Collections.singleton
                 (dslIntoEmailContact.getId()
                 )).next().asReachable().getValue().get();
-        assertEquals("#RANDOMBETWEEN(0,9)at@yandex.ru", mail2Value);
+        assertEquals("#RANDOMBETWEEN(0,9)example@example.com", mail2Value);
         String mail3Value = OverlapIterator.create(ds, mail3.getId(), Collections.singleton
                 (dslIntoEmailContact.getId()
                 )).next().asReachable().getValue().get();
-        assertEquals("#RANDOMBETWEEN(0,9)at@yandex.ru", mail3Value);
+        assertEquals("#RANDOMBETWEEN(0,9)example@example.com", mail3Value);
         String mail4Value = OverlapIterator.create(ds, mail4.getId(), Collections.singleton
                 (dslIntoEmailContact.getId()
                 )).next().asReachable().getValue().get();
-        assertEquals("#RANDOMBETWEEN(10,99)at@yandex.ru", mail4Value);
+        assertEquals("#RANDOMBETWEEN(10,99)example@example.com", mail4Value);
         String mail5Value = OverlapIterator.create(ds, mail5.getId(), Collections.singleton
                 (dslIntoEmailContact.getId()
                 )).next().asReachable().getValue().get();
-        assertEquals("#RANDOMBETWEEN(1000000000,9999999999)at@yandex.ru", mail5Value);
+        assertEquals("#RANDOMBETWEEN(1000000000,9999999999)example@example.com", mail5Value);
     }
 
     @Test
@@ -346,8 +346,8 @@ public class ImportDTFilesTest {
     }
 
     //-----------------------------------------------------------------------------------------------------------
-//                                                     import to the existed parent
-//-----------------------------------------------------------------------------------------------------------
+    //                                                     import to the existed parent
+    //-----------------------------------------------------------------------------------------------------------
     @Test
     @Disabled
     public void import_child_to_existed_parent() throws Exception {
