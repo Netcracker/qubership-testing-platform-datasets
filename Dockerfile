@@ -1,6 +1,6 @@
 FROM bellsoft/liberica-openjdk-alpine-musl:21.0.6
 
-LABEL maintainer="our-team@qubership.org" \
+LABEL maintainer="opensourcegroup@netcracker.com" \
       qubership.atp.service="atp-datasets"
 
 ENV HOME_EX=/service_dataset
