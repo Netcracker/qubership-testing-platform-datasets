@@ -1098,6 +1098,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>add-serializable-to-dtos</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <target>
+                                <replaceregexp file="${project.build.directory}/generated-sources/src/main/java/org/qubership/atp/dataset/service/rest/dto/versioning/HistoryItemDto.java"
+                                               match="public class ([^ ]+)"
+                                               replace="public class \1 implements java.io.Serializable"
+                                               byline="true"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>
