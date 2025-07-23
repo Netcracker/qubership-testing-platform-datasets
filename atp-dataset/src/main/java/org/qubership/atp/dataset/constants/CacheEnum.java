@@ -36,7 +36,7 @@ public enum CacheEnum {
     }
 
 public static class Constants {
-    public static final String PROJECT_CACHE = "projects";
+    public static final String PROJECT_CACHE = "ATP_DATASETS_PROJECTS";
     public static final String DATASET_LIST_CONTEXT_CACHE = "ATP_DATASETS_DATASET_LIST_CONTEXT_CACHE";
 
     public static final String JAVERS_DIFF_CACHE = "JAVERS_DIFF_CACHE";
