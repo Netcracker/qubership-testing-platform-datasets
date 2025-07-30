@@ -18,12 +18,12 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
-        <atp.auth.version>1.2.60</atp.auth.version>
+        <atp.auth.version>1.2.67</atp.auth.version>
         <atp.common.version>0.0.43</atp.common.version>
         <atp-crypt.version>0.0.20</atp-crypt.version>
         <atp.integration.version>0.2.38</atp.integration.version>
-        <ei.version>0.2.40</ei.version>
-        <macros.core.version>1.0.27</macros.core.version>
+        <ei.version>0.2.42</ei.version>
+        <macros.core.version>1.0.30</macros.core.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
         <querydsl.version>5.0.0</querydsl.version>
@@ -100,7 +100,12 @@
             <!--Start ATP dependencies section-->
             <dependency>
                 <groupId>org.qubership.atp.auth</groupId>
-                <artifactId>atp-auth-spring-boot-starter</artifactId>
+                <artifactId>atp-auth-impl</artifactId>
+                <version>${atp.auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.qubership.atp.auth</groupId>
+                <artifactId>atp-auth-models</artifactId>
                 <version>${atp.auth.version}</version>
                 <exclusions>
                     <exclusion>
