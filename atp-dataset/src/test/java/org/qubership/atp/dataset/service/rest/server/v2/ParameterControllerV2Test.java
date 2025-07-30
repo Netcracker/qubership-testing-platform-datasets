@@ -49,7 +49,7 @@ import org.qubership.atp.dataset.service.jpa.service.AbstractJpaTest;
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
 @ExtendWith(SpringExtension.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 class ParameterControllerV2Test extends AbstractJpaTest {
 
