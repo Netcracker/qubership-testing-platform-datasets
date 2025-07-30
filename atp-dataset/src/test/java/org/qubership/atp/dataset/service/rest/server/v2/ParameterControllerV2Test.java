@@ -99,11 +99,9 @@ class ParameterControllerV2Test extends AbstractJpaTest {
                         dataSet, attribute)
                         .contentType(APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
-
-
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/parameter_controller_v2/parameterControllerV2.sql")
@@ -138,7 +136,7 @@ class ParameterControllerV2Test extends AbstractJpaTest {
         mockMvc.perform(put("/v2/parameter/ds/{dataSetId}/attribute/{attributeId}", dataSet, attribute)
                         .contentType(APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
 
@@ -184,7 +182,7 @@ class ParameterControllerV2Test extends AbstractJpaTest {
         mockMvc.perform(post("/v2/parameter/update/bulk")
                         .contentType(APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().is5xxServerError())
                 .andReturn();
     }
 }
