@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.kafka.handlers.project.strategies;
 
+import org.qubership.atp.dataset.constants.CacheEnum;
 import org.qubership.atp.dataset.kafka.entities.project.EventType;
 import org.qubership.atp.dataset.kafka.entities.project.ProjectEvent;
 import org.qubership.atp.dataset.kafka.handlers.project.ProcessingStrategy;
@@ -31,13 +32,12 @@ import org.springframework.stereotype.Component;
         matchIfMissing = false
 )
 public class DeleteProjectProcessingStrategy implements ProcessingStrategy<ProjectEvent, EventType> {
-    public static final String PROJECTS_CACHE_NAME = "projects";
 
     @Autowired
     private VisibilityAreaService visibilityAreaService;
 
     @Override
-    @CacheEvict(value = PROJECTS_CACHE_NAME, key = "#projectEvent.getProjectId()")
+    @CacheEvict(value = CacheEnum.Constants.PROJECT_CACHE, key = "#projectEvent.getProjectId()")
     public void process(ProjectEvent projectEvent) {
         visibilityAreaService.delete(projectEvent.getProjectId());
     }
