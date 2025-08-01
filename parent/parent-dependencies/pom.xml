@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-aggregator</artifactId>
-        <version>1.3.160-SNAPSHOT</version>
+        <version>1.3.161-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -18,12 +18,12 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
-        <atp.auth.version>1.2.62-SNAPSHOT</atp.auth.version> <!-- build from rename-projects-cache branch -->
+        <atp.auth.version>1.2.68</atp.auth.version>
         <atp.common.version>0.0.43</atp.common.version>
         <atp-crypt.version>0.0.20</atp-crypt.version>
         <atp.integration.version>0.2.38</atp.integration.version>
-        <ei.version>0.2.42-SNAPSHOT</ei.version> <!-- snapshot build with rename-projects-cache branch of auth -->
-        <macros.core.version>1.0.30-SNAPSHOT</macros.core.version> <!-- snapshot build with rename-projects-cache branch of auth -->
+        <ei.version>0.2.43</ei.version>
+        <macros.core.version>1.0.31</macros.core.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
         <querydsl.version>5.0.0</querydsl.version>
