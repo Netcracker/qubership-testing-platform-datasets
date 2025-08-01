@@ -63,7 +63,6 @@ public class CacheConfiguration {
     @Value("${server.port}")
     private String serverPort;
 
-
     /**
      * Generates hazelcast instance client.
      *
@@ -72,55 +71,57 @@ public class CacheConfiguration {
     @Bean
     @ConditionalOnProperty(name = "spring.cache.hazelcast.client.enable", havingValue = "true")
     public CacheManager hazelcastCacheManager() {
-            ClientConfig clientConfig = new ClientConfig();
-            clientConfig.setInstanceName(CACHE_CLIENT_NAME + "on_port_" + serverPort + "_with_id_" + CACHE_ID);
-            clientConfig.setClusterName(cacheClusterName);
-            clientConfig.getNetworkConfig().addAddress(hazelcastServerAddress + ":" + hazelcastServerPort);
-            clientConfig.getConnectionStrategyConfig()
-                    .setReconnectMode(ClientConnectionStrategyConfig.ReconnectMode.ASYNC);
-            if (hazelcastServerEnable) {
-                startCacheServer();
+        ClientConfig clientConfig = new ClientConfig();
+        clientConfig.setInstanceName(CACHE_CLIENT_NAME + "on_port_" + serverPort + "_with_id_" + CACHE_ID);
+        clientConfig.setClusterName(cacheClusterName);
+        clientConfig.getNetworkConfig().addAddress(hazelcastServerAddress + ":" + hazelcastServerPort);
+        clientConfig.getConnectionStrategyConfig()
+                .setReconnectMode(ClientConnectionStrategyConfig.ReconnectMode.ASYNC);
+        if (hazelcastServerEnable) {
+            startCacheServer();
+        }
+        log.debug("Connect to HAZELCAST as client");
+        HazelcastInstance hzInstanceClient = HazelcastClient.newHazelcastClient(clientConfig);
+        for (CacheEnum key : CacheEnum.values()) {
+            String name = key.getKey();
+            try {
+                log.debug("Try to create config for map {}", name);
+                hzInstanceClient.getConfig().addMapConfig(
+                        new MapConfig(name).setTimeToLiveSeconds(key.getTimeToLiveSec()));
+            } catch (Exception failedCreate) {
+                log.warn("Adding of Map {} or changing its config is failed (may be, it already exists): ", name,
+                        failedCreate);
             }
-                log.debug("Connect to HAZELCAST as client");
-                HazelcastInstance hzInstanceClient = HazelcastClient.newHazelcastClient(clientConfig);
-                for (CacheEnum key : CacheEnum.values()) {
-                    String name = key.getKey();
-                    try {
-                        log.debug("Try to create config for map {}", name);
-                        hzInstanceClient.getConfig().addMapConfig(
-                                new MapConfig(name).setTimeToLiveSeconds(key.getTimeToLiveSec()));
-                    } catch (Exception failedCreate) {
-                        log.warn("Map {} already created. Not possible to change map config: {}", name, failedCreate);
-                    }
-                }
-                return new HazelcastCacheManager(hzInstanceClient);
+        }
+        return new HazelcastCacheManager(hzInstanceClient);
     }
 
     /**
      * Start local hazelcast instance client.
      */
     private void startCacheServer() {
-            log.info("Get or start cache config on address " + hazelcastServerAddress + ":" + hazelcastServerPort);
-            Config config = new Config(CACHE_SERVER_NAME);
-            NetworkConfig network = config.getNetworkConfig()
-                    .setPort(hazelcastServerPort)
-                    .setPortCount(1)
-                    .setPortAutoIncrement(false)
-                    .setReuseAddress(true);
-            network.getJoin().getMulticastConfig().setEnabled(true);
-            for (CacheEnum key : CacheEnum.values()) {
-                config.addMapConfig(new MapConfig(key.getKey()).setTimeToLiveSeconds(key.getTimeToLiveSec()));
-            }
-            config.setClusterName(cacheClusterName);
-            try {
-                Hazelcast.getOrCreateHazelcastInstance(config);
-            } catch (Exception e) {
-                log.warn("HazelCast server already started: {}", e.getMessage());
-            }
+        log.info("Get or start cache config on address {}:{}", hazelcastServerAddress, hazelcastServerPort);
+        Config config = new Config(CACHE_SERVER_NAME);
+        NetworkConfig network = config.getNetworkConfig()
+                .setPort(hazelcastServerPort)
+                .setPortCount(1)
+                .setPortAutoIncrement(false)
+                .setReuseAddress(true);
+        network.getJoin().getMulticastConfig().setEnabled(true);
+        for (CacheEnum key : CacheEnum.values()) {
+            config.addMapConfig(new MapConfig(key.getKey()).setTimeToLiveSeconds(key.getTimeToLiveSec()));
+        }
+        config.setClusterName(cacheClusterName);
+        try {
+            Hazelcast.getOrCreateHazelcastInstance(config);
+        } catch (Exception e) {
+            log.warn("HazelCast server already started: {}", e.getMessage());
+        }
     }
 
     /**
      * Caffeine cache manager.
+     *
      * @return Caffeine cache manager.
      */
     @Bean
@@ -129,7 +130,6 @@ public class CacheConfiguration {
         log.info("Create CAFFEINE cache manager");
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         List<CaffeineCache> caches = new ArrayList<>();
-
         for (CacheEnum key : CacheEnum.values()) {
             caches.add(new CaffeineCache(key.getKey(),
                     Caffeine.newBuilder()
