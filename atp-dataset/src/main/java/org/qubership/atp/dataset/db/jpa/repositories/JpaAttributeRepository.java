@@ -66,7 +66,8 @@ public interface JpaAttributeRepository extends JpaAbstractAttributeRepository<A
             + "    (select * from \"attribute\" a2 where id = ?2) as rightAttr", nativeQuery = true)
     boolean isDifferentDslAttributes(UUID leftAttrId, UUID rightAttrId);
 
-    @Query(value = "SELECT * from \"attribute\" a WHERE a.datasetlist_id = ?1 AND a.attribute_type_id IN ?2",
+    @Query(value = "SELECT * from \"attribute\" a WHERE a.datasetlist_id = ?1"
+            + " AND a.attribute_type_id IN ?2 ORDER BY a.ordering",
             countQuery = "SELECT COUNT(*) FROM \"attribute\" a WHERE a.datasetlist_id = ?1 "
                     + "AND a.attribute_type_id IN ?2",
             nativeQuery = true)
