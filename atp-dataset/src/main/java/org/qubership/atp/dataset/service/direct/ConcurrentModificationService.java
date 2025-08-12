@@ -25,7 +25,7 @@ import org.springframework.http.HttpStatus;
 public interface ConcurrentModificationService {
 
     /**
-     * Provide HTTP status for dirty reading.
+     * Provide HTTP status for low-level reading.
      *
      * @param entityId entity uuid
      * @param modifiedWhen modified date
