@@ -19,6 +19,7 @@ package org.qubership.atp.dataset.constants;
 import lombok.Getter;
 
 public enum CacheEnum {
+    AUTH_PROJECT_CACHE(Constants.AUTH_PROJECT_CACHE, 300),
     PROJECT_CACHE(Constants.PROJECT_CACHE, 600),
     DATASET_LIST_CONTEXT_CACHE(Constants.DATASET_LIST_CONTEXT_CACHE, 600),
     JAVERS_DIFF_CACHE(Constants.JAVERS_DIFF_CACHE, 600),
@@ -29,17 +30,17 @@ public enum CacheEnum {
     @Getter
     private final int timeToLiveSec;
 
-
     CacheEnum(String key, int timeToLiveSec) {
         this.key = key;
         this.timeToLiveSec = timeToLiveSec;
     }
 
-public static class Constants {
-    public static final String PROJECT_CACHE = "ATP_DATASETS_PROJECTS_OS";
-    public static final String DATASET_LIST_CONTEXT_CACHE = "ATP_DATASETS_DATASET_LIST_CONTEXT_CACHE_OS";
+    public static class Constants {
+        public static final String AUTH_PROJECT_CACHE = "auth_projects";
 
-    public static final String JAVERS_DIFF_CACHE = "JAVERS_DIFF_CACHE_OS";
-    public static final String PARAMETER_CACHE = "ATP_DATASETS_PARAMETER_CACHE_OS";
-}
+        public static final String PROJECT_CACHE = "ATP_DATASETS_PROJECTS_OS";
+        public static final String DATASET_LIST_CONTEXT_CACHE = "ATP_DATASETS_DATASET_LIST_CONTEXT_CACHE_OS";
+        public static final String JAVERS_DIFF_CACHE = "JAVERS_DIFF_CACHE_OS";
+        public static final String PARAMETER_CACHE = "ATP_DATASETS_PARAMETER_CACHE_OS";
+    }
 }

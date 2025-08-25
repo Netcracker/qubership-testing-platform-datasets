@@ -82,12 +82,17 @@ public class CacheConfiguration {
         }
         log.debug("Connect to HAZELCAST as client");
         HazelcastInstance hzInstanceClient = HazelcastClient.newHazelcastClient(clientConfig);
+        Config config = hzInstanceClient.getConfig();
         for (CacheEnum key : CacheEnum.values()) {
             String name = key.getKey();
             try {
-                log.debug("Try to create config for map {}", name);
-                hzInstanceClient.getConfig().addMapConfig(
-                        new MapConfig(name).setTimeToLiveSeconds(key.getTimeToLiveSec()));
+                log.debug("Try to create map / change config for map {}", name);
+                MapConfig mapConfig = config.getMapConfigOrNull(name);
+                if (mapConfig == null) {
+                    config.addMapConfig(new MapConfig(name).setTimeToLiveSeconds(key.getTimeToLiveSec()));
+                } else {
+                    mapConfig.setTimeToLiveSeconds(key.getTimeToLiveSec());
+                }
             } catch (Exception failedCreate) {
                 log.warn("Adding of Map {} or changing its config is failed (may be, it already exists): ", name,
                         failedCreate);
