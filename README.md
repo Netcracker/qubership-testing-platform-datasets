@@ -47,7 +47,7 @@ Datasets Service is used to store and manage test case data.
 8. It should enable importing DSL into already existing DSL
 9. It should enable export and import of multiple DSL at a time.
 
-### Entities 
+### Entities
 
 - **VA**
   - DSL visibility area. Allows to separate the projects (Currently it's the same as project. So, 1 Visibility area = 1 project).
@@ -66,25 +66,25 @@ Datasets Service is used to store and manage test case data.
     * db-postgresql
     * generate-q-classes-pg
     * migration-on-build-pg
-    
-    Example: 
-    ````
+
+    Example:
+    ````bash
     mvn clean package -P db-postgresql,generate-q-classes-pg,migration-on-build-pg
     ````
-   
+
    Example with skip tests:
-   ````
+   ````bash
    mvn clean package -DskipTests=true -P db-postgresql,generate-q-classes-pg,migration-on-build-pg
    ````
 
-2. Change value of _spring.resources.static-locations_ in application.properties from module atp-dataset: 
-    
+2. Change value of _spring.resources.static-locations_ in application.properties from module atp-dataset:
+
     ````properties
     spring.resources.static-locations=file:./atp-dataset/web/
     ````
 
 3. Main class: org.qubership.atp.dataset.Main
-4. VM options: 
+4. VM options:
     ````properties
     -Dspring.config.location=target/config/application.properties
     -Dspring.cloud.bootstrap.location=target/config/bootstrap.properties
@@ -98,24 +98,24 @@ Datasets Service is used to store and manage test case data.
 
 ## How to prepare local DB before application running
 * Create database
-    ````
+    ````sql
     CREATE DATABASE datasets;
     ````
 * Create extension
-    ````
+    ````sql
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     ````
 * Create user
-    ````
+    ````sql
     CREATE USER postgres WITH PASSWORD 'admin';
     ````
 * Grant privileges on database to user
-    ````
+    ````sql
     GRANT ALL PRIVILEGES ON DATABASE "datasets" to postgres;
     ````
   
-# How build project (mvn clean package) with profiles:
-    db-postgresql
-    generate-q-classes-pg
-    migration-on-build-pg
-
+## How to build project (mvn clean package) with profiles
+These profiles should be checked:
+- db-postgresql
+- generate-q-classes-pg
+- migration-on-build-pg
