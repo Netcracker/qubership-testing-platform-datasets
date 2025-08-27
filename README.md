@@ -83,8 +83,8 @@ Datasets Service is used to store and manage test case data.
     spring.resources.static-locations=file:./atp-dataset/web/
     ````
 
-2. Main class: org.qubership.atp.dataset.Main
-3. VM options: 
+3. Main class: org.qubership.atp.dataset.Main
+4. VM options: 
     ````properties
     -Dspring.config.location=target/config/application.properties
     -Dspring.cloud.bootstrap.location=target/config/bootstrap.properties
@@ -93,8 +93,8 @@ Datasets Service is used to store and manage test case data.
     -Dds.logger.level=DEBUG
     -Dlogging.level.root=DEBUG
     ````
-4. Use classpath of module: atp-dataset
-5. Workdir (directory with project, example): atp-dataset
+5. Use classpath of module: atp-dataset
+6. Workdir (directory with project, example): atp-dataset
 
 ## How to prepare local DB before application running
 * Create database
