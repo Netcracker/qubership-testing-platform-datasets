@@ -34,7 +34,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.jupiter.api.Assertions;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetEntity;
@@ -245,8 +244,8 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                 .setParameter("ds_ids", dataSetIds)
                 .getResultList();
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < untypedResult.size(); i++) {
-            result.add(((BigInteger) untypedResult.get(i)).intValue() - 1);
+        for (Object o : untypedResult) {
+            result.add(((BigInteger) o).intValue() - 1);
         }
         return result;
     }
@@ -359,9 +358,8 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public List<Attribute> getAttributesOfPage(Page<AttributeEntity> entities,
                                                List<AttributeTypeName> attributeTypeNames) {
-        Page<AttributeEntity> attributesPageableByDslId = entities;
         List<Attribute> result = new LinkedList<>();
-        for (AttributeEntity attribute : attributesPageableByDslId.toList()) {
+        for (AttributeEntity attribute : entities.toList()) {
             AttributeTypeName type = AttributeTypeName.getTypeById(attribute.getAttributeTypeId());
             if (attributeTypeNames.contains(type)) {
                 result.add(modelsProvider.getAttribute(attribute));
@@ -452,7 +450,6 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
         }
     }
 
-
     /**
      * Creates new attribute with name and type.
      */
@@ -478,9 +475,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
     /**
      * Creates new attribute with name and type.
      */
-    public Attribute insertAttribute(
-            UUID id, String name, AttributeTypeName type, int ordering
-    ) {
+    public Attribute insertAttribute(UUID id, String name, AttributeTypeName type, int ordering) {
         AttributeEntity attributeEntity = new AttributeEntity();
         attributeEntity.setId(id);
         attributeEntity.setName(name);
@@ -529,7 +524,9 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public void setVisibilityArea(UUID visibilityAreaId) {
         VisibilityArea visibilityArea = modelsProvider.getVisibilityAreaById(visibilityAreaId);
-        Assertions.assertNotNull(visibilityArea, "Cannot find Visibility Area by id " + visibilityArea);
+        if (visibilityArea == null) {
+            throw new Error("Can't find Visibility Area by id " + visibilityAreaId);
+        }
         entity.setVisibilityArea(visibilityArea.getEntity());
     }
 
@@ -677,8 +674,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     private Map<UUID, UUID> copyDataSetsTo(
             DataSetList anotherDataSetList,
-            Map<UUID, AttributeCopyData> attributesMap
-    ) {
+            Map<UUID, AttributeCopyData> attributesMap) {
         Map<UUID, UUID> dataSetMap = new LinkedHashMap<>();
         List<DataSet> dataSets = getDataSets();
         for (DataSet dataSet : dataSets) {

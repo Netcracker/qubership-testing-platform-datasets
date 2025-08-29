@@ -37,7 +37,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.junit.jupiter.api.parallel.Isolated;
+//import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.dataset.exception.excel.ExcelImportEmptyExcelException;
 import org.qubership.atp.dataset.exception.excel.ExcelImportNotExistingAttributeException;
 import org.qubership.atp.dataset.exception.excel.ExcelImportNotExistingChildAttributeException;
@@ -75,7 +75,7 @@ import clover.com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Isolated
+//@Isolated
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -95,7 +95,7 @@ public class DatasetListImportService {
     private final ClearCacheService clearCacheService;
 
     /**
-     * Import attribute parameters into specified dataset list from excel file.
+     * Import attribute parameters into specified dataset list from Excel file.
      *
      * @param targetProjectId target project
      * @param targetDslId target data set list
@@ -147,7 +147,7 @@ public class DatasetListImportService {
             // Prepare import response
             DatasetListImportResponse importResponse = new DatasetListImportResponse();
 
-            // Iterating throw all excel file rows
+            // Iterating throw all Excel file rows
             while (rowsIterator.hasNext()) {
                 Map<Integer, String> row = rowsIterator.next();
 
@@ -186,7 +186,7 @@ public class DatasetListImportService {
     }
 
     /**
-     * Imports attribute and its children parameters. All exceptions handles silently with collecting reasons into
+     * Imports attribute and its children parameters. All exceptions are handled silently, collecting reasons into
      * import response.
      *
      * @param model     import model
@@ -259,7 +259,7 @@ public class DatasetListImportService {
     }
 
     /**
-     * Prepares parameter context which need to detect is attribute parameter should be overlaped or not.
+     * Prepares parameter context which need to detect, if attribute parameter should be overlapped or not.
      *
      * @param importModel import model
      * @param context     import context
@@ -306,7 +306,7 @@ public class DatasetListImportService {
      * Also validates required import file headings.
      *
      * @param targetDslId  target dataset list identifier
-     * @param rowsIterator excel file rows iterator
+     * @param rowsIterator Excel file rows iterator
      */
     void validateImportFileSchema(UUID targetDslId, ListIterator<Map<Integer, String>> rowsIterator,
                                   AttributeImportContext context) {
@@ -427,7 +427,7 @@ public class DatasetListImportService {
      * import context object. Key goal is to decrease a lot of single database calls.
      *
      * @param targetDslId  target dataset list identifier
-     * @param rowsIterator excel file rows iterator
+     * @param rowsIterator Excel file rows iterator
      * @param isJavers versioning snapshot from javers
      * @return attribute import context
      */
@@ -519,7 +519,7 @@ public class DatasetListImportService {
     }
 
     /**
-     * Parses all imported excel file, finds all DSL attribute cells and gets referenced DSL datasets map.
+     * Parses all imported Excel file, finds all DSL attribute cells and gets referenced DSL datasets map.
      * Example of DSL attribute cell format, "DSL 3 -> DS 5"
      *
      * @param rowsIterator  Excel file rows iterator
@@ -582,7 +582,7 @@ public class DatasetListImportService {
     }
 
     /**
-     * Checks what datasets from imported excel file are not exist in database and crete it.
+     * Checks what datasets from imported Excel file don't exist in database and create them.
      *
      * @param importContext import context
      */
@@ -617,7 +617,7 @@ public class DatasetListImportService {
      * Loads attributes for specified target DSL from database and groups them into name to id map.
      *
      * @param targetDslId target data set list identifier
-     * @return DSL attributes name to id map
+     * @return DSL attributes name to id map.
      */
     Map<String, UUID> getDslAttributesMap(UUID targetDslId) {
         log.debug("Get attributes map for dataset list with id: {}", targetDslId);
@@ -632,7 +632,7 @@ public class DatasetListImportService {
     }
 
     /**
-     * Parses heading row, skips required headings and collects existed datasets to excel file cells index map.
+     * Parses heading row, skips required headings and collects existed datasets to Excel file cells index map.
      * Example, ['DS 1' = 2, 'DS 2' = 3].
      *
      * @param headingRow heading row
@@ -670,7 +670,7 @@ public class DatasetListImportService {
     /**
      * Validates required file headings. Initially, these are the headers 'Attribute' and 'Type'.
      *
-     * @param headingRow excel heading row
+     * @param headingRow Excel heading row
      */
     private void validateRequiredHeading(Map<Integer, String> headingRow) {
         log.debug("Start validating file required headings, expected: {}", requiredHeadingIndexesMap.keySet());

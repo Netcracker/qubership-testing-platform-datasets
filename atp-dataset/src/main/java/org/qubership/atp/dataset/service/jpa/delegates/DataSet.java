@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.jupiter.api.Assertions;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetEntity;
 import org.qubership.atp.dataset.db.jpa.entities.LabelEntity;
@@ -201,7 +200,9 @@ public class DataSet extends AbstractObjectWrapper<DataSetEntity> {
      */
     public void setDataSetList(UUID dataSetListId) {
         DataSetList dataSetList = modelsProvider.getDataSetListById(dataSetListId);
-        Assertions.assertNotNull(dataSetList, "Cannot find data set list by id " + dataSetListId);
+        if (dataSetList == null) {
+            throw new Error("Can't find Data Set List by id " + dataSetListId);
+        }
         entity.setDataSetList(dataSetList.getEntity());
     }
 

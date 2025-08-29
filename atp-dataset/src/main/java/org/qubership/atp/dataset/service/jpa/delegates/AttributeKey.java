@@ -22,7 +22,6 @@ import java.util.UUID;
 
 import javax.persistence.NoResultException;
 
-import org.junit.jupiter.api.Assertions;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.ParameterEntity;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
@@ -57,7 +56,6 @@ public class AttributeKey extends AbstractObjectWrapper<AttributeKeyEntity> {
     public UUID getDataSetId() {
         return entity.getDataSet().getId();
     }
-
 
     public Attribute getAttribute() {
         return modelsProvider.getAttribute(entity.getAttribute());
@@ -127,8 +125,9 @@ public class AttributeKey extends AbstractObjectWrapper<AttributeKeyEntity> {
      */
     public void setAttribute(UUID attributeId) {
         Attribute attribute = modelsProvider.getAttributeById(attributeId);
-        Assertions.assertNotNull(attribute, "Cannot find copy of the Attribute by id: " + attributeId
-                + ", old AttrId: " + getAttributeId());
+        if (attribute == null) {
+            throw new Error("Can't find copy of Attribute by id: " + attributeId + ", old AttrId: " + getAttributeId());
+        }
         entity.setAttribute(attribute.getEntity());
     }
 
@@ -139,7 +138,9 @@ public class AttributeKey extends AbstractObjectWrapper<AttributeKeyEntity> {
      */
     public void setDataSet(UUID dataSetId) {
         DataSet dataSet = modelsProvider.getDataSetById(dataSetId);
-        Assertions.assertNotNull(dataSet, "Cannot find Data Set by id " + dataSetId);
+        if (dataSet == null) {
+            throw new Error("Can't find Data Set by id " + dataSetId);
+        }
         entity.setDataSet(dataSet.getEntity());
     }
 
@@ -150,7 +151,9 @@ public class AttributeKey extends AbstractObjectWrapper<AttributeKeyEntity> {
      */
     public void setDataSetList(UUID dataSetListId) {
         DataSetList dataSetList = modelsProvider.getDataSetListById(dataSetListId);
-        Assertions.assertNotNull(dataSetList, "Cannot find Data Set List by id " + dataSetListId);
+        if (dataSetList == null) {
+            throw new Error("Can't find Data Set List by id " + dataSetListId);
+        }
         entity.setDataSetList(dataSetList.getEntity());
     }
 

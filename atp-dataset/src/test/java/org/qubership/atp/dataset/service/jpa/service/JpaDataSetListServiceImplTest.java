@@ -31,6 +31,10 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.qubership.atp.dataset.config.TestConfiguration;
+import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
+import org.qubership.atp.dataset.service.jpa.model.dsllazyload.referencedcontext.RefDataSetListFlat;
+import org.qubership.atp.dataset.service.rest.server.CopyDataSetListsResponse;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,10 +42,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import org.qubership.atp.dataset.config.TestConfiguration;
-import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
-import org.qubership.atp.dataset.service.jpa.model.dsllazyload.referencedcontext.RefDataSetListFlat;
-import org.qubership.atp.dataset.service.rest.server.CopyDataSetListsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -143,7 +143,7 @@ public class JpaDataSetListServiceImplTest extends AbstractJpaTest {
 				pageable);
 		assertEquals(4, res.getAttributes().size());
 		// parameters count equals datasets count
-		assertEquals(2, res.getAttributes().getFirst().getParameters().size());
+		assertEquals(2, res.getAttributes().get(0).getParameters().size());
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class JpaDataSetListServiceImplTest extends AbstractJpaTest {
 				pageable);
 		assertEquals(4, res.getAttributes().size());
 		// parameters count equals datasets count
-		assertEquals(1, res.getAttributes().getFirst().getParameters().size());
+		assertEquals(1, res.getAttributes().get(0).getParameters().size());
 	}
 
 	@Test

@@ -23,7 +23,6 @@ import javax.persistence.EntityNotFoundException;
 
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
-import org.junit.jupiter.api.Assertions;
 import org.qubership.atp.dataset.db.jpa.entities.AbstractAttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
@@ -246,7 +245,9 @@ public class Parameter extends AbstractObjectWrapper<ParameterEntity> {
      */
     public void setDataSet(UUID dataSetId) {
         DataSet dataSet = modelsProvider.getDataSetById(dataSetId);
-        Assertions.assertNotNull(dataSet, "Cannot find data set by id " + dataSetId);
+        if (dataSet == null) {
+            throw new Error("Can't find Data Set by id " + dataSetId);
+        }
         entity.setDataSet(dataSet.getEntity());
     }
 
@@ -260,7 +261,9 @@ public class Parameter extends AbstractObjectWrapper<ParameterEntity> {
         if (attribute == null) {
             attribute = modelsProvider.getAttributeKeyById(attributeId);
         }
-        Assertions.assertNotNull(attribute, "Cannot find attribute by id " + attributeId);
+        if (attribute == null) {
+            throw new Error("Can't find Attribute by id: " + attributeId);
+        }
         entity.setAttribute((AbstractAttributeEntity) attribute.getEntity());
     }
 }
