@@ -751,7 +751,6 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                     if (attributeCopyData != null) {
                         count++;
                         attributeKey.setAttribute(attributeCopyData.getCopyId());
-                        ;
                         if (attributeKey.getAttributeType().equals(AttributeTypeName.DSL)) {
                             Parameter parameter = attributeKey.getParameter();
                             if (parameter != null) {
