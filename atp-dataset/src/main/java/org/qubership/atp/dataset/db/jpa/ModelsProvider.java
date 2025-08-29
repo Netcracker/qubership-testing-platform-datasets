@@ -103,9 +103,8 @@ public class ModelsProvider {
      */
     public Page<AttributeEntity> getAttributesPageableByDslId(UUID uuid, List<AttributeTypeName> attributeTypesToLoad,
                                                               Pageable pageable) {
-        List<Long> typeIds = attributeTypesToLoad.stream().map(AttributeTypeName::getId).toList();
-        Page<AttributeEntity> byEntityAndTypeIds = attributeRepository.findByEntityAndTypeIds(uuid, typeIds, pageable);
-        return byEntityAndTypeIds;
+        List<Long> typeIds = attributeTypesToLoad.stream().map(AttributeTypeName::getId).collect(Collectors.toList());
+        return attributeRepository.findByEntityAndTypeIds(uuid, typeIds, pageable);
     }
 
     /**
@@ -220,20 +219,14 @@ public class ModelsProvider {
      * Get or create delegate by entity.
      */
     public Attribute getAttribute(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new Attribute((AttributeEntity) entity);
+        return entity == null ? null : new Attribute((AttributeEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public AttributeKey getAttributeKey(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new AttributeKey((AttributeKeyEntity) entity);
+        return entity == null ? null : new AttributeKey((AttributeKeyEntity) entity);
     }
 
     /**
@@ -265,60 +258,42 @@ public class ModelsProvider {
      * Get or create delegate by entity.
      */
     public DataSet getDataSet(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new DataSet((DataSetEntity) entity);
+        return entity == null ? null : new DataSet((DataSetEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public DataSetList getDataSetList(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new DataSetList((DataSetListEntity) entity);
+        return entity == null ? null : new DataSetList((DataSetListEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public Label getLabel(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new Label((LabelEntity) entity);
+        return entity == null ? null : new Label((LabelEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public Parameter getParameter(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new Parameter((ParameterEntity) entity);
+        return entity == null ? null : new Parameter((ParameterEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public VisibilityArea getVisibilityArea(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new VisibilityArea((VisibilityAreaEntity) entity);
+        return entity == null ? null : new VisibilityArea((VisibilityAreaEntity) entity);
     }
 
     /**
      * Get or create delegate by entity.
      */
     public ListValue getListValue(AbstractUuidBasedEntity entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new ListValue((ListValueEntity) entity);
+        return entity == null ? null : new ListValue((ListValueEntity) entity);
     }
 
     /**
@@ -329,7 +304,8 @@ public class ModelsProvider {
      * @param pageable         page request
      * @return datasets
      */
-    public Page<AbstractEntityResponse> getDatasetsIdNamesPageByNameAndVaId(String name, UUID visibilityAreaId,
+    public Page<AbstractEntityResponse> getDatasetsIdNamesPageByNameAndVaId(String name,
+                                                                            UUID visibilityAreaId,
                                                                             Pageable pageable) {
         VisibilityAreaEntity visibilityAreaEntity = new VisibilityAreaEntity();
         visibilityAreaEntity.setId(visibilityAreaId);
@@ -681,7 +657,6 @@ public class ModelsProvider {
      */
     public PaginationResponse<TableResponse> getParametersByDatasetId(UUID dataSetId, Pageable pageable) {
         Page<ParameterEntity> page = parameterRepository.getByDataSetReferenceId(dataSetId, pageable);
-
         return toPaginationResponse(page, TableResponse::fromParameterEntity);
     }
 
@@ -712,8 +687,8 @@ public class ModelsProvider {
     }
 
     /**
-     * Gets data set lists by saga session id and visibility area id .
-     * <br>Used in saga transactions
+     * Gets data set lists by saga session id and visibility area id.
+     * <br>Used in saga transactions.
      *
      * @param sagaSessionId    the saga session id
      * @param visibilityAreaId the visibility area id
@@ -758,8 +733,7 @@ public class ModelsProvider {
      * @return collection of list values
      */
     public List<ListValue> getListValueBySourceIdAndAttrId(UUID sourceId, UUID attributeId) {
-        List<ListValueEntity> lvEntities = listValueRepository.getByAttributeIdAndSourceId(attributeId,
-                sourceId);
+        List<ListValueEntity> lvEntities = listValueRepository.getByAttributeIdAndSourceId(attributeId, sourceId);
         if (CollectionUtils.isEmpty(lvEntities)) {
             return Collections.emptyList();
         }
