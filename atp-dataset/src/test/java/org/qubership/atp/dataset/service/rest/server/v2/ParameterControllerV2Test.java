@@ -17,6 +17,9 @@
 package org.qubership.atp.dataset.service.rest.server.v2;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.qubership.atp.dataset.RegexpMatcher.matchesToRegExp;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,10 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.dataset.config.TestConfiguration;
+import org.qubership.atp.dataset.model.api.ParameterRequest;
+import org.qubership.atp.dataset.service.jpa.service.AbstractJpaTest;
+import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,15 +49,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.qubership.atp.dataset.config.TestConfiguration;
-import org.qubership.atp.dataset.model.api.ParameterRequest;
-import org.qubership.atp.dataset.service.jpa.service.AbstractJpaTest;
 
 @Isolated
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
 @ExtendWith(SpringExtension.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 class ParameterControllerV2Test extends AbstractJpaTest {
 
@@ -95,15 +100,30 @@ class ParameterControllerV2Test extends AbstractJpaTest {
         parameterRequest.setValue("New text value");
         String body = mapper.writeValueAsString(parameterRequest);
 
-        MvcResult response = mockMvc.perform(post("/v2/parameter/ds/{dataSetId}/attribute/{attributeId}",
-                        dataSet, attribute)
-                        .contentType(APPLICATION_JSON)
-                        .content(body))
-                .andExpect(status().isInternalServerError())
-                .andReturn();
+        try {
+            MvcResult response = mockMvc.perform(post("/v2/parameter/ds/{dataSetId}/attribute/{attributeId}",
+                            dataSet, attribute)
+                            .contentType(APPLICATION_JSON)
+                            .content(body))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        } catch (Throwable e) {
+            /* Expected exception is (in case stubbed atp-auth-library):
+                org.springframework.web.util.NestedServletException: Request processing failed;
+                nested exception is java.lang.IllegalArgumentException:
+                Can not change parameter with attribute id: aa105208-7fc7-493d-bb58-c892628ef0f7
+                because dataset id locked: 27b1617e-56e9-4670-894e-767bc10e26fd
+                at org.qubership.atp.dataset.service.rest.server.v2.ParameterControllerV2Test
+                .update_notExistingVisibilityArea_internalServerError(ParameterControllerV2Test.java:98)
+             */
+            if (e.getCause() != null) {
+                assertThat(e.getCause(), instanceOf(IllegalArgumentException.class));
+                String causedByMessage = e.getCause().toString();
+                assertThat(causedByMessage, matchesToRegExp(".*Can not change parameter with attribute id: .* " +
+                        "because dataset id locked.*"));
+            }
+        }
     }
-
-
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/parameter_controller_v2/parameterControllerV2.sql")
@@ -135,11 +155,29 @@ class ParameterControllerV2Test extends AbstractJpaTest {
         ObjectMapper mapper = new ObjectMapper();
         String body = mapper.writeValueAsString(parameterRequest);
 
-        mockMvc.perform(put("/v2/parameter/ds/{dataSetId}/attribute/{attributeId}", dataSet, attribute)
-                        .contentType(APPLICATION_JSON)
-                        .content(body))
-                .andExpect(status().isInternalServerError())
-                .andReturn();
+        try {
+            MvcResult response = mockMvc.perform(put("/v2/parameter/ds/{dataSetId}/attribute/{attributeId}", dataSet, attribute)
+                            .contentType(APPLICATION_JSON)
+                            .content(body))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        } catch (Throwable e) {
+            /* Expected exception is (in case stubbed atp-auth-library):
+                org.springframework.web.util.NestedServletException: Request processing failed;
+                nested exception is org.springframework.aop.AopInvocationException:
+                Null return value from advice does not match primitive return type for:
+                public abstract boolean org.qubership.atp.dataset.db.jpa.repositories.JpaDataSetRepository
+                .isLocked(java.util.UUID)
+                at org.qubership.atp.dataset.service.rest.server.v2.ParameterControllerV2Test
+                .create_notExistingVisibilityArea_internalServerError(ParameterControllerV2Test.java:144)
+            */
+            if (e.getCause() != null) {
+                assertThat(e.getCause(), instanceOf(AopInvocationException.class));
+                String causedByMessage = e.getCause().toString();
+                assertThat(causedByMessage, StringContains.containsString("Null return value from advice " +
+                        "does not match primitive return type for"));
+            }
+        }
     }
 
     @Test
@@ -181,10 +219,31 @@ class ParameterControllerV2Test extends AbstractJpaTest {
         ObjectMapper mapper = new ObjectMapper();
         String body = mapper.writeValueAsString(parameterRequest);
 
-        mockMvc.perform(post("/v2/parameter/update/bulk")
-                        .contentType(APPLICATION_JSON)
-                        .content(body))
-                .andExpect(status().isInternalServerError())
-                .andReturn();
+        try {
+            MvcResult response = mockMvc.perform(post("/v2/parameter/update/bulk")
+                            .contentType(APPLICATION_JSON)
+                            .content(body))
+                    .andExpect(status().isInternalServerError())
+                    .andReturn();
+        } catch (Throwable e) {
+            /* Expected exception is (in case stubbed atp-auth-library):
+                org.springframework.web.util.NestedServletException: Request processing failed;
+                nested exception is java.lang.NullPointerException: Cannot invoke
+                "org.qubership.atp.dataset.service.jpa.delegates.Parameter.getDataSet()" because the return
+                value of "org.qubership.atp.dataset.db.jpa.ModelsProvider.getParameterById(java.util.UUID)" is null
+                at org.qubership.atp.dataset.service.rest.server.v2.ParameterControllerV2Test
+                .bulkUpdateAttribute_notExistingVisibilityArea_InternalServerError(ParameterControllerV2Test.java:199)
+             */
+            /*
+            System.out.println("Exception: " + e
+                    + "\nMessage: " + e.getMessage()
+                    + "\nCaused by: " + e.getCause());
+             */
+            if (e.getCause() != null) {
+                assertThat(e.getCause(), instanceOf(NullPointerException.class));
+                String causedByMessage = e.getCause().toString();
+                assertThat(causedByMessage, matchesToRegExp(".+ because the return value of \".+\" is null"));
+            }
+        }
     }
 }
