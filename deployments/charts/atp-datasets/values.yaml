@@ -210,3 +210,5 @@ HEAPDUMP_ENABLED: false
 extraEnvs: []
 keepHookLogs: false
 HELPER_IMAGE: "artifactory-service-address/path-to-image"
+EI_GRIDFS_ENABLED: "true"
+DATASET_GRIDFS_ENABLED: "true"
