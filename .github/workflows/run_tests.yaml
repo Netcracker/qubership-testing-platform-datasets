@@ -1,4 +1,4 @@
-name: Run Reporting Pipeline
+name: Run Datasets Pipeline
 
 #on:
 #  pull_request:
