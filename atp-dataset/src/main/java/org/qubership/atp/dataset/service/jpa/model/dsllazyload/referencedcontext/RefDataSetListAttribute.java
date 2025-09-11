@@ -46,7 +46,8 @@ public class RefDataSetListAttribute {
     private Boolean containsAttributes;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<RefParameter> parameters = new LinkedList<>();
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private UUID dataSetListReference;
     /**
      * Default constructor.
      */
@@ -63,6 +64,9 @@ public class RefDataSetListAttribute {
         if (referencedAttribute.getAttributeType().equals(AttributeTypeName.DSL)) {
             DataSetList typeDataSetList = referencedAttribute.getTypeDataSetList();
             containsAttributes = typeDataSetList.getAttributesCount() > 0;
+            if (typeDataSetList.getId() != null) {
+                dataSetListReference = typeDataSetList.getId();
+            }
         }
         int column = 0;
         for (Map.Entry<UUID, ParameterContext> parameterContext : parameters.entrySet()) {

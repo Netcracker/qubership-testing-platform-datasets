@@ -160,7 +160,7 @@ public class FilterRepository extends AbstractRepository {
         removeOldLabelReferences(filterId, dslLabels,
                 FILTER_DSL_LABELS.filterId, FILTER_DSL_LABELS.dslLabelId, FILTER_DSL_LABELS);
         updateLabels(filterId, dslLabels, FILTER_DSL_LABELS.filterId, FILTER_DSL_LABELS, FILTER_DSL_LABELS.dslLabelId);
-        updateLabels(filterId, dslLabels, FILTER_DS_LABELS.filterId, FILTER_DS_LABELS, FILTER_DS_LABELS.dsLabelId);
+        updateLabels(filterId, dsLabels, FILTER_DS_LABELS.filterId, FILTER_DS_LABELS, FILTER_DS_LABELS.dsLabelId);
     }
 
     private void updateLabels(
