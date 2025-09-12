@@ -92,11 +92,7 @@
         </dependency>
         <dependency>
             <groupId>org.qubership.atp.auth</groupId>
-            <artifactId>atp-auth-models</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.qubership.atp.auth</groupId>
-            <artifactId>atp-auth-impl</artifactId>
+            <artifactId>atp-auth-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hazelcast</groupId>
