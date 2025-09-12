@@ -18,7 +18,7 @@
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
-        <atp.auth.version>1.2.71</atp.auth.version>
+        <atp.auth.version>1.2.73</atp.auth.version>
         <atp.common.version>0.0.43</atp.common.version>
         <atp-crypt.version>0.0.20</atp-crypt.version>
         <atp.integration.version>0.2.38</atp.integration.version>
