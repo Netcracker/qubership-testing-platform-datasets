@@ -21,17 +21,18 @@ import static java.util.UUID.randomUUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.dataset.config.TestConfiguration;
+import org.qubership.atp.dataset.model.DataSetList;
+import org.qubership.atp.dataset.service.AbstractTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-
-import org.qubership.atp.dataset.config.TestConfiguration;
-import org.qubership.atp.dataset.model.DataSetList;
-import org.qubership.atp.dataset.service.AbstractTest;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
@@ -86,7 +87,9 @@ public class ConcurrentModificationServiceTest extends AbstractTest {
      * this parameter is not equal to dataSetList modifiedWhen.
      */
     @Test
-    public void testGetHttpStatus_shouldReturnsImUsed_whenModifiedWhenIsNotNullAndNotEquals() {
+    public void testGetHttpStatus_shouldReturnsImUsed_whenModifiedWhenIsNotNullAndNotEquals()
+            throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(500);
         HttpStatus httpStatus = concurrentModificationService.getHttpStatus(dataSetList.getId(), currentTimeMillis());
         assertThat(httpStatus, equalTo(HttpStatus.IM_USED));
     }
