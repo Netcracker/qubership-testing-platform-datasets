@@ -184,26 +184,7 @@ runs:
         
         echo "Get pods"
         kubectl get pods -n ${{ inputs.namespace }}
-        
-        pod=$(kubectl get pods -n ${{inputs.namespace}} -o name | grep -vE 'postgres' | head -n 1 | cut -d/ -f2)
-        
-        for c in $(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.spec.containers[*].name}"); do
-          echo "=== Check liveness ==="
-          kubectl exec -n ${{inputs.namespace}} "$pod" -- curl -i http://localhost:8080/rest/deployment/liveness
-          kubectl exec -n ${{inputs.namespace}} "$pod" -- curl -i http://localhost:8080/rest/deployment/readiness
-        done
-        
-        pod=$(kubectl get pods -n ${{inputs.namespace}} -o name | grep -vE 'postgres' | head -n 1 | cut -d/ -f2)
-        
-        for c in $(kubectl get pod "$pod" -n ${{inputs.namespace}} -o jsonpath="{.spec.containers[*].name}"); do
-          echo "=== Check liveness ==="
-          kubectl exec -it "$pod" -- /bin/bash
-          curl -i http://localhost:8080/rest/deployment/liveness
-          curl -i http://localhost:8080/rest/deployment/readiness
-        done
-        
-        echo " Get pods $pod"
-        kubectl get pods -n ${{inputs.namespace}}
+
 
     - name: Get docker images
       shell: bash
