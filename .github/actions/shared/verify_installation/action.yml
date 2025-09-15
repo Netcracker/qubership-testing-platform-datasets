@@ -105,7 +105,7 @@ runs:
         kubectl get pv | grep ${{inputs.namespace}} > $file_name
 
 
-    - name: Wait ready status for atp-environments pod
+    - name: Wait ready status for atp-datasets pod
       shell: bash
       # language=bash
       run: |
@@ -113,7 +113,7 @@ runs:
         file_name=artifacts/${{inputs.namespace}}_tests.txt
         IFS=' ' read -ra pods <<< $(kubectl get pods --no-headers -o custom-columns=":metadata.name" -n ${{inputs.namespace}} | tr $'\n' ' ')
         for pod in "${pods[@]}"; do
-          if [[ $pod == *"atp-reporting"* && $pod != *"atp-reporting-predeploy-install"* ]]; then
+          if [[ $pod == *"atp-datasets"* && $pod != *"atp-datasets-predeploy-install"* ]]; then
             test_pod=$pod
           fi
         done

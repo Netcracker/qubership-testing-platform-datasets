@@ -1,4 +1,4 @@
-name: Run Reporting Pipeline
+name: Run Datasets Pipeline
 
 #on:
 #  pull_request:
@@ -50,13 +50,13 @@ jobs:
           service_name: 'atp-datasets'
           repository_name: 'qubership-testing-platform-datasets'
           path_to_chart: 'deployments/charts/atp-datasets'
-          namespace: 'reporting'
+          namespace: 'datasets'
           docker_tag: ${{ inputs.docker_tag }}
 
-      - name: Verify Datasets Reporting installation
+      - name: Verify Datasets installation
         uses: ./qubership-testing-platform-datasets/.github/actions/shared/verify_installation
         with:
-          namespace: 'reporting'
+          namespace: 'datasets'
           max_attempts: 40
           timeout: '45s'
           service_branch: ${{ inputs.pipeline_branch }}
