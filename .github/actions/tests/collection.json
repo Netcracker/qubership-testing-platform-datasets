@@ -26,7 +26,7 @@
           "raw": "{\"name\": \"TEST_Test\"}"
         },
         "url": {
-          "raw": "{{base_url}}/va/",
+          "raw": "{{base_url}}/va",
           "host": ["{{base_url}}"],
           "path": ["va"]
         }
