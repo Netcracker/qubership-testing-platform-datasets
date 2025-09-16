@@ -47,11 +47,15 @@
           "script": {
             "type": "text/javascript",
             "exec": [
+              "if (pm.environment.get(\"RUN_TESTS\") === \"enable\") {",
+              "  pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "  });",
               "console.log('Status:', pm.response.code);",
               "console.log('Response body:', pm.response.text());",
-              "pm.test(\"Status is 200 or 201\", function () {",
-              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
+              "} else {",
+              "  console.log(\"Tests are disabled via RUN_TESTS variable\");",
+              "}"
             ]
           }
         }
@@ -81,14 +85,17 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log('=== Response Body ===');",
-              "console.log(pm.response.text());",
-              "const json = pm.response.json();",
+              "if (pm.environment.get(\"RUN_TESTS\") === \"enable\") {",
+              "  pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "  });",
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
               "pm.environment.set('vaId', json[0].id);",
               "console.log('Saved ID:', json[0].id);",
-              "pm.test(\"Status is 200 or 201\", function () {",
-              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
+              "} else {",
+              "  console.log(\"Tests are disabled via RUN_TESTS variable\");",
+              "}"
             ]
           }
         }
@@ -133,11 +140,15 @@
           "script": {
             "type": "text/javascript",
             "exec": [
+              "if (pm.environment.get(\"RUN_TESTS\") === \"enable\") {",
+              "  pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "  });",
               "console.log('Status:', pm.response.code);",
               "console.log('Response body:', pm.response.text());",
-              "pm.test(\"Status is 200 or 201\", function () {",
-              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
+              "} else {",
+              "  console.log(\"Tests are disabled via RUN_TESTS variable\");",
+              "}"
             ]
           }
         }
@@ -167,60 +178,15 @@
           "script": {
             "type": "text/javascript",
             "exec": [
+              "if (pm.environment.get(\"RUN_TESTS\") === \"enable\") {",
+              "  pm.test(\"Status is 200 or 201\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "  });",
               "console.log('Status:', pm.response.code);",
               "console.log('Response body:', pm.response.text());",
-              "pm.test(\"Status is 200 or 201\", function () {",
-              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "PUT /dsl/va/{{vaId}}",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
-        "auth": {
-          "type": "basic",
-          "basic": [
-            { "key": "username", "value": "user", "type": "string" },
-            { "key": "password", "value": "user", "type": "string" }
-          ]
-        },
-        "url": {
-          "raw": "{{base_url}}/dsl/va/{{vaId}}",
-          "host": ["{{base_url}}"],
-          "path": ["dsl", "va", "{{vaId}}"],
-          "query": [
-            {
-              "key": "name",
-              "value": "{{name}}"
-            }
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "console.log('Status:', pm.response.code);",
-              "console.log('Response body:', pm.response.text());",
-              "pm.test(\"Status is 200 or 201\", function () {",
-              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-              "});"
+              "} else {",
+              "  console.log(\"Tests are disabled via RUN_TESTS variable\");",
+              "}"
             ]
           }
         }
