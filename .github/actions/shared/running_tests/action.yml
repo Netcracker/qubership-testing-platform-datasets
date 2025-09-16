@@ -33,3 +33,6 @@ runs:
       with:
         collection: ./qubership-testing-platform-datasets/.github/actions/tests/collection.json
         environment: ./qubership-testing-platform-datasets/.github/actions/tests/environment.json
+        reporters: cli
+        reporter-cli-no-banner: true
+        reporter-cli-show-body: always
