@@ -159,32 +159,11 @@ runs:
         
         if [ -n "${{ inputs.docker_tag }}" ]; then
           echo "Using docker_tag: ${{ inputs.docker_tag }}"
-          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }} --debug --wait --timeout 10m
+          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --set-string DOCKER_TAG=${{ inputs.docker_tag }}
         else
          echo "No docker_tag provided. Using value from values-dev.yaml"
-         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}} --debug --wait --timeout 10m
-        fi 
-
-    - name: Debug
-      shell: bash
-      if: always()
-      run: |
-        echo "Get pods $pod"
-        kubectl get pods -n ${{inputs.namespace}}
-        
-        echo "Get logs for predeploy-install"
-        kubectl logs $(kubectl get pods -n ${{inputs.namespace}} \
-          --selector=job-name=${{inputs.service_name}}-predeploy-install \
-          -o jsonpath='{.items[0].metadata.name}') -n ${{inputs.namespace}}
-        echo "End logs"
-        
-        echo "Describe pod"
-        kubectl describe pod $(kubectl get pods -n ${{inputs.namespace}} --no-headers | awk 'NR==1 {print $1}') -n ${{inputs.namespace}}
-        echo "End describe"
-        
-        echo "Get pods"
-        kubectl get pods -n ${{ inputs.namespace }}
-
+         helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}}
+        fi
 
     - name: Get docker images
       shell: bash

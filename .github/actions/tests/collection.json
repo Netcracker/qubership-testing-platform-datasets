@@ -35,10 +35,20 @@
         {
           "listen": "test",
           "script": {
+            "type": "text/javascript",
             "exec": [
-              "console.log('Response body:', pm.response.text());"
-            ],
-            "type": "text/javascript"
+              "console.log(\"=== RESPONSE DEBUG ===\");",
+              "console.log(\"Status code:\", pm.response.code);",
+              "console.log(\"Status text:\", pm.response.status);",
+              "try {",
+              "  const json = pm.response.json();",
+              "  console.log(\"Parsed JSON body:\", JSON.stringify(json, null, 2));",
+              "} catch (e) {",
+              "  console.log(\"Raw body (non-JSON):\", pm.response.text());",
+              "}",
+              "console.log(\"Headers:\", pm.response.headers.toObject());",
+              "console.log(\"======================\");"
+            ]
           }
         }
       ]
