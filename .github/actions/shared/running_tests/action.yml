@@ -10,7 +10,7 @@ runs:
         kubectl describe svc atp-datasets -n datasets
         echo "🚀 Starting kubectl port-forward in background..."
 
-        kubectl port-forward svc/atp-datasets 8080:8080 -n env > port-forward.log 2>&1 &
+        kubectl port-forward svc/atp-datasets 8080:8080 -n datasets > port-forward.log 2>&1 &
         echo $! > port_forward_pid.txt
 
         for i in {1..10}; do
