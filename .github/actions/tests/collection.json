@@ -30,7 +30,18 @@
           "host": ["{{base_url}}"],
           "path": ["testplan", "va", "{{vaId}}"]
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "console.log('Response body:', pm.response.text());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     }
   ]
 }
