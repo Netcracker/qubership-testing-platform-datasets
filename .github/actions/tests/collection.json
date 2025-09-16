@@ -47,17 +47,11 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log(\"=== RESPONSE DEBUG ===\");",
-              "console.log(\"Status code:\", pm.response.code);",
-              "console.log(\"Status text:\", pm.response.status);",
-              "try {",
-              "  const json = pm.response.json();",
-              "  console.log(\"Parsed JSON body:\", JSON.stringify(json, null, 2));",
-              "} catch (e) {",
-              "  console.log(\"Raw body (non-JSON):\", pm.response.text());",
-              "}",
-              "console.log(\"Headers:\", pm.response.headers.toObject());",
-              "console.log(\"======================\");"
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -91,7 +85,10 @@
               "console.log(pm.response.text());",
               "const json = pm.response.json();",
               "pm.environment.set('vaId', json[0].id);",
-              "console.log('Saved ID:', json[0].id);"
+              "console.log('Saved ID:', json[0].id);",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -119,7 +116,7 @@
           ]
         },
         "url": {
-          "raw": "{{base_url}}/va?name={{name}}",
+          "raw": "{{base_url}}/dsl/va/{{vaId}}?name={{name}}",
           "host": ["{{base_url}}"],
           "path": ["dsl", "va", "{{vaId}}"],
           "query": [
@@ -136,17 +133,11 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log(\"=== RESPONSE DEBUG ===\");",
-              "console.log(\"Status code:\", pm.response.code);",
-              "console.log(\"Status text:\", pm.response.status);",
-              "try {",
-              "  const json = pm.response.json();",
-              "  console.log(\"Parsed JSON body:\", JSON.stringify(json, null, 2));",
-              "} catch (e) {",
-              "  console.log(\"Raw body (non-JSON):\", pm.response.text());",
-              "}",
-              "console.log(\"Headers:\", pm.response.headers.toObject());",
-              "console.log(\"======================\");"
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
@@ -165,7 +156,7 @@
           ]
         },
         "url": {
-          "raw": "{{base_url}}/va",
+          "raw": "{{base_url}}/dsl/va/{{vaId}}",
           "host": ["{{base_url}}"],
           "path": ["dsl", "va", "{{vaId}}"]
         }
@@ -176,17 +167,60 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "console.log(\"=== RESPONSE DEBUG ===\");",
-              "console.log(\"Status code:\", pm.response.code);",
-              "console.log(\"Status text:\", pm.response.status);",
-              "try {",
-              "  const json = pm.response.json();",
-              "  console.log(\"Parsed JSON body:\", JSON.stringify(json, null, 2));",
-              "} catch (e) {",
-              "  console.log(\"Raw body (non-JSON):\", pm.response.text());",
-              "}",
-              "console.log(\"Headers:\", pm.response.headers.toObject());",
-              "console.log(\"======================\");"
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT /dsl/va/{{vaId}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/dsl/va/{{vaId}}",
+          "host": ["{{base_url}}"],
+          "path": ["dsl", "va", "{{vaId}}"],
+          "query": [
+            {
+              "key": "name",
+              "value": "{{name}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log('Status:', pm.response.code);",
+              "console.log('Response body:', pm.response.text());",
+              "pm.test(\"Status is 200 or 201\", function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});"
             ]
           }
         }
