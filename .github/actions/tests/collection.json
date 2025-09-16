@@ -5,7 +5,7 @@
   },
   "item": [
     {
-      "name": "PUT /testplan/va/*",
+      "name": "PUT /testplan/va/{{vaId}}",
       "request": {
         "method": "PUT",
         "header": [
@@ -26,9 +26,9 @@
           "raw": "{\"name\": \"{{name}}\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/testplan/va/*",
+          "raw": "{{base_url}}/testplan/va/{{vaId}}",
           "host": ["{{base_url}}"],
-          "path": ["testplan", "va", "*"]
+          "path": ["testplan", "va", "{{vaId}}"]
         }
       }
     }
