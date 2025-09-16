@@ -8,12 +8,7 @@
       "name": "PUT /va",
       "request": {
         "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
+        "header": [],
         "auth": {
           "type": "basic",
           "basic": [
@@ -97,12 +92,7 @@
       "name": "PUT /testplan/va/{{vaId}}",
       "request": {
         "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
+        "header": [],
         "auth": {
           "type": "basic",
           "basic": [
