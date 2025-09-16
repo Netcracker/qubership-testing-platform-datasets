@@ -19,7 +19,7 @@ on:
         default: 'main'
 
 env:
-  RUN_TESTS: disable  # или disable
+  RUN_TESTS: enable  # или disable
 
 jobs:
   Clean_Install_Dataset:
