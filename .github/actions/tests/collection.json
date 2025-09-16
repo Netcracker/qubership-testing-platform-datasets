@@ -5,6 +5,55 @@
   },
   "item": [
     {
+      "name": "PUT /va",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "basic",
+          "basic": [
+            { "key": "username", "value": "user", "type": "string" },
+            { "key": "password", "value": "user", "type": "string" }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"TEST_Test\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/va/",
+          "host": ["{{base_url}}"],
+          "path": ["va"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "console.log(\"=== RESPONSE DEBUG ===\");",
+              "console.log(\"Status code:\", pm.response.code);",
+              "console.log(\"Status text:\", pm.response.status);",
+              "try {",
+              "  const json = pm.response.json();",
+              "  console.log(\"Parsed JSON body:\", JSON.stringify(json, null, 2));",
+              "} catch (e) {",
+              "  console.log(\"Raw body (non-JSON):\", pm.response.text());",
+              "}",
+              "console.log(\"Headers:\", pm.response.headers.toObject());",
+              "console.log(\"======================\");"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "PUT /testplan/va/{{vaId}}",
       "request": {
         "method": "PUT",
