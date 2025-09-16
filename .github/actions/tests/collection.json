@@ -8,7 +8,16 @@
       "name": "PUT /va",
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
         "auth": {
           "type": "basic",
           "basic": [
@@ -18,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"name\": \"Test\"}"
+          "raw": "{\"name\": \"TEST_Test\"}"
         },
         "url": {
           "raw": "{{base_url}}/va",
@@ -89,10 +98,19 @@
       ]
     },
     {
-      "name": "PUT /testplan/va/{{vaId}}",
+      "name": "PUT /va",
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
         "auth": {
           "type": "basic",
           "basic": [
@@ -102,12 +120,12 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"name\": \"TEST_Test\"}"
+          "raw": "{\"name\": \"test\"}"
         },
         "url": {
-          "raw": "{{base_url}}/testplan/va/{{vaId}}",
+          "raw": "{{base_url}}/va",
           "host": ["{{base_url}}"],
-          "path": ["testplan", "va", "{{vaId}}"]
+          "path": ["va"]
         }
       },
       "event": [
