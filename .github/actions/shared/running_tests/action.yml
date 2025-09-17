@@ -33,4 +33,3 @@ runs:
       with:
         collection: ./qubership-testing-platform-datasets/.github/actions/tests/collection.json
         environment: ./qubership-testing-platform-datasets/.github/actions/tests/environment.json
-        env-var: RUN_TESTS=disable

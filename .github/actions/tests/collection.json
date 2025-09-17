@@ -27,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"name\": \"TEST_Test\"}"
+          "raw": "{\"name\": \"{{name}}\"}"
         },
         "url": {
           "raw": "{{base_url}}/va?name={{name}}",
