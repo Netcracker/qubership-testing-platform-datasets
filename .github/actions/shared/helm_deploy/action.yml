@@ -165,7 +165,7 @@ runs:
          helm ${{inputs.deploy_mode}} ${{inputs.service_name}} . -f $template_name -n ${{inputs.namespace}}
         fi
         
-        pod=$(kubectl get pods -n ${{inputs.namespace}} -o name | grep -vE 'postgres|activemq' | head -n 1 | cut -d/ -f2)
+        pod=$(kubectl get pods -n ${{inputs.namespace}} -o name | grep -vE 'postgres' | head -n 1 | cut -d/ -f2)
         kubectl wait pod "$pod" -n ${{inputs.namespace}} \
           --for=condition=Ready \
           --timeout=600s || {
