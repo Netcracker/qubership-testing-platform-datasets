@@ -433,14 +433,6 @@ init_mongo() {
     fi
   fi
   create_mongo_db "${_cmd}" "${_host}" "${_db}" "${_user}" "${_pass}" "${_port}" "${_as}" "${_pw}"
-  echo "Mongo _cmd: ${_cmd}"
-  echo "Mongo _db: ${_db}"
-  echo "Mongo _user: ${_user}"
-  echo "Mongo _pass: ${_pass}"
-  echo "Mongo _port: ${_port}"
-  echo "Mongo _as: ${_as}"
-  echo "Mongo _pw: ${_pw}"
-  echo "Mongo _host: ${_host}"
 }
 
 # Connect to a PG instance and initialize database, user etc.
