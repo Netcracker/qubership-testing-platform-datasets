@@ -184,7 +184,13 @@ public class CompareDatasetServiceImpl implements CompareService {
     }
 
     private boolean hasTextDiff(Parameter leftParameter, Parameter rightParameter) {
-        return !leftParameter.getStringValue().equals(rightParameter.getStringValue());
+        String leftValue = leftParameter.getStringValue();
+        String rightValue = rightParameter.getStringValue();
+
+        if (Objects.isNull(leftValue) || Objects.isNull(rightValue)) {
+            return !(Objects.isNull(leftValue) && Objects.isNull(rightValue));
+        }
+        return !leftValue.equals(rightValue);
     }
 
     private boolean hasEncryptDiff(Parameter leftParameter, Parameter rightParameter) {

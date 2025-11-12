@@ -102,6 +102,9 @@ public class AttributePathRepository extends AbstractRepository {
 
     @Nullable
     AttributePathDto get(UUID dataSetListId, UUID dataSetId, UUID targetAttributeId, List<UUID> attributePathIds) {
+        if (attributePathIds == null || attributePathIds.isEmpty()) {
+            return null;
+        }
         String attrKey = JOINER.join(attributePathIds);
         UUID id = queryFactory.select(AK.id).from(AK)
                 .where(AK.key.eq(attrKey)

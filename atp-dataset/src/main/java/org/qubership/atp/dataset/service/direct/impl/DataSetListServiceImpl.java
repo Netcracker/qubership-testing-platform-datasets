@@ -20,15 +20,7 @@ import static java.util.Objects.nonNull;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -259,7 +251,7 @@ public class DataSetListServiceImpl implements DataSetListService {
      */
     @Nonnull
     public List<DataSetList> getAll(@Nonnull List<UUID> datasetListIds) {
-        return repo.getAll(datasetListIds);
+        return repo.getAll(datasetListIds.stream().filter(Objects::nonNull).collect(Collectors.toList()));
     }
 
     /**
@@ -327,6 +319,9 @@ public class DataSetListServiceImpl implements DataSetListService {
     @Nonnull
     @Override
     public List<DatasetResponse> getListOfDsIdsAndNameAndDslId(@Nonnull List<UUID> dataSetListIds) {
+        if (dataSetListIds.isEmpty()) {
+            return new ArrayList<>();
+        }
         List<DataSetList> dataSetLists = getAll(dataSetListIds);
 
         return dataSetLists.stream()
