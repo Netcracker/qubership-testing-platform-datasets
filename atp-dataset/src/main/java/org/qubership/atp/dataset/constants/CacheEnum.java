@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.constants;
 import lombok.Getter;
 
 public enum CacheEnum {
-    AUTH_PROJECT_CACHE(Constants.AUTH_PROJECT_CACHE, 300),
+    AUTH_PROJECT_CACHE(Constants.AUTH_PROJECT_CACHE, 120),
     PROJECT_CACHE(Constants.PROJECT_CACHE, 600),
     DATASET_LIST_CONTEXT_CACHE(Constants.DATASET_LIST_CONTEXT_CACHE, 600),
     JAVERS_DIFF_CACHE(Constants.JAVERS_DIFF_CACHE, 600),
