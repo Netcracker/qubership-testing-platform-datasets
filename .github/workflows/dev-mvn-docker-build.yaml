@@ -66,7 +66,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}, latest
+          tags: ${{steps.metadata.outputs.result}}
           download-artifact: true
           custom-image-name: qubership-testing-platform-datasets
           download-artifact-path: build-context
@@ -79,7 +79,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           dry-run: false
-          tags: ${{steps.metadata.outputs.result}}, latest
+          tags: ${{steps.metadata.outputs.result}}
           download-artifact: false
           custom-image-name: qubership-testing-platform-datasets-transfer
           component: '[{"name": "qubership-testing-platform-datasets-transfer", "file": "docker-transfer/Dockerfile", "context": "."}]'
