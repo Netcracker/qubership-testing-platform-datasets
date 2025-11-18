@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -51,12 +51,12 @@ import lombok.Data;
 @ContextConfiguration(classes = {TestConfiguration.class})
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class JpaDataSetListServiceImplTest extends AbstractJpaTest {
+class JpaDataSetListServiceImplTest extends AbstractJpaTest {
 
-	private static Map<UUID, String> datasetListsMap = new HashMap<>();
-	private UUID visibilityAreaId = UUID.fromString("b703c594-e214-49cc-bda7-4eb51311ddb1");
+	private static final Map<UUID, String> datasetListsMap = new HashMap<>();
+	private final UUID visibilityAreaId = UUID.fromString("b703c594-e214-49cc-bda7-4eb51311ddb1");
 
-	@BeforeClass
+	@BeforeAll
 	public static void generateData() {
 		datasetListsMap.put(UUID.fromString("39d0e387-1150-4344-a061-4b81a6a571df"), "Test DataSetList 1");
 		datasetListsMap.put(UUID.fromString("da430230-6c37-42ee-8b6c-f855e6024eed"), "Test DataSetList 2");

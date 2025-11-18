@@ -17,21 +17,16 @@
 package org.qubership.atp.dataset.macros.impl;
 
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Collections;
 import java.util.UUID;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.qubership.atp.dataset.config.TestMacrosConfiguration;
 import org.qubership.atp.dataset.exception.dataset.DataSetExistsException;
 import org.qubership.atp.dataset.model.Attribute;
@@ -45,6 +40,10 @@ import org.qubership.atp.dataset.service.direct.DataSetService;
 import org.qubership.atp.dataset.service.direct.EvaluationService;
 import org.qubership.atp.dataset.service.direct.ParameterService;
 import org.qubership.atp.dataset.service.direct.VisibilityAreaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.SneakyThrows;
 
 @Isolated
@@ -75,7 +74,7 @@ public class ReferenceDslAliasMacrosTest extends AbstractMacrosTest {
         dataSetList = createDSL();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         visibilityAreaService.delete(vaId);
     }

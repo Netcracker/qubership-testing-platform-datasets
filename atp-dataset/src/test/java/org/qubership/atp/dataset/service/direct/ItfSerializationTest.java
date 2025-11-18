@@ -21,18 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -40,6 +33,13 @@ import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
@@ -69,7 +69,7 @@ public class ItfSerializationTest extends AbstractTest {
         factory.overrideParam(parentWithOverlap, childAttr, "Overlap", null, null, null, parentChild1.getAttribute());
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         visibilityAreaService.delete(va.getId());
     }

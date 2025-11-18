@@ -20,17 +20,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.exception.dataset.DataSetExistsException;
 import org.qubership.atp.dataset.model.Attribute;
@@ -42,6 +37,11 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManAttribute;
 import org.qubership.atp.dataset.service.ws.entities.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import lombok.SneakyThrows;
 
 @Isolated
@@ -121,8 +121,8 @@ public class AttributeRepositoryTest extends AbstractTest {
         return Arrays.asList(pair1, pair2, pair3);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    public void tearDown() {
         visibilityAreaService.delete(visibilityArea.getId());
     }
 }

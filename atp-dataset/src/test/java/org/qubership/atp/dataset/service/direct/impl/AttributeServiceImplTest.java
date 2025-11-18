@@ -24,14 +24,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-
-import com.google.common.collect.ImmutableList;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.AttributeType;
@@ -45,11 +41,15 @@ import org.qubership.atp.dataset.service.direct.DuplicateKeyException;
 import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSet;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSetList;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+
+import com.google.common.collect.ImmutableList;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
-public class AttributeServiceImplTest extends DataSetBuilder {
+class AttributeServiceImplTest extends DataSetBuilder {
 
     private UUID dslId1;
     private UUID dslId2;
@@ -66,13 +66,13 @@ public class AttributeServiceImplTest extends DataSetBuilder {
     private UUID attr22;
     private UUID attr31;
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    public void tearDown() {
         visibilityAreaService.delete(vaId);
     }
 
     @Test
-    public void testRenameAttributeWillReplaceRefs() throws DuplicateKeyException {
+    public void testRenameAttributeWillReplaceRefs() {
         dataSetService.rename(dataSet1.getId(), "DataSet + MagicName");
         attributeService.update(attr.getId(), "Attribute");
         String stringValue = "#REF(DataSet + MagicName.Attribute) asd #REF(DataSet + MagicName.Attribute)";
@@ -86,7 +86,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void testRenameAttributeWillReplaceRefsDsl() throws DuplicateKeyException {
+    public void testRenameAttributeWillReplaceRefsDsl() {
         dataSetService.rename(dataSet1.getId(), "DataSet + MagicName");
         attributeService.update(attr.getId(), "Attribute");
         dataSetListService.rename(dataSetList.getId(), "Input");
@@ -102,7 +102,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void testRenameAttributeWillNotReplaceRefsDslIfAttrNameMismatch() throws DuplicateKeyException {
+    public void testRenameAttributeWillNotReplaceRefsDslIfAttrNameMismatch() {
         dataSetService.rename(dataSet1.getId(), "DataSet + MagicName");
         attributeService.update(attr.getId(), "Attribute");
         dataSetListService.rename(dataSetList.getId(), "Input");
@@ -153,7 +153,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
                 Arrays.asList(listValue1.getId(), listValue2.getId()));
 
         Attribute afterDeleting = attributeService.get(listValues.listAttrId);
-        Assertions.assertEquals(Arrays.asList(), afterDeleting.getListValues());
+        Assertions.assertEquals(Collections.emptyList(), afterDeleting.getListValues());
 
         Parameter after1 = parameterService.get(listValues.dsA.getParameters().get(0).getId());
         Parameter after2 = parameterService.get(listValues.dsZ.getParameters().get(0).getId());
@@ -169,12 +169,12 @@ public class AttributeServiceImplTest extends DataSetBuilder {
         ListValue listValue1 = beforeDeleting.getListValues().get(0);
         ListValue listValue2 = beforeDeleting.getListValues().get(1);
 
-        Assertions.assertEquals(beforeDeleting.getListValues().size(), 2);
+        Assertions.assertEquals(2, beforeDeleting.getListValues().size());
 
         attributeService.deleteListValue(beforeDeleting.getId(), listValue1.getId());
 
         Attribute afterDeleting = attributeService.get(listValues.listAttrId);
-        Assertions.assertEquals(afterDeleting.getListValues().size(), 1);
+        Assertions.assertEquals(1, afterDeleting.getListValues().size());
         Assertions.assertNotEquals(listValue1.getId(), afterDeleting.getListValues().get(0).getId());
         Assertions.assertEquals(listValue2.getId(), afterDeleting.getListValues().get(0).getId());
     }
@@ -188,7 +188,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
         dataSetService.lock(listValues.dsA.getDataSetList().getId(),
                 Collections.singletonList(listValues.dsA.getId()), true);
 
-        Assertions.assertEquals(beforeDeleting.getListValues().size(), 2);
+        Assertions.assertEquals(2, beforeDeleting.getListValues().size());
         Attribute afterDeleting;
         try {
             Assertions.assertThrows(IllegalArgumentException.class, ()-> {
@@ -196,11 +196,9 @@ public class AttributeServiceImplTest extends DataSetBuilder {
             });
         } catch (IllegalArgumentException e) {
             afterDeleting = attributeService.get(listValues.listAttrId);
-            Assertions.assertEquals(afterDeleting.getListValues().size(), 2);
+            Assertions.assertEquals(2, afterDeleting.getListValues().size());
             throw new IllegalArgumentException(e);
-
         }
-
     }
 
     @Test
@@ -213,7 +211,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
         dataSetService.lock(listValues.dsA.getDataSetList().getId(),
                 Collections.singletonList(listValues.dsA.getId()), true);
 
-        Assertions.assertEquals(beforeDeleting.getListValues().size(), 2);
+        Assertions.assertEquals(2, beforeDeleting.getListValues().size());
         Attribute afterDeleting;
         try {
             Assertions.assertThrows(IllegalArgumentException.class, ()-> {
@@ -222,7 +220,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
             });
         } catch (IllegalArgumentException e) {
             afterDeleting = attributeService.get(listValues.listAttrId);
-            Assertions.assertEquals(afterDeleting.getListValues().size(), 2);
+            Assertions.assertEquals(2, afterDeleting.getListValues().size());
             throw new IllegalArgumentException(e);
         }
     }
@@ -255,7 +253,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
     public void testUpdateDslReference_with1Level_checkOverlapsAreDeletedProperly() {
         MultipleRefOptions testData = createTestDataInstance(MultipleRefOptions::new);
         parameterService.set(testData.dsA.getId(), testData.textAttr.getId(), "ololo",
-                Arrays.asList(testData.refAttr.getId()));
+                Collections.singletonList(testData.refAttr.getId()));
         boolean result = attributeService.updateDslReference(testData.refAttr.getId(),
                testData.childDsl2.getId());
 
@@ -264,7 +262,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void testUpdateDslReference_with2Levels_checkOverlapsAreDeletedProperly() throws DuplicateKeyException {
+    public void testUpdateDslReference_with2Levels_checkOverlapsAreDeletedProperly() {
         UUID visibilityAreaId = visibilityAreaService.create("ParameterServiceTestVa").getId();
 
         //Postal Code DSL+DS+Parameter
@@ -416,7 +414,7 @@ public class AttributeServiceImplTest extends DataSetBuilder {
         Assertions.assertTrue(ids.contains(dsId11));
     }
 
-    private void prepareDataForFilteringAttributeValues() throws DuplicateKeyException {
+    private void prepareDataForFilteringAttributeValues() {
         // Create DSL
         dslId1 = dataSetListService.create(vaId, "DSL1", null).getId();
         dslId2 = dataSetListService.create(vaId, "DSL2", null).getId();

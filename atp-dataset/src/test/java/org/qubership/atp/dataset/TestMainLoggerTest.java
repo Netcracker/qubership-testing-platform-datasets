@@ -16,12 +16,12 @@
 
 package org.qubership.atp.dataset;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class TestMainLoggerTest {
+class TestMainLoggerTest {
 
-    @Ignore //test check nothing and create garbage in logs
+    @Disabled //test check nothing and create garbage in logs
     @Test
     public final void testPrint() {
         MainLoggerTest.main(null);
