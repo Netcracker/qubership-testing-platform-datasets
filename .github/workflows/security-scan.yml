@@ -56,8 +56,8 @@ jobs:
     with:
       target: ${{ github.event.inputs.target || 'docker' }}
       image: ${{ github.event.inputs.image || format('ghcr.io/{0}:latest', github.repository) }}
-      only-high-critical: ${{ github.event.inputs.only-high-critical || true }}
-      trivy-scan: ${{ github.event.inputs.trivy-scan || true }}
-      grype-scan: ${{ github.event.inputs.grype-scan || true }}
-      only-fixed: ${{ github.event.inputs.only-fixed || true }}
-      continue-on-error: ${{ github.event.inputs.continue-on-error || true }}
+      only-high-critical: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs['only-high-critical'] || true }}
+      trivy-scan:        ${{ github.event.inputs['trivy-scan'] }}
+      grype-scan:        ${{ github.event.inputs['grype-scan'] }}
+      only-fixed:        ${{ github.event.inputs['only-fixed'] }}
+      continue-on-error: ${{ github.event.inputs['continue-on-error'] }}
