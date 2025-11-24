@@ -54,10 +54,10 @@ jobs:
     name: "Run Security Scan"
     uses: netcracker/qubership-workflow-hub/.github/workflows/re-security-scan.yml@main
     with:
-      target: ${{ github.event.inputs.target || 'docker' }}
-      image: ${{ github.event.inputs.image || format('ghcr.io/{0}:latest', github.repository) }}
-      only-high-critical: ${{ github.event.inputs.only-high-critical || true }}
-      trivy-scan: ${{ github.event.inputs.trivy-scan || true }}
-      grype-scan: ${{ github.event.inputs.grype-scan || true }}
-      only-fixed: ${{ github.event.inputs.only-fixed || true }}
-      continue-on-error: ${{ github.event.inputs.continue-on-error || true }}
+      target: ${{ inputs.target || 'docker' }}
+      image: ${{ inputs.image || format('ghcr.io/{0}:latest', github.repository) }}
+      only-high-critical: ${{ inputs.only-high-critical || true }}
+      trivy-scan: ${{ inputs.trivy-scan || true }}
+      grype-scan: ${{ inputs.grype-scan || true }}
+      only-fixed: ${{ inputs.only-fixed || true }}
+      continue-on-error: ${{ inputs.continue-on-error || true }}
