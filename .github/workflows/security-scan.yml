@@ -55,7 +55,7 @@ jobs:
     uses: netcracker/qubership-workflow-hub/.github/workflows/re-security-scan.yml@477-bug-docker-images-addresses-should-use-netcracker-instead-of-netcracker-in-security-scan-job-re-security-scan
     with:
       target: ${{ inputs.target || 'docker' }}
-      image: ${{ inputs.image || format('ghcr.io/{0}:latest', github.repository) }}s
+      image: ${{ inputs.image || format('ghcr.io/{0}:latest', github.repository) }}
       only-high-critical: ${{ inputs.only-high-critical || true }}
       trivy-scan: ${{ inputs.trivy-scan || true }}
       grype-scan: ${{ inputs.grype-scan || true }}
