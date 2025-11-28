@@ -257,7 +257,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.7.0</version>
+                        <version>3.13.0</version>
                         <executions>
                             <execution>
                                 <id>pg-compile</id>
@@ -266,6 +266,8 @@
                                     <goal>compile</goal>
                                 </goals>
                                 <configuration>
+                                    <source>${maven.compiler.source}</source>
+                                    <target>${maven.compiler.target}</target>
                                     <compileSourceRoots>${src.dir}</compileSourceRoots>
                                     <outputDirectory>${project.build.directory}/pg-classes/</outputDirectory>
                                     <useIncrementalCompilation>false</useIncrementalCompilation>
