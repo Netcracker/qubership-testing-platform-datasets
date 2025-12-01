@@ -58,7 +58,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-          run: |
+        run: |
                   set -euo pipefail
                   per_page=100
                   page=1
