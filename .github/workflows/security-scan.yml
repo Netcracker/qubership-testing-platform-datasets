@@ -72,6 +72,8 @@ jobs:
               echo "=== RAW JSON (pretty) ==="
               echo "$response" | jq '.'
 
+              echo "$response" > ghcr_response.json
+
               # echo "$response" | jq -r '.[].repository.full_name'
 
               # packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
@@ -85,7 +87,11 @@ jobs:
               # echo "Parsed packages:"
               # echo "$packages" | jq '.'
 
-
+      - name: Upload GHCR Raw JSON Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ghcr-response
+          path: ghcr_response.json
           # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
           # echo "Raw response:"
           # echo "$packages"
