@@ -51,77 +51,14 @@ jobs:
     permissions:
       packages: read
     outputs:
-      ghcr-packages: ${{ steps.pkgs.outputs.ghcr-packages }}
+      ghcr-packages: ${{ steps.ghcr.outputs.ghcr-packages }}
+      has-packages: ${{ steps.ghcr.outputs.has-packages }}
     steps:
-      - name: Show raw GHCR response
-        id: pkgs
+      - name: List GHCR packages for this repo
+        id: ghcr
+        uses: Netcracker/qubership-workflow-hub/actions/ghcr-list-repo-packages@488-bug-security-scan-job-fails-on-all-repositories-with-cannot-index-string-with-string-repository-exception
         env:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
-        run: |
-          per_page=100
-          page=1
-          filtered_packages='[]'
-          all_packages='[]'
-
-          echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
-
-          while :; do
-            api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=${per_page}&page=${page}"
-            echo "Request: $api_url"
-
-            response=$(curl -sS \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              "$api_url")
-
-            if ! echo "$response" | jq -e 'type == "array"' >/dev/null 2>&1; then
-              echo "Non-array response from GitHub API (maybe error):"
-              echo "$response"
-              break
-            fi
-
-            count=$(echo "$response" | jq 'length')
-            echo "Page $page: $count packages"
-
-            if [ "$count" -eq 0 ]; then
-              echo "No more pages."
-              break
-            fi
-
-            all_packages=$(printf '%s\n%s\n' "$all_packages" "$response" | jq -c -s 'add')
-
-            page_filtered=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
-              [.[]
-              | select(.repository.full_name == "\($owner)/\($repo)")
-              | {
-                  name: .name,
-                  repository: (.repository.name // null),
-                  full_name: (.repository.full_name // null),
-                  path: "ghcr.io/\($owner)/\(.name)"
-                }
-              ]
-            ')
-
-            echo "Page $page filtered packages:"
-            echo "$page_filtered" | jq '.'
-
-            filtered_packages=$(printf '%s\n%s\n' "$filtered_packages" "$page_filtered" | jq -c -s 'add')
-
-            page=$((page + 1))
-          done
-
-          echo "Final filtered packages for repo $REPO:"
-          echo "$filtered_packages" | jq '.'
-
-          echo "Total packages collected (all pages):"
-          echo "$all_packages" | jq 'length'
-
-          echo "$all_packages" > ghcr_all_packages.json
-          echo "$filtered_packages" > ghcr_filtered_packages.json
-
-          echo "ghcr-packages=$filtered_packages" >> "$GITHUB_OUTPUT"
 
   security-scan-matrix:
     needs: debug-packages
