@@ -59,33 +59,90 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
-              api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=100"
-              echo "Request: $api_url"
-              echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
+          set -euo pipefail
+          per_page=100
+          page=1
+          filtered_packages='[]'
 
-              response=$(curl -sS \
-                -H "Authorization: Bearer $GH_TOKEN" \
-                -H "Accept: application/vnd.github+json" \
-                "$api_url")
+          echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
+
+          while :; do
+            api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=${per_page}&page=${page}"
+            echo "Request: $api_url"
+
+            response=$(curl -sS \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "$api_url")
+
+            # Если пришёл не массив (например, ошибка), выходим из цикла
+            if ! echo "$response" | jq -e 'type == "array"' >/dev/null 2>&1; then
+              echo "Non-array response from GitHub API (maybe error):"
+              echo "$response"
+              break
+            fi
+
+            count=$(echo "$response" | jq 'length')
+            echo "Page $page: $count packages"
+
+            # Пустая страница -> дальше пакетов нет
+            if [ "$count" -eq 0 ]; then
+              echo "No more pages."
+              break
+            fi
+
+            page_filtered=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+              [.[]
+              | select(.name == $repo)
+              | {
+                  name: .name,
+                  repository: (.repository.name // null),
+                  full_name: (.repository.full_name // null),
+                  path: "ghcr.io/\($owner)/\(.name)"
+                }
+              ]
+            ')
+
+            echo "Page $page filtered packages:"
+            echo "$page_filtered" | jq '.'
+
+            filtered_packages=$(echo "$filtered_packages" "$page_filtered" | jq -c -s 'add')
+
+            page=$((page + 1))
+          done
+
+          echo "Final filtered packages for repo $REPO:"
+          echo "$filtered_packages" | jq '.'
 
 
-              echo "=== RAW JSON (pretty) ==="
-              echo "$response" | jq '.'
+          echo "ghcr-packages=$filtered_packages" >> "$GITHUB_OUTPUT"
+          # api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=100"
+          # echo "Request: $api_url"
+          # echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
 
-              echo "$response" > ghcr_response.json
+          # response=$(curl -sS \
+          #   -H "Authorization: Bearer $GH_TOKEN" \
+          #   -H "Accept: application/vnd.github+json" \
+          #   "$api_url")
 
-              # echo "$response" | jq -r '.[].repository.full_name'
 
-              # packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
-              #   [.[]
-              #   | select(.repository.full_name == "\($owner)/\($repo)")
-              #   | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
-              #   ]
-              # ')
+          # echo "=== RAW JSON (pretty) ==="
+          # echo "$response" | jq '.'
 
-              # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
-              # echo "Parsed packages:"
-              # echo "$packages" | jq '.'
+          # echo "$response" > ghcr_response.json
+
+          # echo "$response" | jq -r '.[].repository.full_name'
+
+          # packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+          #   [.[]
+          #   | select(.repository.full_name == "\($owner)/\($repo)")
+          #   | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
+          #   ]
+          # ')
+
+          # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
+          # echo "Parsed packages:"
+          # echo "$packages" | jq '.'
 
       - name: Upload GHCR Raw JSON Artifact
         uses: actions/upload-artifact@v4
