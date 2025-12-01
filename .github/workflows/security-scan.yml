@@ -93,7 +93,7 @@ jobs:
 
             page_filtered=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
               [.[]
-              | select(.name == $repo)
+              | select(.repository.full_name == "\($owner)/\($repo)")
               | {
                   name: .name,
                   repository: (.repository.name // null),
