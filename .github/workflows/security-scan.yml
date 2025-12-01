@@ -59,7 +59,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
-              api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container?per_page=100"
+              api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=100"
               echo "Request: $api_url"
               echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
 
