@@ -59,27 +59,45 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
-          api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container"
-          echo "Request: $api_url"
+              api_url="https://api.github.com/users/${OWNER}/packages?package_type=container"
+              echo "Request: $api_url"
 
-          response=$(curl -sS \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "$api_url")
+              response=$(curl -sS \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                "$api_url")
 
-          packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
-            [.[]
-            | select(.repository.full_name == "\($owner)/\($repo)")
-            | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
-            ]
-          ')
+              packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+                [.[]
+                | select(.repository.full_name == "${OWNER}/${REPO}")
+                | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
+                ]
+              ')
 
-          echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
+          # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
           # echo "Raw response:"
           # echo "$packages"
+          # api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container"
+          # echo "Request: $api_url"
 
-          echo "Parsed packages:"
-          echo "$packages" | jq '.'
+          # response=$(curl -sS \
+          #   -H "Authorization: Bearer $GH_TOKEN" \
+          #   -H "Accept: application/vnd.github+json" \
+          #   "$api_url")
+
+          # packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+          #   [.[]
+          #   | select(.repository.full_name == "\($owner)/\($repo)")
+          #   | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
+          #   ]
+          # ')
+
+          # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
+          # # echo "Raw response:"
+          # # echo "$packages"
+
+          # echo "Parsed packages:"
+          # echo "$packages" | jq '.'
 
   # security-scan-matrix:
   #   needs: debug-packages
