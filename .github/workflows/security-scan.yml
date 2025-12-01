@@ -58,61 +58,78 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-        run: |
-          set -euo pipefail
-          per_page=100
-          page=1
-          filtered_packages='[]'
+          run: |
+                  set -euo pipefail
+                  per_page=100
+                  page=1
+                  filtered_packages='[]'
+                  all_packages='[]'
 
-          echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
+                  echo "Fetching GHCR packages for owner: $OWNER, repo: $REPO"
 
-          while :; do
-            api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=${per_page}&page=${page}"
-            echo "Request: $api_url"
+                  while :; do
+                    api_url="https://api.github.com/orgs/${OWNER}/packages?package_type=container&per_page=${per_page}&page=${page}"
+                    echo "Request: $api_url"
 
-            response=$(curl -sS \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              "$api_url")
+                    response=$(curl -sS \
+                      -H "Authorization: Bearer $GH_TOKEN" \
+                      -H "Accept: application/vnd.github+json" \
+                      "$api_url")
 
-            # Если пришёл не массив (например, ошибка), выходим из цикла
-            if ! echo "$response" | jq -e 'type == "array"' >/dev/null 2>&1; then
-              echo "Non-array response from GitHub API (maybe error):"
-              echo "$response"
-              break
-            fi
+                    # Если пришёл не массив (например, ошибка), выходим из цикла
+                    if ! echo "$response" | jq -e 'type == "array"' >/dev/null 2>&1; then
+                      echo "Non-array response from GitHub API (maybe error):"
+                      echo "$response"
+                      break
+                    fi
 
-            count=$(echo "$response" | jq 'length')
-            echo "Page $page: $count packages"
+                    count=$(echo "$response" | jq 'length')
+                    echo "Page $page: $count packages"
 
-            # Пустая страница -> дальше пакетов нет
-            if [ "$count" -eq 0 ]; then
-              echo "No more pages."
-              break
-            fi
+                    # Пустая страница -> дальше пакетов нет
+                    if [ "$count" -eq 0 ]; then
+                      echo "No more pages."
+                      break
+                    fi
 
-            page_filtered=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
-              [.[]
-              | select(.name == $repo)
-              | {
-                  name: .name,
-                  repository: (.repository.name // null),
-                  full_name: (.repository.full_name // null),
-                  path: "ghcr.io/\($owner)/\(.name)"
-                }
-              ]
-            ')
+                    # Копим все пакеты "как есть" со всех страниц
+                    all_packages=$(printf '%s\n%s\n' "$all_packages" "$response" | jq -c -s 'add')
 
-            echo "Page $page filtered packages:"
-            echo "$page_filtered" | jq '.'
+                    # Фильтруем только пакеты этого репозитория по имени
+                    page_filtered=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+                      [.[]
+                      | select(.name == $repo)
+                      | {
+                          name: .name,
+                          repository: (.repository.name // null),
+                          full_name: (.repository.full_name // null),
+                          path: "ghcr.io/\($owner)/\(.name)"
+                        }
+                      ]
+                    ')
 
-            filtered_packages=$(echo "$filtered_packages" "$page_filtered" | jq -c -s 'add')
+                    echo "Page $page filtered packages:"
+                    echo "$page_filtered" | jq '.'
 
-            page=$((page + 1))
-          done
+                    # Склеиваем отфильтрованные пакеты со всех страниц
+                    filtered_packages=$(printf '%s\n%s\n' "$filtered_packages" "$page_filtered" | jq -c -s 'add')
 
-          echo "Final filtered packages for repo $REPO:"
-          echo "$filtered_packages" | jq '.'
+                    page=$((page + 1))
+                  done
+
+                  echo "Final filtered packages for repo $REPO:"
+                  echo "$filtered_packages" | jq '.'
+
+                  echo "Total packages collected (all pages):"
+                  echo "$all_packages" | jq 'length'
+
+                  # Сохраняем оба варианта в файлы для артефактов
+                  echo "$all_packages" > ghcr_all_packages.json
+                  echo "$filtered_packages" > ghcr_filtered_packages.json
+
+                  # Передаём отфильтрованный массив в outputs job'а
+                  echo "ghcr-packages=$filtered_packages" >> "$GITHUB_OUTPUT"
+
 
 
           echo "ghcr-packages=$filtered_packages" >> "$GITHUB_OUTPUT"
