@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: List GHCR packages for this repo
         id: ghcr
-        uses: Netcracker/qubership-workflow-hub/actions/ghcr-discover-repo-packages@488-bug-security-scan-job-fails-on-all-repositories-with-cannot-index-string-with-string-repository-exception
+        uses: Netcracker/qubership-workflow-hub/actions/ghcr-discover-repo-packages@main
         env:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
