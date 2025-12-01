@@ -79,7 +79,7 @@ jobs:
           # echo "$packages"
 
           echo "Parsed packages:"
-          "$packages" | jq '.'
+          echo "$packages" | jq '.'
 
   # security-scan-matrix:
   #   needs: debug-packages
