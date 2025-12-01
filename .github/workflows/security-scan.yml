@@ -56,7 +56,7 @@ jobs:
     permissions:
       packages: read
     outputs:
-      ghcr-packages: ${{ steps.ghcr.outputs.packages }}
+      ghcr-packages: ${{ steps.ghcr.outputs.ghcr-packages }}
       has-packages: ${{ steps.ghcr.outputs.has-packages }}
     steps:
       - name: List GHCR packages for this repo
