@@ -68,18 +68,23 @@ jobs:
                 -H "Accept: application/vnd.github+json" \
                 "$api_url")
 
-              echo "$response" | jq -r '.[].repository.full_name'
 
-              packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
-                [.[]
-                | select(.repository.full_name == "\($owner)/\($repo)")
-                | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
-                ]
-              ')
+              echo "=== RAW JSON (pretty) ==="
+              echo "$response" | jq '.'
 
-              echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
-              echo "Parsed packages:"
-              echo "$packages" | jq '.'
+              # echo "$response" | jq -r '.[].repository.full_name'
+
+              # packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
+              #   [.[]
+              #   | select(.repository.full_name == "\($owner)/\($repo)")
+              #   | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
+              #   ]
+              # ')
+
+              # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
+              # echo "Parsed packages:"
+              # echo "$packages" | jq '.'
+
 
           # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
           # echo "Raw response:"
