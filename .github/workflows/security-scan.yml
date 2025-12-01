@@ -62,8 +62,6 @@ jobs:
       - name: List GHCR packages for this repo
         id: ghcr
         uses: Netcracker/qubership-workflow-hub/actions/ghcr-discover-repo-packages@main
-        with:
-         fetch-tags: true
         env:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
