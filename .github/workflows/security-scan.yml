@@ -16,6 +16,11 @@ on:
         required: false
         default: ""
         type: string
+      tag:
+        description: "Tag of the image to scan. By default 'latest'"
+        required: false
+        default: "latest"
+        type: string
       only-high-critical:
         description: "Scope only HIGH + CRITICAL"
         required: false
