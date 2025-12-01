@@ -55,14 +55,14 @@ jobs:
       - name: Show raw GHCR response
         id: pkgs
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
         run: |
           api_url="https://api.github.com/users/${OWNER}/packages?package_type=container"
           echo "Request: $api_url"
 
           response=$(curl -sS \
-            -H "Authorization: Bearer $GH_ACCESS_TOKEN" \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             "$api_url")
 
