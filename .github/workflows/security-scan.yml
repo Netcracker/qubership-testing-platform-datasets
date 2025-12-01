@@ -74,6 +74,10 @@ jobs:
                 ]
               ')
 
+              echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
+              echo "Parsed packages:"
+              echo "$packages" | jq '.'
+
           # echo "ghcr-packages=$packages" >> "$GITHUB_OUTPUT"
           # echo "Raw response:"
           # echo "$packages"
