@@ -62,7 +62,7 @@ jobs:
           echo "Request: $api_url"
 
           response=$(curl -sS \
-            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Authorization: Bearer $GH_ACCESS_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             "$api_url")
 
