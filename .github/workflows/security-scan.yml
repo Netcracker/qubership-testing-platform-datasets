@@ -47,8 +47,7 @@ on:
         default: true
         type: boolean
   schedule:
-    # - cron: "0 3 * * 0" # every Sunday at 03:00 UTC
-    - cron: "*/5 * * * *" # every Sunday at 03:00 UTC
+    - cron: "0 3 * * 0" # every Sunday at 03:00 UTC
 
 jobs:
   debug-packages:
