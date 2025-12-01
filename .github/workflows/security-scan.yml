@@ -67,7 +67,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             "$api_url")
 
-          packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO"
+          packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
             [.[]
             | select(.repository.full_name == "\($owner)/\($repo)")
             | { name: .name, repository: .repository.name, full_name: .repository.full_name, path: "ghcr.io/\($owner)/\(.name)" }
@@ -78,7 +78,8 @@ jobs:
           # echo "Raw response:"
           # echo "$packages"
 
-          echo "Parsed packages:" $packages | jq '.'
+          echo "Parsed packages:"
+          "$packages" | jq '.'
 
   # security-scan-matrix:
   #   needs: debug-packages
