@@ -56,7 +56,7 @@ jobs:
     permissions:
       packages: read
     outputs:
-      ghcr-packages: ${{ steps.ghcr.outputs.ghcr-packages }}
+      ghcr-packages: ${{ steps.ghcr.outputs.packages }}
       has-packages: ${{ steps.ghcr.outputs.has-packages }}
     steps:
       - name: List GHCR packages for this repo
@@ -64,6 +64,13 @@ jobs:
         uses: Netcracker/qubership-workflow-hub/actions/ghcr-discover-repo-packages@488-bug-security-scan-job-fails-on-all-repositories-with-cannot-index-string-with-string-repository-exception
         env:
           GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+
+      - name: Print packages
+        run: echo '${{ steps.ghcr.outputs.ghcr-packages }}' | jq '.'
+
+      - name: Continue only if repo has GHCR packages
+        if: ${{ steps.ghcr.outputs.has-packages == 'true' }}
+        run: echo "Packages found!"
 
   security-scan-matrix:
     needs: debug-packages
