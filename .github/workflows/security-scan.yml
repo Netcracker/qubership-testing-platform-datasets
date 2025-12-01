@@ -133,7 +133,7 @@ jobs:
     uses: netcracker/qubership-workflow-hub/.github/workflows/re-security-scan.yml@main
     with:
       target: ${{ inputs.target || 'docker' }}
-      image: ${{ format('{0}:main', matrix.package.path) }}
+      image: ${{ format('{0}:latest', matrix.package.path) }}
 
   security-scan-single:
     needs: debug-packages
