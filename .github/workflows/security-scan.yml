@@ -68,6 +68,8 @@ jobs:
                 -H "Accept: application/vnd.github+json" \
                 "$api_url")
 
+              echo "$response" | jq -r '.[].repository.full_name'
+
               packages=$(echo "$response" | jq -c --arg owner "$OWNER" --arg repo "$REPO" '
                 [.[]
                 | select(.repository.full_name == "${owner}/${repo}")
