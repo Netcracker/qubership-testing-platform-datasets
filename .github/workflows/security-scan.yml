@@ -66,6 +66,8 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             "$api_url")
 
+          echo "GHCR Response:" $response
+
           packages=$(echo "$response" | jq -c --arg owner "$OWNER" '
             [.[]
             | select(.repository.full_name == "nookyo/qubership-monitoring-operator")
