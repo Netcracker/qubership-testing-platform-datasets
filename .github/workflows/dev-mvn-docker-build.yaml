@@ -57,6 +57,10 @@ jobs:
 
       - name: Mongo up
         uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/mongo_for_build@main
+        with:
+          mongo_user: dsuser
+          mongo_password: dspass
+          mongo_db: dsgridfs
 
       - name: Maven Docker build
         id: maven_build
