@@ -126,7 +126,7 @@ jobs:
               }))"
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@de43c4115d6d3b1547060e7ef2a137aa9ab60fc1 #v1.0.5
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -216,7 +216,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@de43c4115d6d3b1547060e7ef2a137aa9ab60fc1 #v1.0.5
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -233,7 +233,7 @@ jobs:
           dry-run: 'false'
 
       - name: Upload all Maven target directories
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: qubership-testing-platform-datasets
           path: '${{ github.event.repository.name }}/**/target'
@@ -288,7 +288,7 @@ jobs:
     steps:
       - name: "Docker Build"
         id: docker_build
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
         with:
           ref: v${{ needs.deploy.outputs.release-version }}
           download-artifact: true
@@ -303,7 +303,7 @@ jobs:
   github-release:
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' }}
-    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@de43c4115d6d3b1547060e7ef2a137aa9ab60fc1 #v1.0.5
+    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
     with:
       version: ${{ needs.deploy.outputs.release-version }}
       publish: true
