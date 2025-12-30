@@ -432,12 +432,6 @@
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
         </dependency>
-        <!-- <dependency>
-            <groupId>oridool</groupId>
-            <artifactId>liquibase-locking</artifactId>
-            <version>${liquibase.locking.version}</version>
-        </dependency> -->
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
