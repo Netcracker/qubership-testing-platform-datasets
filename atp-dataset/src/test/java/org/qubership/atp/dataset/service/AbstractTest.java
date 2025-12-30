@@ -29,8 +29,18 @@ import javax.annotation.Nonnull;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.qubership.atp.crypt.api.Decryptor;
+import org.qubership.atp.crypt.api.Encryptor;
+import org.qubership.atp.dataset.model.DataSetList;
+import org.qubership.atp.dataset.model.VisibilityArea;
+import org.qubership.atp.dataset.model.impl.DataSetListImpl;
+import org.qubership.atp.dataset.service.direct.helper.AbstractServicesInjected;
+import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
+import org.qubership.atp.dataset.service.direct.helper.DbCreationFacade;
+import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
+import org.qubership.atp.dataset.utils.MutableSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
@@ -43,16 +53,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import org.qubership.atp.crypt.api.Decryptor;
-import org.qubership.atp.crypt.api.Encryptor;
-import org.qubership.atp.dataset.model.DataSetList;
-import org.qubership.atp.dataset.model.VisibilityArea;
-import org.qubership.atp.dataset.model.impl.DataSetListImpl;
-import org.qubership.atp.dataset.service.direct.helper.AbstractServicesInjected;
-import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
-import org.qubership.atp.dataset.service.direct.helper.DbCreationFacade;
-import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
-import org.qubership.atp.dataset.utils.MutableSupplier;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {
@@ -67,7 +67,6 @@ import org.qubership.atp.dataset.utils.MutableSupplier;
         "atp-dataset.archive.job.thread.queue-capacity=100"
 })
 public abstract class AbstractTest extends AbstractServicesInjected {
-
 
     @Autowired
     protected DbCreationFacade factory;
@@ -116,7 +115,7 @@ public abstract class AbstractTest extends AbstractServicesInjected {
         }
     }
 
-    @After
+    @AfterEach
     public final void after() {
         clearTestData();
     }

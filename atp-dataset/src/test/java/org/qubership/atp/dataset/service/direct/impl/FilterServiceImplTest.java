@@ -32,14 +32,11 @@ import java.util.UUID;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.IsNull;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.exception.dataset.DataSetExistsException;
 import org.qubership.atp.dataset.model.DataSet;
@@ -48,12 +45,15 @@ import org.qubership.atp.dataset.model.Filter;
 import org.qubership.atp.dataset.model.Label;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+
 import lombok.SneakyThrows;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
-public class FilterServiceImplTest extends AbstractTest {
+class FilterServiceImplTest extends AbstractTest {
 
     private static final String TEST_FILTER_NAME = "Test";
     private VisibilityArea va;
@@ -83,7 +83,6 @@ public class FilterServiceImplTest extends AbstractTest {
             filterService
                     .create(TEST_FILTER_NAME, va.getId(), emptyList(), emptyList());
         });
-
     }
 
     @Test
@@ -108,7 +107,6 @@ public class FilterServiceImplTest extends AbstractTest {
     @Test
     public void testFilterDoesNotExistAfterDeletion() {
         filterService.delete(filter.getId());
-
         assertThat(filterService.get(filter.getId()), IsNull.nullValue());
     }
 
@@ -131,14 +129,12 @@ public class FilterServiceImplTest extends AbstractTest {
                 Arrays.asList(dslLabel.getId(), secondDSL.getId())
         );
         Filter filter = filterService.get(this.filter.getId());
-
         assertThat(filter.getDataSetListLabels().size(), Is.is(2));
     }
 
     @Test
     public void testDeleteCascade() {
         visibilityAreaService.delete(va.getId());
-
         assertNull(filterService.get(filter.getId()));
     }
 
@@ -169,7 +165,7 @@ public class FilterServiceImplTest extends AbstractTest {
         assertTrue(filters.contains(filter));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         visibilityAreaService.delete(va.getId());
     }

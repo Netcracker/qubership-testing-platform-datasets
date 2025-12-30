@@ -20,19 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
+import java.util.Objects;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -40,6 +34,13 @@ import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
@@ -69,7 +70,7 @@ public class ItfSerializationTest extends AbstractTest {
         factory.overrideParam(parentWithOverlap, childAttr, "Overlap", null, null, null, parentChild1.getAttribute());
     }
 
-    @After
+    @AfterEach
     public void destroy() {
         visibilityAreaService.delete(va.getId());
     }
@@ -137,11 +138,11 @@ public class ItfSerializationTest extends AbstractTest {
             VisibilityArea resultVa = f.va("ATPII-1508");
             DataSetList dslRoot = f.dsl(resultVa, "root");
             rootDs_1[0] = f.ds(dslRoot, "ds");
-            DataSetList dls_child_1 = f.dsl(resultVa, "dsl_child_1");
-            DataSet ds_child_1 = f.ds(dls_child_1, "ds_child_1");
-            DataSetList dls_child_2 = f.dsl(resultVa, "dsl_child_2");
-            DataSet ds_child_2 = f.ds(dls_child_2, "ds_child_2");
-            f.textParam(ds_child_2, "random_text", "#RANDOMBETWEEN(10, 100)");
+            DataSetList dsl_child_1 = f.dsl(resultVa, "dsl_child_1");
+            DataSet ds_child_1 = f.ds(dsl_child_1, "ds_child_1");
+            DataSetList dsl_child_2 = f.dsl(resultVa, "dsl_child_2");
+            DataSet ds_child_2 = f.ds(dsl_child_2, "ds_child_2");
+            f.textParam(ds_child_2, "random_text", "#RANDOMBETWEEN(1, 1000000)");
             f.refParam(rootDs_1[0], "ref_to_ds_child_1", ds_child_1);
             f.refParam(rootDs_1[0], "ref_to_ds_child_2", ds_child_2);
             f.textParam(ds_child_1, "reference_to_random_text_from_child_1",
@@ -151,7 +152,8 @@ public class ItfSerializationTest extends AbstractTest {
             return resultVa;
         });
         ObjectNode result = dataSetService.getInItfFormat(rootDs_1[0].getMixInId());
-        assertNotEquals(result.get("ref_to_ds_child_1").get("reference_to_random_text_from_child_1").textValue(),
+        assertNotEquals(Objects.requireNonNull(result).get("ref_to_ds_child_1")
+                        .get("reference_to_random_text_from_child_1").textValue(),
                 result.get("ref_to_ds_child_2").get("random_text").textValue());
         assertNotEquals(result.get("reference_to_random_text").textValue(),
                 result.get("ref_to_ds_child_2").get("random_text").textValue());
