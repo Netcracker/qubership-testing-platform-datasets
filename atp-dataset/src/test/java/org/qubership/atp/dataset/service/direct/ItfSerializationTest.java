@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,11 +138,11 @@ public class ItfSerializationTest extends AbstractTest {
             VisibilityArea resultVa = f.va("ATPII-1508");
             DataSetList dslRoot = f.dsl(resultVa, "root");
             rootDs_1[0] = f.ds(dslRoot, "ds");
-            DataSetList dls_child_1 = f.dsl(resultVa, "dsl_child_1");
-            DataSet ds_child_1 = f.ds(dls_child_1, "ds_child_1");
-            DataSetList dls_child_2 = f.dsl(resultVa, "dsl_child_2");
-            DataSet ds_child_2 = f.ds(dls_child_2, "ds_child_2");
-            f.textParam(ds_child_2, "random_text", "#RANDOMBETWEEN(10, 100)");
+            DataSetList dsl_child_1 = f.dsl(resultVa, "dsl_child_1");
+            DataSet ds_child_1 = f.ds(dsl_child_1, "ds_child_1");
+            DataSetList dsl_child_2 = f.dsl(resultVa, "dsl_child_2");
+            DataSet ds_child_2 = f.ds(dsl_child_2, "ds_child_2");
+            f.textParam(ds_child_2, "random_text", "#RANDOMBETWEEN(1, 1000000)");
             f.refParam(rootDs_1[0], "ref_to_ds_child_1", ds_child_1);
             f.refParam(rootDs_1[0], "ref_to_ds_child_2", ds_child_2);
             f.textParam(ds_child_1, "reference_to_random_text_from_child_1",
@@ -151,7 +152,8 @@ public class ItfSerializationTest extends AbstractTest {
             return resultVa;
         });
         ObjectNode result = dataSetService.getInItfFormat(rootDs_1[0].getMixInId());
-        assertNotEquals(result.get("ref_to_ds_child_1").get("reference_to_random_text_from_child_1").textValue(),
+        assertNotEquals(Objects.requireNonNull(result).get("ref_to_ds_child_1")
+                        .get("reference_to_random_text_from_child_1").textValue(),
                 result.get("ref_to_ds_child_2").get("random_text").textValue());
         assertNotEquals(result.get("reference_to_random_text").textValue(),
                 result.get("ref_to_ds_child_2").get("random_text").textValue());
