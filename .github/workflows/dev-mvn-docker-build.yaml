@@ -1,5 +1,5 @@
 ---
-# The workflow to deploy snapshot artifact versions to Maven Central
+# The workflow to deploy snapshot artifact versions to Github packages
 # Fill free to adjust java version and additional mvn command-line parameters
 # The workflow will trigger on pushes into branches different from main and release
 # Please make sure that the version in the pom.xml file has the SNAPSHOT postfix
@@ -139,7 +139,7 @@ jobs:
 
       - name: Metadata
         id: metadata
-        uses: netcracker/qubership-workflow-hub/actions/metadata-action@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
+        uses: netcracker/qubership-workflow-hub/actions/metadata-action@9319676b7d20b423a2e0943a0ac08da07d615998 #v1.0.6
         with:
           default-template: '{{ref-name}}-{{timestamp}}'
 
@@ -160,6 +160,12 @@ jobs:
 
   run-tests:
     needs: [ build-and-push ]
+    if: |
+      needs.build-and-push.result == 'success' &&
+      (
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main')
+      )
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
       repository_name: 'qubership-testing-platform-datasets'
