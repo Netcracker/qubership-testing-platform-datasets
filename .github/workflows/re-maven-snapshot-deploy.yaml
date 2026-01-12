@@ -164,7 +164,7 @@ jobs:
               }))"
 
       - name: Cache local Maven repository
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5
         with:
           path: ~/.m2/repository
           key: maven-${{ runner.os }}
