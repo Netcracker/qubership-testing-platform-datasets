@@ -17,7 +17,6 @@
 package org.qubership.atp.dataset.service.direct.importexport.service;
 
 import static com.google.common.collect.Sets.newHashSet;
-import static org.qubership.atp.dataset.service.direct.importexport.utils.StreamUtils.extractIds;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -34,6 +33,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.qubership.atp.dataset.service.direct.importexport.utils.StreamUtils.extractIds;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,11 +67,6 @@ import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import clover.com.google.common.collect.ImmutableMap;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.db.jpa.Wrapper;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -110,6 +105,11 @@ import org.qubership.atp.dataset.service.jpa.delegates.DataSet;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.delegates.ListValue;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.google.common.collect.ImmutableMap;
 
 /*  DSL 2                        DSL 3                        DSL 4
  * ------------------------------------------------------------------------------

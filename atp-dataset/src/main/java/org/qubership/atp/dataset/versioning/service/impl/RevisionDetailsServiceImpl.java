@@ -32,7 +32,7 @@ import org.qubership.atp.dataset.versioning.model.ui.DataSetListUiModel;
 import org.qubership.atp.dataset.versioning.service.RevisionDetailsService;
 import org.springframework.stereotype.Service;
 
-import clover.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
