@@ -450,7 +450,7 @@ public class DatasetListImportServiceTest {
     @Test
     public void importDataSetList() throws Exception {
         File file = Paths.get("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
-        importService.importDataSetList(targetProjectId, targetDslId, new FileInputStream(file), false);
+        importService.importDataSetList(targetProjectId, targetDslId, Files.newInputStream(file.toPath()), false);
 
         final UUID ds1Id = ds1.getId();
         final UUID ds2Id = ds2.getId();
@@ -558,12 +558,12 @@ public class DatasetListImportServiceTest {
     }
 
     @Test
-    public void importDataSetList_ThereAreDuplicateDslNames_ErrorWhileImportDataSetList() throws Exception {
+    public void importDataSetList_ThereAreDuplicateDslNames_ErrorWhileImportDataSetList() {
         doThrow( new RuntimeException("There are duplicate DSL names : []")).when(dataSetListService).checkDslNames(targetProjectId);
         File file = Paths.get("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
 
         assertThrows(Exception.class, () ->
-                importService.importDataSetList(targetProjectId, targetDslId, new FileInputStream(file), false));
+                importService.importDataSetList(targetProjectId, targetDslId, Files.newInputStream(file.toPath()), false));
     }
 
     @Test

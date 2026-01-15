@@ -29,7 +29,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.ei.Constants;
 import org.qubership.atp.dataset.ei.model.AttributeKeyIdsDbUpdate;
 import org.qubership.atp.dataset.ei.model.DataSetAttribute;
@@ -227,7 +227,7 @@ public class DataSetAttributesImporter {
      *
      * @param workDir the work dir
      */
-    public void importDataSetAttributeKeys(Path workDir, ExportImportData importData) throws IOException {
+    public void importDataSetAttributeKeys(Path workDir, ExportImportData importData) {
         log.info("start importDataSetAttributeKeys(workDir: {})", workDir);
 
         Map<UUID, Path> list =
@@ -479,8 +479,7 @@ public class DataSetAttributesImporter {
             if (absentAttribute == null) {
                 log.error("Attribute key (Link to Data Set Attribute) {} refers to absent attribute {}", object,
                         object.getAttribute());
-                result.add(String.format("There is a Link to Data Set Attribute "
-                        + "that refers to absent attribute on server."));
+                result.add("There is a Link to Data Set Attribute that refers to absent attribute on server.");
             }
         }
     }

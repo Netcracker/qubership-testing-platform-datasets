@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.service.direct.ParameterService;

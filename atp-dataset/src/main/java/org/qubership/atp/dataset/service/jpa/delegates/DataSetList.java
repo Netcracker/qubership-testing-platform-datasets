@@ -33,7 +33,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetEntity;

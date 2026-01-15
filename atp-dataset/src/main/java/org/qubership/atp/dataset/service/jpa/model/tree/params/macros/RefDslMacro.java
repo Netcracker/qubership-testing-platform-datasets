@@ -18,13 +18,13 @@ package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
-import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.antlr4.TextParameterParser;
 import org.qubership.atp.dataset.model.utils.Utils;
 import org.qubership.atp.dataset.service.jpa.DataSetServiceException;

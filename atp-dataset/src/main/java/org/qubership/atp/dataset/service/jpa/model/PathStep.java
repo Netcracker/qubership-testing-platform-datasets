@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.service.jpa.model;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.model.utils.Utils;
 
 import lombok.Getter;

@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.qubership.atp.dataset.exception.excel.ExcelImportEmptyExcelException;
 import org.qubership.atp.dataset.exception.excel.ExcelImportNotExistingAttributeException;
@@ -68,7 +69,6 @@ import org.qubership.atp.dataset.service.jpa.delegates.AttributeKey;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSet;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
@@ -640,10 +640,8 @@ public class DatasetListImportService {
     Map<String, Integer> getExistedDatasetsCellIndexMap(Map<Integer, String> headingRow) {
         log.debug("Get existed datasets cell index map from heading row");
         final Map<String, Integer> datasetsCellIndexMap = new LinkedHashMap<>();
-        final Iterator<Map.Entry<Integer, String>> cellIterator = headingRow.entrySet().iterator();
 
-        while (cellIterator.hasNext()) {
-            final Map.Entry<Integer, String> cell = cellIterator.next();
+        for (Map.Entry<Integer, String> cell : headingRow.entrySet()) {
             final String datasetName = cell.getValue();
             final boolean isDatasetNameNotEmpty = !datasetName.isEmpty();
             final boolean isNotRequiredHeading = !requiredHeadingIndexesMap.containsKey(datasetName);

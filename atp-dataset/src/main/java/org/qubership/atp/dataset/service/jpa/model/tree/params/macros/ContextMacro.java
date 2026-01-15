@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
-import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.util.List;
 

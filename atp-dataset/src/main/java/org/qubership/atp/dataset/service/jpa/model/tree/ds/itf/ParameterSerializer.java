@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.service.jpa.model.tree.ds.itf;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.AbstractParameter;
 
 import com.fasterxml.jackson.core.JsonGenerator;

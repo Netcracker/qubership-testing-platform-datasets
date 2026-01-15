@@ -63,7 +63,7 @@ public class DataSetListImporter {
      * @param workDir the work dir
      * @return the list
      */
-    public List<UUID> importDataSetLists(Path workDir, ExportImportData importData) throws IOException {
+    public List<UUID> importDataSetLists(Path workDir, ExportImportData importData) {
         log.info("start importDataSetLists(workDir: {})", workDir);
 
         List<UUID> dslImportedIds = new ArrayList<>();

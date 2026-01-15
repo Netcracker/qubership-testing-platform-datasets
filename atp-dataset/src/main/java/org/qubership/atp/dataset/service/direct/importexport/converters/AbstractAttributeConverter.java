@@ -17,7 +17,7 @@
 package org.qubership.atp.dataset.service.direct.importexport.converters;
 
 import static java.util.Objects.nonNull;
-import static org.apache.commons.lang.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.qubership.atp.dataset.service.direct.importexport.utils.ImportUtils.getCellValue;
 
 import java.util.Arrays;
@@ -28,6 +28,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.dataset.model.AttributeType;
 import org.qubership.atp.dataset.model.ListValue;
@@ -38,7 +39,6 @@ import org.qubership.atp.dataset.service.direct.importexport.models.AttributeImp
 import org.qubership.atp.dataset.service.direct.importexport.models.DatasetParameterValue;
 import org.qubership.atp.dataset.service.direct.importexport.utils.ImportUtils;
 import org.qubership.atp.dataset.service.jpa.delegates.Attribute;
-import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
