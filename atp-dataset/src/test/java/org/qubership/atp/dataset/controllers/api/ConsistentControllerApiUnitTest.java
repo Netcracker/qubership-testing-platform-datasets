@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
  @Slf4j
  public class ConsistentControllerApiUnitTest {
 
-     final static List<String> controllersPackage = Arrays.asList("org.qubership.atp.dataset.service.rest.server");
+     final static List<String> controllersPackage = Collections.singletonList("org.qubership.atp.dataset.service.rest.server");
      final static String apiPackage = "org.qubership.atp.dataset.controllers.api";
 
      final static Map<Class, List<String>> ctrlMethodsToSkip = new HashMap<>();
@@ -81,8 +82,8 @@ import lombok.extern.slf4j.Slf4j;
              errors.add("There are two controllers for api " + apiClass.getCanonicalName());
          }
 
-         List<Method> listOfControllerMethods = Arrays.asList(controllersList.get(0).getDeclaredMethods())
-                 .stream().filter(method -> isRestMethod(method))
+         List<Method> listOfControllerMethods = Arrays.stream(controllersList.get(0).getDeclaredMethods())
+                 .filter(this::isRestMethod)
                  .collect(Collectors.toList());
 
          listOfControllerMethods.stream().filter(method -> Modifier.isPublic(method.getModifiers()))
@@ -93,10 +94,7 @@ import lombok.extern.slf4j.Slf4j;
          return method.isAnnotationPresent(RequestMapping.class)
                  || method.isAnnotationPresent(PostMapping.class)
                  || method.isAnnotationPresent(PutMapping.class)
-                 || method.isAnnotationPresent(PostMapping.class)
                  || method.isAnnotationPresent(DeleteMapping.class)
-                 || method.isAnnotationPresent(GetMapping.class)
-                 || method.isAnnotationPresent(GetMapping.class)
                  || method.isAnnotationPresent(GetMapping.class)
                  || method.isAnnotationPresent(PatchMapping.class);
      }

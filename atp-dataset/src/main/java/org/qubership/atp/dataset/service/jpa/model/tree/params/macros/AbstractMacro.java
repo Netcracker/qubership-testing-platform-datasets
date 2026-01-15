@@ -42,13 +42,13 @@ public abstract class AbstractMacro extends AbstractTextParameter {
     public static final String DATASET_MACRO_MARKER = "#";
     private static final Logger LOG = LoggerFactory.getLogger(TextParameterParser.class);
     @Getter
-    private MacroContext macroContext;
+    private final MacroContext macroContext;
     @Getter
-    private ParameterPositionContext parameterPositionContext;
+    private final ParameterPositionContext parameterPositionContext;
     @Setter
     @Getter
     private boolean evaluate = false;
-    private String macroNameWithMarker;
+    private final String macroNameWithMarker;
 
     /**
      * Default constructor.

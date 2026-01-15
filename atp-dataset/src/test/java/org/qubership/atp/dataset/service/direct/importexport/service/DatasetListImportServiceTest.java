@@ -36,7 +36,6 @@ import static org.mockito.Mockito.when;
 import static org.qubership.atp.dataset.service.direct.importexport.utils.StreamUtils.extractIds;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

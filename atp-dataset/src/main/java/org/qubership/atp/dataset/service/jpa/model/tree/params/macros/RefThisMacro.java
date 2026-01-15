@@ -58,13 +58,8 @@ public class RefThisMacro extends AbstractMacro {
             pathSteps.add(new PathStep(splits[i]));
         }
         PathStep attribute = new PathStep(splits[splits.length - 1]);
-        String result = getMacroContext()
-                .getTextParameterFromCachedContextByNamesPath(
-                        getParameterPositionContext(),
-                        pathSteps,
-                        attribute
-                );
-        return result;
+        return getMacroContext()
+                .getTextParameterFromCachedContextByNamesPath(getParameterPositionContext(), pathSteps, attribute);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class TextParameter extends AbstractTextParameter {
             return cachedValues.get(positionContext);
         }
         String result;
-        if (childTextParameters.size() > 0) {
+        if (!childTextParameters.isEmpty()) {
             result = join(EMPTY, getArguments());
         } else {
             result = value;

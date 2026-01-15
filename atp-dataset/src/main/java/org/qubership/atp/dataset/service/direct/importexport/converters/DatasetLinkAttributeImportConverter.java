@@ -56,7 +56,7 @@ public class DatasetLinkAttributeImportConverter extends AbstractAttributeConver
      */
     public ParameterImportResponse importAttributeParameter(AttributeImportModel importModel,
                                                             DatasetParameterValue datasetParameterValue,
-                                                            AttributeImportContext importContext) throws Exception {
+                                                            AttributeImportContext importContext) {
         log.debug("Import dsl attribute parameter, import model: '{}', dataset param value: '{}', import context: '{}'",
                 importModel, datasetParameterValue, importContext);
         final UUID attributeId = importModel.getId();

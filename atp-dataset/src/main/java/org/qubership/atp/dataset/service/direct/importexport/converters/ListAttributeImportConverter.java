@@ -55,7 +55,7 @@ public class ListAttributeImportConverter extends AbstractAttributeConverter imp
     @Override
     public ParameterImportResponse importAttributeParameter(AttributeImportModel importModel,
                                                             DatasetParameterValue datasetParameterValue,
-                                                            AttributeImportContext importContext) throws Exception {
+                                                            AttributeImportContext importContext) {
         log.debug("Import list attribute parameter, import model: '{}', dataset param value: '{}',  context: '{}'",
                 importModel, datasetParameterValue, importContext);
 
