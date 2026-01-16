@@ -63,70 +63,31 @@ permissions:
 jobs:
   dry-run-build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: datasets
-          POSTGRESQL_PASSWORD: datasets
-          POSTGRESQL_DATABASE: datasets
-          POSTGRESQL_ADMIN_PASSWORD: datasets
-        options: >-
-          --health-cmd="pg_isready -U datasets -d datasets"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-      mongo:
-        image: mongo:3.6.2
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'" 
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
     steps:
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U datasets -d datasets; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
 
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=datasets psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+      - name: Postgres up
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build@main
+        with:
+          postgresql_user: datasets
+          postgresql_password: datasets
+          postgresql_database: datasets
+          postgresql_admin_password: postgres
 
-      - name: Wait for MongoDB to be ready
-        run: |
-          for i in {1..30}; do
-          if mongo --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
-           echo "MongoDB is ready"
-           break
-          fi
-          echo "Waiting for MongoDB..."
-          sleep 5
-          done
-      - name: Create Mongo user via docker mongo shell
-        run: |
-          docker run --rm --network container:${{ job.services.mongo.id }} mongo:3.6.2 \
-            mongo dsgridfs --host mongo --eval "
-              printjson(db.createUser({
-                user: 'dsuser',
-                pwd: 'dspass',
-                roles: [{ role: 'readWrite', db: 'dsgridfs' }]
-              }))"
+      - name: Mongo up
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/mongo_for_build@main
+        with:
+          mongo_user: dsuser
+          mongo_password: dspass
+          mongo_db: dsgridfs
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -147,68 +108,31 @@ jobs:
     outputs:
       release-version: ${{ steps.build-and-publish.outputs.release-version }}
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: centos/postgresql-96-centos7:9.6
-        ports:
-          - 5432:5432
-        env:
-          POSTGRESQL_USER: datasets
-          POSTGRESQL_PASSWORD: datasets
-          POSTGRESQL_DATABASE: datasets
-          POSTGRESQL_ADMIN_PASSWORD: datasets
-        options: >-
-          --health-cmd="pg_isready -U datasets -d datasets"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-      mongo:
-        image: mongo:3.6.2
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'" 
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
     steps:
-      - name: Wait for Postgres to be ready
-        run: |
-          for i in {1..30}; do
-            if pg_isready -h localhost -U datasets -d datasets; then
-              echo "Postgres is ready"
-              break
-            fi
-            echo "Waiting for Postgres..."
-            sleep 5
-          done
-      - name: Create uuid-ossp extension
-        run: |
-          sudo apt-get update && sudo apt-get install -y postgresql-client
-          PGPASSWORD=datasets psql -h localhost -U postgres -d datasets -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+      - name: Checkout pipeline
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: 'main'
+          repository: 'Netcracker/qubership-testing-platform-helm-hook-helper'
+          path: 'qubership-testing-platform-helm-hook-helper'
 
-      - name: Wait for MongoDB to be ready
-        run: |
-          for i in {1..30}; do
-            if mongo --eval 'db.runCommand({ ping: 1 })' > /dev/null 2>&1; then
-              echo "MongoDB is ready"
-              break
-            fi
-            echo "Waiting for MongoDB..."
-            sleep 5
-          done
-      - name: Create Mongo user via docker mongo shell
-        run: |
-          docker run --rm --network container:${{ job.services.mongo.id }} mongo:3.6.2 \
-            mongo dsgridfs --host mongo --eval "
-              printjson(db.createUser({
-                user: 'dsuser',
-                pwd: 'dspass',
-                roles: [{ role: 'readWrite', db: 'dsgridfs' }]
-              }))"
+      - name: Postgres up
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/postgres_for_build@main
+        with:
+          postgresql_user: datasets
+          postgresql_password: datasets
+          postgresql_database: datasets
+          postgresql_admin_password: postgres
+
+      - name: Mongo up
+        uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/actions/databases/mongo_for_build@main
+        with:
+          mongo_user: dsuser
+          mongo_password: dspass
+          mongo_db: dsgridfs
 
       - name: "Prepare app token"
-        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 #v2.1.4
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf #v2.2.1
         id: app-token
         with:
           app-id: ${{ vars.GH_BUMP_VERSION_APP_ID }}
@@ -216,7 +140,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -246,7 +170,7 @@ jobs:
       platforms: ${{ steps.load_component.outputs.platforms }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
 
@@ -288,7 +212,7 @@ jobs:
     steps:
       - name: "Docker Build"
         id: docker_build
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
         with:
           ref: v${{ needs.deploy.outputs.release-version }}
           download-artifact: true
@@ -303,7 +227,19 @@ jobs:
   github-release:
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' }}
-    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@9538833017019ab6bbc2138d3034778dfe3a5d1f #v2.0.6
+    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@396774180000abdb825cbf150b56cc59c6913db8 #v2.0.5
     with:
       version: ${{ needs.deploy.outputs.release-version }}
       publish: true
+
+  run-tests:
+    needs: [ docker-build ]
+    if: ${{ needs.docker-build.result == 'success' }}
+    uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
+    with:
+      repository_name: 'qubership-testing-platform-datasets'
+      service_name: 'atp-datasets'
+      namespace: 'datasets'
+      pipeline_branch: 'main'
+      postgres: enable
+      enable_test: enable

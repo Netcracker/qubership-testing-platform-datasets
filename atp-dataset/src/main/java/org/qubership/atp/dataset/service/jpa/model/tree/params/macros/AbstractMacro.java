@@ -17,15 +17,15 @@
 package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
 import static java.util.Objects.nonNull;
-import static org.apache.commons.lang.StringUtils.EMPTY;
-import static org.apache.commons.lang.StringUtils.defaultIfEmpty;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
 
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.antlr4.TextParameterParser;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.AbstractTextParameter;
@@ -42,13 +42,13 @@ public abstract class AbstractMacro extends AbstractTextParameter {
     public static final String DATASET_MACRO_MARKER = "#";
     private static final Logger LOG = LoggerFactory.getLogger(TextParameterParser.class);
     @Getter
-    private MacroContext macroContext;
+    private final MacroContext macroContext;
     @Getter
-    private ParameterPositionContext parameterPositionContext;
+    private final ParameterPositionContext parameterPositionContext;
     @Setter
     @Getter
     private boolean evaluate = false;
-    private String macroNameWithMarker;
+    private final String macroNameWithMarker;
 
     /**
      * Default constructor.

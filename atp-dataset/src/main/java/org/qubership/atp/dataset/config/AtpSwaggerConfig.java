@@ -19,13 +19,13 @@ package org.qubership.atp.dataset.config;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.converters.models.Pageable;
 import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -68,7 +68,7 @@ public class AtpSwaggerConfig {
         return openAPI -> openAPI.getPaths().values()
                 .forEach(pathItem -> pathItem.readOperations()
                         .forEach(operation -> {
-            if (!StringUtils.hasLength(operation.getSummary())) {
+            if (StringUtils.isEmpty(operation.getSummary())) {
                 // Swagger use method name as operationId, it should be unique
                 // But method names could be same
                 // if the swagger finds the same name,

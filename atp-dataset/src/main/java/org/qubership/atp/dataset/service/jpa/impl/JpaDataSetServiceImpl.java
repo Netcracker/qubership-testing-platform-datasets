@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.qubership.atp.dataset.constants.CacheEnum;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;

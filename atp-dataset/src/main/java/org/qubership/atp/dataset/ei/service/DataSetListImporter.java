@@ -40,8 +40,8 @@ import org.qubership.atp.ei.node.exceptions.ExportException;
 import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
 import org.springframework.stereotype.Service;
 
-import clover.com.google.common.collect.Lists;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +63,7 @@ public class DataSetListImporter {
      * @param workDir the work dir
      * @return the list
      */
-    public List<UUID> importDataSetLists(Path workDir, ExportImportData importData) throws IOException {
+    public List<UUID> importDataSetLists(Path workDir, ExportImportData importData) {
         log.info("start importDataSetLists(workDir: {})", workDir);
 
         List<UUID> dslImportedIds = new ArrayList<>();

@@ -17,12 +17,12 @@
 package org.qubership.atp.dataset.service.jpa.model.tree.params;
 
 import static java.lang.String.join;
-import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.antlr4.TextParameterParser;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.macros.ParameterPositionContext;
@@ -79,7 +79,7 @@ public class TextParameter extends AbstractTextParameter {
             return cachedValues.get(positionContext);
         }
         String result;
-        if (childTextParameters.size() > 0) {
+        if (!childTextParameters.isEmpty()) {
             result = join(EMPTY, getArguments());
         } else {
             result = value;
