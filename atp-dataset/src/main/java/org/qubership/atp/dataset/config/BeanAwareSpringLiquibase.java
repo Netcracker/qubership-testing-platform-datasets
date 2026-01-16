@@ -19,12 +19,10 @@ package org.qubership.atp.dataset.config;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ResourceLoader;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import liquibase.integration.spring.SpringLiquibase;
 
 public class BeanAwareSpringLiquibase extends SpringLiquibase {
 
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     private static ResourceLoader applicationContext;
 
     public BeanAwareSpringLiquibase() {

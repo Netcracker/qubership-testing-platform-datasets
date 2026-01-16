@@ -180,25 +180,6 @@
         </profile>
     </profiles>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.13.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.maven</groupId>
-                    <artifactId>maven-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -218,9 +199,13 @@
             </dependency>
             <dependency>
                 <groupId>com.hazelcast</groupId>
-                <!--<artifactId>hazelcast</artifactId>-->
                 <artifactId>hazelcast-spring</artifactId>
                 <version>5.3.5</version> <!-- Should be tested, because versions are set different currently: 4.2.8 and 5.3.5 -->
+            </dependency>
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>5.3.5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -275,7 +260,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${targetJdk}</source>
                     <target>${targetJdk}</target>
