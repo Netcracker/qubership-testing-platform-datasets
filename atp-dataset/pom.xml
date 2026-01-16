@@ -98,10 +98,21 @@
             <groupId>org.qubership.atp.auth</groupId>
             <artifactId>atp-auth-impl</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast-all</artifactId>
             <version>${hazelcast.version}</version>
+        </dependency>-->
+        <!-- Hazelcast core -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+
+        <!-- Spring Boot auto config for Hazelcast -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>org.qubership.atp.common</groupId>
