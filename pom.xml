@@ -196,6 +196,31 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-archiver</artifactId>
+            <version>4.8.0</version>
+            </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-compat</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.14.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <!--<artifactId>hazelcast</artifactId>-->
+                <artifactId>hazelcast-spring</artifactId>
+                <version>5.3.5</version> <!-- Should be tested, because versions are set different currently: 4.2.8 and 5.3.5 -->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
