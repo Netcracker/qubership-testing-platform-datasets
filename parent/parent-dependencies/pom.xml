@@ -20,7 +20,7 @@
 
         <atp.auth.version>1.2.75</atp.auth.version>
         <ei.version>0.2.46</ei.version>
-        <macros.core.version>1.0.33</macros.core.version>
+        <macros.core.version>1.0.34-SNAPSHOT</macros.core.version>
 
         <atp.common.version>0.0.47</atp.common.version>
         <atp-crypt.version>0.0.24</atp-crypt.version>
