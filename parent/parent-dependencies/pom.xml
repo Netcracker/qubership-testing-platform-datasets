@@ -44,6 +44,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.27.7</version> <!-- Bump from 3.22.0 to fix GHSA-rqfh-9r24-8c9r -->
+            </dependency>
+
+            <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
                 <version>1.6.0</version>
