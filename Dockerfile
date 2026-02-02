@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine-musl:21.0.9
+FROM bellsoft/liberica-openjdk-alpine-musl:21.0.10
 
 LABEL maintainer="opensourcegroup@netcracker.com" \
       qubership.atp.service="atp-datasets"
