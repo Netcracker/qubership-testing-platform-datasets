@@ -51,6 +51,7 @@ public class DatasetLinkAttributeExportConverter implements AttributeExportConve
             Cell cell = row.createCell(nextCellIndex++);
             UiManParameter parameter = mapParameterWithDataSet.get(datasetId);
             if (Objects.nonNull(reference) && Objects.nonNull(parameter)
+                    && Objects.nonNull(parameter.getValue())
                     && Strings.isNotBlank(parameter.getValue().toString())) {
                 cell.setCellValue(String.format("%s %s %s",
                         reference.getName(), REFERENCE_DELIMITER, parameter.getValue()));
