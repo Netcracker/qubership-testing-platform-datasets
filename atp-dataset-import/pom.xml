@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db</artifactId>
-        <version>1.3.173-SNAPSHOT</version>
+        <version>1.3.173</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
 
