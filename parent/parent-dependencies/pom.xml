@@ -38,7 +38,7 @@
         <hazelcast.version>4.2.6</hazelcast.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
-        <undertow.version>2.2.38.Final</undertow.version>
+        <undertow.version>2.2.39.Final</undertow.version>
     </properties>
 
     <dependencyManagement>
