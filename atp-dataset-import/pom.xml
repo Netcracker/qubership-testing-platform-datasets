@@ -77,14 +77,14 @@
                     <artifactId>log4j-core</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
                 </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-        </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -167,8 +167,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                        </additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>${tests.argLine}</argLine>
                 </configuration>
@@ -184,8 +183,7 @@
                     <archive>
                         <manifestEntries>
                             <Implementation-Title>DI Excel Importer</Implementation-Title>
-                            <Implementation-Version>${project.version}-${svn.revision}
-                            </Implementation-Version>
+                            <Implementation-Version>${project.version}-${svn.revision}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -194,8 +192,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/resources/assemblies/import-excel-assembly.xml
-                        </descriptor>
+                        <descriptor>src/main/resources/assemblies/import-excel-assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>

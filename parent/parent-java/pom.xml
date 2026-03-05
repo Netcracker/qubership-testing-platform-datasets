@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <console.encoding>UTF-8</console.encoding>
-        <targetJdk>1.8</targetJdk>
         <svn.revision>local_build</svn.revision>
     </properties>
 
@@ -29,7 +28,7 @@
                     <version>3.15.0</version>
                     <configuration>
                         <encoding>${project.build.sourceEncoding}</encoding>
-            <release>${java.version}</release>
+                        <release>${java.version}</release>
                     </configuration>
                 </plugin>
                 <plugin>

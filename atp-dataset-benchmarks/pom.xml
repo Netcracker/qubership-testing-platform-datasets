@@ -26,7 +26,7 @@
         <!--
             Java source/target to use for compilation.
           -->
-        <javac.target>1.8</javac.target>
+        <javac.target>21</javac.target>
 
         <!--
             Name of the benchmark Uber-JAR to generate.
@@ -59,14 +59,14 @@
                     <artifactId>log4j-core</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
                 </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-        </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -74,16 +74,16 @@
             <artifactId>atp-dataset</artifactId>
             <version>${project.version}</version>
             <classifier>tests</classifier>
-      <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-        </exclusion>
-      </exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

@@ -77,11 +77,6 @@
             <groupId>org.qubership.atp.auth</groupId>
             <artifactId>atp-auth-impl</artifactId>
         </dependency>
-<!--        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-all</artifactId>
-            <version>${hazelcast.version}</version>
-        </dependency>-->
         <!-- Hazelcast core -->
         <dependency>
             <groupId>com.hazelcast</groupId>
@@ -328,12 +323,12 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
         </dependency>
-    <dependency>
-      <groupId>jakarta.ws.rs</groupId>
-      <artifactId>jakarta.ws.rs-api</artifactId>
-      <scope>compile</scope>
-      <version>3.1.0</version>
-    </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>compile</scope>
+            <version>3.1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
@@ -346,12 +341,12 @@
         <dependency>
             <groupId>org.qubership.atp</groupId>
             <artifactId>atp-crypt</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -364,7 +359,7 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
-      <version>1.0.12</version>
+            <version>1.0.12</version>
         </dependency>
         <dependency>
             <groupId>org.javers</groupId>
@@ -406,15 +401,15 @@
             <artifactId>swagger-annotations-jakarta</artifactId>
             <version>2.2.22</version>
         </dependency>
-    <dependency>
-      <groupId>jakarta.inject</groupId>
-      <artifactId>jakarta.inject-api</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-vault-config</artifactId>
@@ -458,11 +453,11 @@
             <artifactId>json-smart</artifactId>
             <scope>test</scope>
         </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents.client5</groupId>
-      <artifactId>httpclient5</artifactId>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
             <artifactId>junit5</artifactId>
@@ -619,7 +614,7 @@
                             <version>0.2.0</version>
                         </path>
                     </annotationProcessorPaths>
-          <release>${java.version}</release>
+                    <release>${java.version}</release>
                 </configuration>
                 <executions>
                     <execution>
@@ -629,8 +624,6 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <source>${maven.compiler.source}</source>
-                            <target>${maven.compiler.target}</target>
                             <compileSourceRoots>${project.build.directory}\generated-sources\antlr4</compileSourceRoots>
                             <outputDirectory>${project.build.directory}\classes\
                             </outputDirectory>
@@ -714,8 +707,7 @@
                                     </includes>
                                 </resource>
                             </resources>
-                            <outputDirectory>
-                                ${project.build.directory}/clover/classes</outputDirectory>
+                            <outputDirectory>${project.build.directory}/clover/classes</outputDirectory>
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
@@ -734,8 +726,7 @@
                                     </includes>
                                 </resource>
                             </resources>
-                            <outputDirectory>
-                                ${project.build.directory}/classes</outputDirectory>
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
@@ -753,8 +744,7 @@
                     <archive>
                         <manifestEntries>
                             <Implementation-Title>DS Service</Implementation-Title>
-                            <Implementation-Version>${project.version}-${svn.revision}
-                            </Implementation-Version>
+                            <Implementation-Version>${project.version}-${svn.revision}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -787,10 +777,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>${basedir}/src/test/resources/
-                        </additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/src/test/resources/</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>${tests.argLine}</argLine>
                 </configuration>
@@ -984,12 +972,15 @@
                     <plugin>
                         <groupId>org.openclover</groupId>
                         <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
+                        <version>4.5.0</version>
                         <configuration>
+                            <jdk>21</jdk>
+                            <targetJavaVersion>21</targetJavaVersion>
+                            <sourceJavaVersion>21</sourceJavaVersion>
                             <outputDirectory>${project.build.directory}/clover</outputDirectory>
                             <generateHtml>true</generateHtml>
                             <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
+                            <generatePdf>false</generatePdf>
                             <targetPercentage>47%</targetPercentage>
                         </configuration>
                         <executions>
@@ -1039,8 +1030,7 @@
                         </executions>
                         <configuration>
                             <additionalClasspathElements>
-                                <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                                </additionalClasspathElement>
+                                <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
                             </additionalClasspathElements>
                             <argLine>${tests.argLine}</argLine>
                             <!-- required to make sure tests are dead if tests JVM is killed-->

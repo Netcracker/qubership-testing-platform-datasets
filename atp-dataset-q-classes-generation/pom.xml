@@ -283,13 +283,10 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>atp-dataset-q-classes-generation
-                                    </finalName>
+                                    <finalName>atp-dataset-q-classes-generation</finalName>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <descriptors>
-                                        <descriptor>
-                                            ${project.basedir}/src/main/assembly-descriptors/pg.xml
-                                        </descriptor>
+                                        <descriptor>${project.basedir}/src/main/assembly-descriptors/pg.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>
