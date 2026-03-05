@@ -59,32 +59,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate.validator</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>tomcat-embed-core</artifactId>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>tomcat-embed-websocket</artifactId>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -304,11 +278,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>
-                            ${basedir}/src/test/resources/test-data/atp-dataset-q-classes-generation-pg.jar
-                        </additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/src/test/resources/test-data/atp-dataset-q-classes-generation-pg.jar</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>${tests.argLine}</argLine>
                 </configuration>
@@ -321,8 +292,7 @@
                     <archive>
                         <manifestEntries>
                             <Implementation-Title>DS DB Migration</Implementation-Title>
-                            <Implementation-Version>${project.version}-${svn.revision}
-                            </Implementation-Version>
+                            <Implementation-Version>${project.version}-${svn.revision}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
