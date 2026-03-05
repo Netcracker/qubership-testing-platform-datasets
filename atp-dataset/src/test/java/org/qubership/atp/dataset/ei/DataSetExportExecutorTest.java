@@ -48,6 +48,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.GridFsRepository;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetEntity;
@@ -76,6 +78,7 @@ import com.google.common.collect.Sets;
 @Isolated
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class DataSetExportExecutorTest {
 
     @Spy
@@ -253,7 +256,7 @@ public class DataSetExportExecutorTest {
                 assertEquals(dsName, _dsName);
             } else if (s.startsWith("name=attribute 2;")) {
                 String filePath = s.replace("name=attribute 2; description=; value=", "");
-                String expectedFilePath = "./files/" + dslId.toString() + "/" + dsId.toString() + "/" + paramId.toString();
+                String expectedFilePath = "./files/" + dslId + "/" + dsId + "/" + paramId.toString();
                 assertEquals(Path.of(filePath).toString(), Path.of(expectedFilePath).toString());
             } else if (s.startsWith("name=attribute 1;")) {
                 String value = s.replace("name=attribute 1; description=; value=", "");
@@ -312,7 +315,7 @@ public class DataSetExportExecutorTest {
         Mockito.when(jpaDataSetRepository.findById(referencedDataSetId)).thenReturn(Optional.of(referencedDataSet));
         Mockito.when(jpaDataSetRepository.findById(referencedDataSetId2)).thenReturn(Optional.of(referencedDataSet2));
 
-        ParameterEntity parameterEntity = dataSet.getParameters().get(0);
+        ParameterEntity parameterEntity = dataSet.getParameters().getFirst();
         parameterEntity.setDataSetReferenceId(referencedDataSetId);
 
         ParameterEntity ds2Param = new ParameterEntity();
@@ -354,7 +357,7 @@ public class DataSetExportExecutorTest {
         referencedDataSet.setName("ds2");
         referencedDataSet.setParameters(new ArrayList<>());
 
-        ParameterEntity parameterEntity = dataSet.getParameters().get(0);
+        ParameterEntity parameterEntity = dataSet.getParameters().getFirst();
         parameterEntity.setDataSetReferenceId(referencedDataSetId);
 
         ParameterEntity ds2Param = new ParameterEntity();

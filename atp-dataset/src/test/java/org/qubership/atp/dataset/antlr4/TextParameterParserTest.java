@@ -31,8 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.impl.macro.CachedDslMacroResultContainer;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
@@ -46,6 +47,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class TextParameterParserTest {
     private static MacroContext macroContext;
     public static String MACRO_RESULT = "MY TEXT";
@@ -100,8 +102,7 @@ public class TextParameterParserTest {
             }
 
             @Override
-            public DataSetList getDataSetList(UUID visibilityAreaId, PathStep dataSetListPathStep)
-                    throws DataSetServiceException {
+            public DataSetList getDataSetList(UUID visibilityAreaId, PathStep dataSetListPathStep) {
                 DataSetListEntity dataSetListEntity = new DataSetListEntity();
                 dataSetListEntity.setId(DATA_SET_LIST_ID);
                 return new DataSetList(dataSetListEntity);

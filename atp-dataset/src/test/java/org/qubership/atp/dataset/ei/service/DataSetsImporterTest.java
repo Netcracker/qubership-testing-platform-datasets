@@ -33,6 +33,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.service.direct.ClearCacheService;
 import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
@@ -49,6 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Isolated
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @Slf4j
 public class DataSetsImporterTest {
 

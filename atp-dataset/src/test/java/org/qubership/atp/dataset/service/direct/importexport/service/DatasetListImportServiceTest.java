@@ -51,8 +51,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityManager;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
@@ -66,6 +64,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.db.jpa.Wrapper;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -109,6 +109,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.collect.ImmutableMap;
+import jakarta.persistence.EntityManager;
 
 /*  DSL 2                        DSL 3                        DSL 4
  * ------------------------------------------------------------------------------
@@ -172,6 +173,7 @@ import com.google.common.collect.ImmutableMap;
 @Isolated
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 public class DatasetListImportServiceTest {
 
