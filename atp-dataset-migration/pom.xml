@@ -389,7 +389,7 @@
                                         <argument>--add-opens=java.base/java.util=ALL-UNNAMED</argument>
                                         <argument>-classpath</argument>
                                         <classpath />
-                                        <argument>-Dspring.config.location="target/config/application.properties"</argument>
+                                        <argument>-Dspring.config.location=file:./target/config/application.properties</argument>
                                         <argument>org.qubership.atp.dataset.db.migration.Main</argument>
                                     </arguments>
                                 </configuration>

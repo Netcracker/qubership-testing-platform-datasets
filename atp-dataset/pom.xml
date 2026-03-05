@@ -9,12 +9,12 @@
 
     <properties>
         <querydslPackageName>org.qubership.atp.dataset.db.generated</querydslPackageName>
-        <tests.argLine>-Djavax.net.ssl.keyStore="target/test-basedir/config/keystore.p12"
-            -Djavax.net.ssl.keyStorePassword="123456" -Dgridfs.database=dsgridfs
+        <tests.argLine>-Djavax.net.ssl.keyStore=file:./target/test-basedir/config/keystore.p12
+            -Djavax.net.ssl.keyStorePassword=123456 -Dgridfs.database=dsgridfs
             -Dgridfs.host=localhost -Dgridfs.port=27017
             -Dgridfs.user=dsuser -Dgridfs.password=dspass
-            -Dspring.config.location="target/config/application.properties"
-            -Dspring.cloud.bootstrap.location="target/config/bootstrap.properties"
+            -Dspring.config.location=file:./target/config/application.properties
+            -Dspring.cloud.bootstrap.location=file:./target/config/bootstrap.properties
             -Djdbc.Url=${pg.jdbc.Url}
             -Djdbc.Driver=${pg.jdbc.Driver}
             -Djdbc.User=${pg.jdbc.User}
