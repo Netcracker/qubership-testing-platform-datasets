@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -694,11 +694,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
         if (!StringUtils.isEmpty(prevNamePattern) && name.contains(prevNamePattern)) {
             newName = name.replaceAll(prevNamePattern, postfix);
         } else {
-            newName = String.format("%s %s", name, postfix);
+            newName = "%s %s".formatted(name, postfix);
         }
 
         while (dataSetListNames.contains(newName)) {
-            newName = String.format("%s %s", newName, "Copy");
+            newName = "%s %s".formatted(newName, "Copy");
         }
 
         return newName;

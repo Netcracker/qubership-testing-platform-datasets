@@ -18,8 +18,8 @@ package org.qubership.atp.dataset.model.utils;
 
 import java.util.function.BiConsumer;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * https://stackoverflow.com/questions/32131987/how-can-i-make-cartesian-product-with-java-8-streams

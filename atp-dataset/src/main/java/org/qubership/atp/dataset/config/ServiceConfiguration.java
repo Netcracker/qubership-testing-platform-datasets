@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import javax.script.ScriptEngineManager;
 import javax.sql.DataSource;
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 
 import org.javers.core.Javers;
 import org.javers.repository.api.JaversRepository;

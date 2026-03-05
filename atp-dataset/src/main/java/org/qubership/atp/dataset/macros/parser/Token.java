@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.parser;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface Token extends Map.Entry<TokenType, String> {
 

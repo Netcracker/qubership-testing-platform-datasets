@@ -47,6 +47,14 @@
                     <artifactId>tomcat-embed-websocket</artifactId>
                     <groupId>org.apache.tomcat.embed</groupId>
                 </exclusion>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -73,6 +81,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -84,7 +96,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mattbertolini</groupId>
@@ -404,11 +415,11 @@
                                         </argument>
                                         <argument>--add-exports=java.base/jdk.internal.loader=ALL-UNNAMED</argument>
                                         <argument>--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED</argument>
-                                        <argument>--illegal-access=warn</argument>
                                         <argument>--add-opens=java.base/java.lang=ALL-UNNAMED</argument>
                                         <argument>--add-opens=java.base/java.util=ALL-UNNAMED</argument>
                                         <argument>-classpath</argument>
                                         <classpath />
+                                        <argument>-Dspring.config.location="target/config/application.properties"</argument>
                                         <argument>org.qubership.atp.dataset.db.migration.Main
                                         </argument>
                                     </arguments>

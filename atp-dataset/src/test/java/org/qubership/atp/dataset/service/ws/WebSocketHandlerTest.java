@@ -24,7 +24,7 @@ import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,8 +41,8 @@ public class WebSocketHandlerTest {
 
     private EventHandler handler;
     private WebSocketSession webSocket;
-    private String sessionId = "sessionId";
-    private String dslId = "dslId";
+    private final String sessionId = "sessionId";
+    private final String dslId = "dslId";
     private Event event;
 
     @BeforeEach

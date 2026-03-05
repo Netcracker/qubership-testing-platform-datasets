@@ -19,6 +19,7 @@ package org.qubership.atp.dataset.config;
 import javax.sql.DataSource;
 
 import org.mockito.Mockito;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -33,6 +34,7 @@ import liquibase.integration.spring.SpringLiquibase;
 public class OverrideOriginBeanConfig {
 
     @Bean
+    @DependsOnDatabaseInitialization
     public SQLQueryFactory queryFactory(DataSource dataSource, com.querydsl.sql.Configuration qdslConfig) {
         return Mockito.spy(new SQLQueryFactory(qdslConfig, new TransactionAwareDataSourceProxy(dataSource)));
     }

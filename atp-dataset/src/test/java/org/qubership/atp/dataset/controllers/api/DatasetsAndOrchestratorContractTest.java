@@ -31,7 +31,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -67,7 +67,7 @@ import lombok.extern.slf4j.Slf4j;
         DataSetListController.class,
         AttachmentController.class
 })
-@ContextConfiguration(classes = {DatasetsAndOrchestratorContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndOrchestratorContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,

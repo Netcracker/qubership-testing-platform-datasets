@@ -33,26 +33,32 @@ public class TestUtils {
 
     public static Macros getUuidMacros() {
         return getMacros("UUID",
-                "function main() {\n"
-                        + "    var result = java.util.UUID.randomUUID();\n"
-                        + "    return result.toString();\n"
-                        + "}");
+                """
+                function main() {
+                    var result = java.util.UUID.randomUUID();
+                    return result.toString();
+                }\
+                """);
     }
 
     public static Macros getCustomMacros() {
         return getMacros("CUSTOM_VALUE",
-                "function main() {\n"
-                        + "    return 'CUSTOM_VALUE';\n"
-                        + "}");
+                """
+                function main() {
+                    return 'CUSTOM_VALUE';
+                }\
+                """);
     }
 
     public static Macros getContextMacros() {
         Macros context = getMacros("CONTEXT",
-                "function main(variableName) {\n"
-                        + "    return (contextMap != null && contextMap.get(variableName) != null) \n"
-                        + "      ? contextMap.get(variableName) \n"
-                        + "      : 'Unknown ' + variableName;\n"
-                        + "}");
+                """
+                function main(variableName) {
+                    return (contextMap != null && contextMap.get(variableName) != null)\s
+                      ? contextMap.get(variableName)\s
+                      : 'Unknown ' + variableName;
+                }\
+                """);
         context.setParameters(of(
                 getMacrosParameter("variableName", null))
         );
@@ -61,42 +67,48 @@ public class TestUtils {
 
     public static Macros getInnMacros() {
         return getMacros("INN",
-                "function main() {\n"
-                        + "    var factors = [2, 4, 10, 3, 5, 9, 4, 6, 8];\n"
-                        + "    var result = '';\n"
-                        + "    var last = 0;\n"
-                        + "    for (var i = 0; i < 9; i++) {\n"
-                        + "        var floor = Math.floor(Math.random() * (10 - 1) + 1);\n"
-                        + "        result += floor;\n"
-                        + "        last += factors[i] * floor;\n"
-                        + "    }\n"
-                        + "    last = last % 11 % 10;\n"
-                        + "    result += last;\n"
-                        + "    return result;\n"
-                        + "}");
+                """
+                function main() {
+                    var factors = [2, 4, 10, 3, 5, 9, 4, 6, 8];
+                    var result = '';
+                    var last = 0;
+                    for (var i = 0; i < 9; i++) {
+                        var floor = Math.floor(Math.random() * (10 - 1) + 1);
+                        result += floor;
+                        last += factors[i] * floor;
+                    }
+                    last = last % 11 % 10;
+                    result += last;
+                    return result;
+                }\
+                """);
     }
 
     public static Macros getUuidUpperCaseMacros() {
         return getMacros("UUID_UPPERCASE",
-                "function main() {\n"
-                        + "    var result = java.util.UUID.randomUUID();\n"
-                        + "    return result.toString().toUpperCase();\n"
-                        + "}");
+                """
+                function main() {
+                    var result = java.util.UUID.randomUUID();
+                    return result.toString().toUpperCase();
+                }\
+                """);
     }
 
     public static Macros getRandomBetweenMacros() {
         Macros macros = getMacros("RANDOMBETWEEN",
-                "function main(min, max) {\n"
-                        + "    min = parseInt(min);\n"
-                        + "    max = parseInt(max);\n"
-                        + "    if (max < min) {\n"
-                        + "        var temp = max;\n"
-                        + "        max = min;\n"
-                        + "        min = temp;\n"
-                        + "    }\n"
-                        + "    var result = Math.floor(Math.random() * (max - min + 1)) + min;\n"
-                        + "    return result.toString();\n"
-                        + "}");
+                """
+                function main(min, max) {
+                    min = parseInt(min);
+                    max = parseInt(max);
+                    if (max < min) {
+                        var temp = max;
+                        max = min;
+                        min = temp;
+                    }
+                    var result = Math.floor(Math.random() * (max - min + 1)) + min;
+                    return result.toString();
+                }\
+                """);
         macros.setParameters(unmodifiableList(asList(
                 getMacrosParameter("min", "1"),
                 getMacrosParameter("max", "100"))));
@@ -105,18 +117,20 @@ public class TestUtils {
 
     public static Macros getDateMacros() {
         Macros macros = getMacros("DATE",
-                "function main(format, timeZone) {\n"
-                        + "    var date = new Packages.java.util.Date();\n"
-                        + "    if (format.equals('millis')) {\n"
-                        + "        return date.getTime().toString();\n"
-                        + "    }\n"
-                        + "    var print = new Packages.java.text.SimpleDateFormat(format);\n"
-                        + "    if (timeZone != null) {\n"
-                        + "        var timezone = Packages.java.util.TimeZone.getTimeZone(timeZone);\n"
-                        + "        print.setTimeZone(timezone);\n"
-                        + "    }\n"
-                        + "    return print.format(date);\n"
-                        + "}");
+                """
+                function main(format, timeZone) {
+                    var date = new Packages.java.util.Date();
+                    if (format.equals('millis')) {
+                        return date.getTime().toString();
+                    }
+                    var print = new Packages.java.text.SimpleDateFormat(format);
+                    if (timeZone != null) {
+                        var timezone = Packages.java.util.TimeZone.getTimeZone(timeZone);
+                        print.setTimeZone(timezone);
+                    }
+                    return print.format(date);
+                }\
+                """);
         macros.setParameters(unmodifiableList(asList(
                 getMacrosParameter("format", "dd.MM.yyyy hh:mm:ss"),
                 getMacrosParameter("timeZone", null))));
@@ -125,15 +139,17 @@ public class TestUtils {
 
     public static Macros getCharsMacros() {
         Macros macros = getMacros("CHARS",
-                "function main(count) {\n"
-                        + "    var result = '';\n"
-                        + "    var characters = 'abcdefghijklmnopqrstuvwxyz';\n"
-                        + "    var length = characters.length;\n"
-                        + "    for (var i = 0; i < count; i++) {\n"
-                        + "        result += characters.charAt(Math.floor(Math.random() * length));\n"
-                        + "    }\n"
-                        + "    return result;\n"
-                        + "}");
+                """
+                function main(count) {
+                    var result = '';
+                    var characters = 'abcdefghijklmnopqrstuvwxyz';
+                    var length = characters.length;
+                    for (var i = 0; i < count; i++) {
+                        result += characters.charAt(Math.floor(Math.random() * length));
+                    }
+                    return result;
+                }\
+                """);
         macros.setParameters(of(
                 getMacrosParameter("count", null)));
         return macros;
@@ -141,15 +157,17 @@ public class TestUtils {
 
     public static Macros getCharsUpperCaseMacros() {
         Macros macros = getMacros("CHARS_UPPERCASE",
-                "function main(count) {\n"
-                        + "    var result = '';\n"
-                        + "    var characters = 'abcdefghijklmnopqrstuvwxyz';\n"
-                        + "    var length = characters.length;\n"
-                        + "    for (var i = 0; i < count; i++) {\n"
-                        + "        result += characters.charAt(Math.floor(Math.random() * length));\n"
-                        + "    }\n"
-                        + "    return result.toUpperCase();\n"
-                        + "}");
+                """
+                function main(count) {
+                    var result = '';
+                    var characters = 'abcdefghijklmnopqrstuvwxyz';
+                    var length = characters.length;
+                    for (var i = 0; i < count; i++) {
+                        result += characters.charAt(Math.floor(Math.random() * length));
+                    }
+                    return result.toUpperCase();
+                }\
+                """);
         macros.setParameters(of(
                 getMacrosParameter("count", null)));
         return macros;
@@ -157,9 +175,11 @@ public class TestUtils {
 
     public static Macros getSumMacros() {
         Macros macros = getMacros("SUM",
-                "function main(first, second) {\n"
-                        + "    return parseInt(first) + parseInt(second);\n"
-                        + "}");
+                """
+                function main(first, second) {
+                    return parseInt(first) + parseInt(second);
+                }\
+                """);
         macros.setParameters(unmodifiableList(asList(
                 getMacrosParameter("first", null),
                 getMacrosParameter("second", null))));
@@ -168,24 +188,26 @@ public class TestUtils {
 
     public static Macros getShiftDayMacros() {
         Macros macros = getMacros("SHIFT_DAY",
-                "function main(value, date, format) {\n"
-                        + "    var calendar = Packages.java.util.Calendar.getInstance();\n"
-                        + "    if (format.equals('millis')) {\n"
-                        + "        calendar.setTimeInMillis(Packages.java.lang.Long.parseLong(date));\n"
-                        + "        var newDay = calendar.get(Packages.java.util.Calendar.DAY_OF_MONTH) + Packages"
-                        + ".java.lang.Integer.parseInt(value);\n"
-                        + "        calendar.set(Packages.java.util.Calendar.DAY_OF_MONTH, newDay);\n"
-                        + "        return calendar.getTimeInMillis();\n"
-                        + "    } else {\n"
-                        + "        var sdf = new Packages.java.text.SimpleDateFormat(format);\n"
-                        + "        var date1 = sdf.parse(date);\n"
-                        + "        calendar.setTimeInMillis(date1.getTime());\n"
-                        + "        var newDay = calendar.get(Packages.java.util.Calendar.DAY_OF_MONTH) + Packages"
-                        + ".java.lang.Integer.parseInt(value);\n"
-                        + "        calendar.set(Packages.java.util.Calendar.DAY_OF_MONTH, newDay);\n"
-                        + "        return sdf.format(calendar.getTime());\n"
-                        + "    }\n"
-                        + "}");
+                """
+                function main(value, date, format) {
+                    var calendar = Packages.java.util.Calendar.getInstance();
+                    if (format.equals('millis')) {
+                        calendar.setTimeInMillis(Packages.java.lang.Long.parseLong(date));
+                        var newDay = calendar.get(Packages.java.util.Calendar.DAY_OF_MONTH) + Packages\
+                .java.lang.Integer.parseInt(value);
+                        calendar.set(Packages.java.util.Calendar.DAY_OF_MONTH, newDay);
+                        return calendar.getTimeInMillis();
+                    } else {
+                        var sdf = new Packages.java.text.SimpleDateFormat(format);
+                        var date1 = sdf.parse(date);
+                        calendar.setTimeInMillis(date1.getTime());
+                        var newDay = calendar.get(Packages.java.util.Calendar.DAY_OF_MONTH) + Packages\
+                .java.lang.Integer.parseInt(value);
+                        calendar.set(Packages.java.util.Calendar.DAY_OF_MONTH, newDay);
+                        return sdf.format(calendar.getTime());
+                    }
+                }\
+                """);
         macros.setParameters(unmodifiableList(asList(
                 getMacrosParameter("value", null),
                 getMacrosParameter("date", null),
@@ -195,13 +217,15 @@ public class TestUtils {
 
     public static Macros getRandMacros() {
         Macros macros = getMacros("RAND",
-            "function main(digit) {\n"
-                + "    digit = Math.abs(parseInt(digit));\n"
-                + "    min = Math.pow(10, digit - 1);\n"
-                + "    max = Math.pow(10, digit) - 1;\n"
-                + "    var result = Math.floor(Math.random() * (max - min + 1)) + min;\n"
-                + "    return result.toString();\n"
-                + "}");
+            """
+            function main(digit) {
+                digit = Math.abs(parseInt(digit));
+                min = Math.pow(10, digit - 1);
+                max = Math.pow(10, digit) - 1;
+                var result = Math.floor(Math.random() * (max - min + 1)) + min;
+                return result.toString();
+            }\
+            """);
         macros.setParameters(of(
             getMacrosParameter("digit", "1")));
         return macros;
@@ -209,10 +233,12 @@ public class TestUtils {
 
     public static Macros getTrNameMacros() {
         Macros macros = getMacros("TEST_CASE_SHORT_NAME",
-                "function main() {    \n"
-                        + "\treturn (contextMap != null && contextMap.get('TEST_CASE_SHORT_NAME') != null) \n"
-                        + "\t\t? contextMap.get('TEST_CASE_SHORT_NAME') : 'Unknown TEST_CASE_SHORT_NAME';\n"
-                        + "}");
+                """
+                function main() {   \s
+                	return (contextMap != null && contextMap.get('TEST_CASE_SHORT_NAME') != null)\s
+                		? contextMap.get('TEST_CASE_SHORT_NAME') : 'Unknown TEST_CASE_SHORT_NAME';
+                }\
+                """);
         return macros;
     }
 

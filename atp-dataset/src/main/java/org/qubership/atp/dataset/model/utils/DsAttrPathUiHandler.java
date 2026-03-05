@@ -24,8 +24,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSetList;
@@ -44,7 +44,7 @@ public class DsAttrPathUiHandler extends AbstractDsUiHandler {
     private final Deque<Attribute> groupsPath = new ArrayDeque<>();
     private boolean isLeaf = false;
     private UiManAttribute result = null;
-    private Deque<UiManAttribute> convertedGroupsPath = new ArrayDeque<>();
+    private final Deque<UiManAttribute> convertedGroupsPath = new ArrayDeque<>();
 
     public DsAttrPathUiHandler(DsEvaluator evaluator, List<UUID> attrPath) {
         this.evaluator = evaluator;

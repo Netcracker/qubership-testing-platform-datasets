@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import org.qubership.atp.dataset.service.direct.ClearCacheService;
@@ -53,6 +53,7 @@ import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class DataSetParametersImporterTest {
 
     private ObjectLoaderFromDiskService objectLoaderFromDiskService;
@@ -81,7 +82,7 @@ public class DataSetParametersImporterTest {
 
     @Test
     public void validateDataSetParameters() {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(dsService.getById(any())).thenReturn(null);
         List<String> result = dataSetParametersImporter.validateDataSetParameters(workDir,
                 Collections.emptyMap(), false);
@@ -93,8 +94,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_1() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_1() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(null);
         when(attrService.getAttributeKeyById(any())).thenReturn(null);
         dataSetParametersImporter.importDataSetParameters(workDir, importData);
@@ -102,8 +103,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_2() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_2() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(mock(Attribute.class));
         when(paramService.replicate(any(), any(), any(), any())).thenReturn(mock(Parameter.class));
         dataSetParametersImporter.importDataSetParameters(workDir, importData);
@@ -111,8 +112,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_21() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_21() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(null);
         when(attrService.getAttributeKeyById(any())).thenReturn(mock(AttributeKey.class));
         when(paramService.replicate(any(), any(), any(), any())).thenReturn(mock(Parameter.class));
@@ -122,8 +123,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_22() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_22() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(mock(Attribute.class));
         UUID absentAttributeId = UUID.fromString("1c80d1bd-614e-4b01-9def-9fb9b9e79518");
         when(attrService.getById(absentAttributeId)).thenReturn(null);
@@ -135,8 +136,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_3() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_3() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(mock(Attribute.class));
         Parameter parameter = mock(Parameter.class);
         when(paramService.replicate(any(), any(), any(), any())).thenReturn(parameter);
@@ -151,8 +152,8 @@ public class DataSetParametersImporterTest {
     }
 
     @Test
-    public void importDataSetParameters_4() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSetParameters_4() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(attrService.getById(any())).thenReturn(mock(Attribute.class));
 
         Parameter existingParameter = mock(Parameter.class);

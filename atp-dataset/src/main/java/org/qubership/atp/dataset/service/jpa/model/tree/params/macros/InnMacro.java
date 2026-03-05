@@ -17,6 +17,7 @@
 package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
 
@@ -38,7 +39,7 @@ public class InnMacro extends AbstractMacro {
         StringBuilder result = new StringBuilder();
         int last = 0;
         for (int i = 0; i < 9; i++) {
-            int floor = (int) Math.floor(Math.random() * (10 - 1) + 1);
+            int floor = (int) Math.floor(ThreadLocalRandom.current().nextDouble() * (10 - 1) + 1);
             result.append(floor);
             last += FACTORS[i] * floor;
         }

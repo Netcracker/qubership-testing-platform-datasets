@@ -17,7 +17,6 @@
 package org.qubership.atp.dataset.service.direct.impl;
 
 import static java.util.Arrays.asList;
-import static junit.framework.TestCase.assertNull;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -28,6 +27,8 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -45,22 +46,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.google.common.collect.ImmutableList;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -76,16 +68,26 @@ import org.qubership.atp.dataset.model.TestPlan;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.model.impl.TableResponse;
 import org.qubership.atp.dataset.model.utils.DatasetResponse;
-import org.qubership.atp.dataset.service.direct.DuplicateKeyException;
 import org.qubership.atp.dataset.service.rest.dto.manager.AffectedDataSetList;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSetList;
 import org.qubership.atp.dataset.versioning.service.DataSetListSnapshotService;
-import org.qubership.atp.macros.core.clients.api.dto.macros.MacrosDto;
 import org.qubership.atp.macros.core.calculator.MacrosCalculator;
 import org.qubership.atp.macros.core.client.MacrosFeignClient;
+import org.qubership.atp.macros.core.clients.api.dto.macros.MacrosDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.google.common.collect.ImmutableList;
 
 @Isolated
-@ContextConfiguration(classes = {TestConfiguration.class})
+@SpringJUnitConfig(classes = {TestConfiguration.class})
+@ExtendWith(MockitoExtension.class)
 @TestPropertySource(properties = {
         "feign.atp.macros.url=",
         "feign.atp.macros.route=",
@@ -170,17 +172,17 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void testDeleteDataSetListCascade() throws DuplicateKeyException {
+    public void testDeleteDataSetListCascade() {
         DataSetList dsl = dataSetListService.create(vaId, "MustBeRemoved", null);
         DataSet dataSet = dataSetService.create(dsl.getId(), "MustBeRemoved");
         Attribute attribute = attributeService
                 .create(dsl.getId(), 0, "MustBeRemoved", AttributeType.TEXT, null, null);
         Parameter parameter = parameterService.create(dataSet.getId(), attribute.getId(), "Text", null, null);
         dataSetListService.delete(dsl.getId());
-        Assertions.assertNull(dataSetListService.get(dsl.getId()));
-        Assertions.assertNull(dataSetService.get(dataSet.getId()));
-        Assertions.assertNull(attributeService.get(attribute.getId()));
-        Assertions.assertNull(parameterService.get(parameter.getId()));
+        assertNull(dataSetListService.get(dsl.getId()));
+        assertNull(dataSetService.get(dataSet.getId()));
+        assertNull(attributeService.get(attribute.getId()));
+        assertNull(parameterService.get(parameter.getId()));
         List<VisibilityArea> all = visibilityAreaService.getAll();
         VisibilityArea area = all.stream().filter(va -> va.getId().equals(vaId))
                 .findFirst().orElseThrow(() -> new AssertionError("VisibilityArea not found"));
@@ -233,23 +235,23 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
         assertEquals(1, withData.getDataSets().size());
 
         List<Attribute> attrs = withoutData.getAttributes();
-        assertEquals(attrs.get(0).getName(), "textAttr");
-        assertEquals(attrs.get(0).getType(), AttributeType.TEXT);
-        assertEquals(attrs.get(1).getName(), "PostalCodeRef2");
-        assertEquals(attrs.get(1).getType(), AttributeType.DSL);
+        assertEquals("textAttr", attrs.get(0).getName());
+        assertEquals(AttributeType.TEXT, attrs.get(0).getType());
+        assertEquals("PostalCodeRef2", attrs.get(1).getName());
+        assertEquals(AttributeType.DSL, attrs.get(1).getType());
 
         List<Attribute> attrsWD = withData.getAttributes();
-        assertEquals(attrsWD.get(0).getName(), "textAttr");
-        assertEquals(attrsWD.get(0).getType(), AttributeType.TEXT);
-        assertEquals(attrsWD.get(1).getName(), "PostalCodeRef2");
-        assertEquals(attrsWD.get(1).getType(), AttributeType.DSL);
+        assertEquals("textAttr", attrsWD.get(0).getName());
+        assertEquals(AttributeType.TEXT, attrsWD.get(0).getType());
+        assertEquals("PostalCodeRef2", attrsWD.get(1).getName());
+        assertEquals(AttributeType.DSL, attrsWD.get(1).getType());
 
-        assertEquals(withData.getTestPlan().getName(), "TP");
-        assertEquals(withoutData.getTestPlan().getName(), "TP");
+        assertEquals("TP", withData.getTestPlan().getName());
+        assertEquals("TP", withoutData.getTestPlan().getName());
     }
 
     @Test
-    public void getDatasetsIdsWithItsNameAndDatasetList_correct_StructureWereReturned() throws DuplicateKeyException {
+    public void getDatasetsIdsWithItsNameAndDatasetList_correct_StructureWereReturned() {
         DataSetList dslWithTwoDatasets = dataSetListService.create(vaId, "dslWith2ds", null);
         DataSet ds1InsideDslWith2ds = dataSetService.create(dslWithTwoDatasets.getId(), "ds1InsideDslWith2ds");
         DataSet ds2InsideDslWith2ds = dataSetService.create(dslWithTwoDatasets.getId(), "ds2InsideDslWith2ds");
@@ -289,7 +291,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void getDatasetsIdsWithItsNameAndDatasetList_correct_StructureWereReturnedWithSkippedNotFoundDsl() throws DuplicateKeyException {
+    public void getDatasetsIdsWithItsNameAndDatasetList_correct_StructureWereReturnedWithSkippedNotFoundDsl() {
         DataSetList dsl = dataSetListService.create(vaId, "dslist", null);
         DataSet dataSet1 = dataSetService.create(dsl.getId(), "ds1");
 
@@ -305,7 +307,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void getFilteredDatasets_datasetsWereFilteredById() throws DuplicateKeyException {
+    public void getFilteredDatasets_datasetsWereFilteredById() {
         DataSetList dsl = dataSetListService.create(vaId, "dsl", null);
         DataSet dataSet1 = dataSetService.create(dsl.getId(), "ds1");
         DataSet dataSet2 = dataSetService.create(dsl.getId(), "ds2");
@@ -324,7 +326,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void getFilteredDatasets_datasetsWereFilteredByAttributes() throws DuplicateKeyException {
+    public void getFilteredDatasets_datasetsWereFilteredByAttributes() {
         DataSetList dsl = dataSetListService.create(vaId, "dsl", null);
         DataSet dataSet1 = dataSetService.create(dsl.getId(), "ds1");
         Attribute attribute1 = attributeService
@@ -358,7 +360,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void getFilteredDatasets_datasetsWereFilteredByIdAndAttributes() throws DuplicateKeyException {
+    public void getFilteredDatasets_datasetsWereFilteredByIdAndAttributes() {
         DataSetList dsl = dataSetListService.create(vaId, "dsl", null);
 
         DataSet dataSet1 = dataSetService.create(dsl.getId(), "ds1");
@@ -471,7 +473,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     @Test
     public void testGetAffectedDataSetLists_shouldThrowAnException_whenLimitIsNegative() {
         DataSetList toDelete = dataSetListService.create(vaId, "dsl", null);
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        assertThrows(IllegalArgumentException.class, ()-> {
             dataSetListService.getAffectedDataSetLists(toDelete.getId(), -1, 0);
         });
     }
@@ -479,13 +481,13 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     @Test
     public void testGetAffectedDataSetLists_shouldThrowAnException_whenOffsetIsNegative() {
         DataSetList toDelete = dataSetListService.create(vaId, "dsl", null);
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        assertThrows(IllegalArgumentException.class, ()-> {
             dataSetListService.getAffectedDataSetLists(toDelete.getId(), 1, -1);
         });
     }
 
     @Test
-    public void testCopyDslWithDatasets_dslWasCopiedWithoutTestPlan() throws Exception {
+    public void testCopyDslWithDatasets_dslWasCopiedWithoutTestPlan() {
 
         UUID postalCode = dataSetListService.create(vaId, "PostalCode", null).getId();
         DataSet pc1 = dataSetService.create(postalCode, "PC#1");
@@ -545,7 +547,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
         assertEquals("PostalCodeRef2", attrs.get(1).getName());
         assertEquals( AttributeType.DSL, attrs.get(1).getType());
 
-        Assertions.assertNull(resultDsl1.getTestPlan());
+        assertNull(resultDsl1.getTestPlan());
     }
 
     @Test
@@ -566,7 +568,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
 
     @Test
     public void testExistsById_shouldThrowAnException_whenDataSetListIdIsNull() {
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        assertThrows(IllegalArgumentException.class, ()-> {
             dataSetListService.existsById(null);
         });
     }
@@ -592,7 +594,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
 
     @Test
     public void testGetDataSetListModifiedWhen_shouldThrowAnException_whenDataSetListIdIsNull() {
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        assertThrows(IllegalArgumentException.class, ()-> {
             dataSetListService.getModifiedWhen(null);
         });
 
@@ -608,7 +610,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void test_UiManDataSetList_whenMacrosAtpIs() throws DuplicateKeyException {
+    public void test_UiManDataSetList_whenMacrosAtpIs() {
         ReflectionTestUtils.setField(dataSetListService, "macroFeignUrl", "testUrl");
         VisibilityArea area = visibilityAreaService.create("TestVA");
         DataSetList dsl = dataSetListService.create(area.getId(), "dsl", null);
@@ -647,7 +649,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void test_UiManDataSetList_emptyNonTechnicalMacrosList() throws DuplicateKeyException {
+    public void test_UiManDataSetList_emptyNonTechnicalMacrosList() {
         ReflectionTestUtils.setField(dataSetListService, "macroFeignUrl", "testUrl");
         VisibilityArea area = visibilityAreaService.create("TestVA");
         DataSetList dsl = dataSetListService.create(area.getId(), "dsl", null);
@@ -685,7 +687,7 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
     }
 
     @Test
-    public void getAsTree_runEvaluateMacros_macrosParameterEvaluated() throws DuplicateKeyException {
+    public void getAsTree_runEvaluateMacros_macrosParameterEvaluated() {
         String str = "35#RANDOMBETWEEN(31,31)";
         DataSetList dsl = dataSetListService.create(vaId, "dsl", null);
         DataSet dataSet = dataSetService.create(dsl.getId(), "ds1");

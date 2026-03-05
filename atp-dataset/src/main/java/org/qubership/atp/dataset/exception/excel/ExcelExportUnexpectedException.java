@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-8001")
 public class ExcelExportUnexpectedException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Error while creating export data file for DSL: '%s' Error: '%s'";
+    private static final String DEFAULT_MESSAGE = "Error while creating export data file for DSL: '%s' Error: '%s'";
 
     public ExcelExportUnexpectedException(String dslName, Exception ex) {
-        super(String.format(DEFAULT_MESSAGE, dslName, ex.getMessage()));
+        super(DEFAULT_MESSAGE.formatted(dslName, ex.getMessage()));
     }
 }

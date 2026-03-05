@@ -16,7 +16,6 @@
 
 package org.qubership.atp.dataset.ei.service;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public class DataSetListImporter {
         }
         log.debug("Import object: {} in path: {}", object, path);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -149,7 +148,7 @@ public class DataSetListImporter {
                              object.getSourceId(), object.getCreatedBy(), object.getCreatedWhen(),
                              object.getModifiedBy(), object.getModifiedWhen());
         } catch (DataSetServiceException e) {
-            String message = String.format("Cannot create new data set list by import object %s", object);
+            String message = "Cannot create new data set list by import object %s".formatted(object);
             log.error(message);
             throw new ExportException(message, e);
         }
@@ -191,7 +190,7 @@ public class DataSetListImporter {
             }
         } catch (DataSetServiceException e) {
             String message =
-                    String.format("Cannot create Visibility Area %s", vaId);
+                    "Cannot create Visibility Area %s".formatted(vaId);
             throw new ExportException(message, e);
         }
     }

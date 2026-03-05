@@ -105,7 +105,7 @@ public class DataSetParametersImporter {
 
         log.debug("importDataSetParameters import object: {}", object);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -139,7 +139,7 @@ public class DataSetParametersImporter {
                 updateParameter(parameter, object);
                 paramService.save(parameter);
             } catch (DataSetServiceException e) {
-                String message = String.format("Cannot create new parameter by import object %s", object);
+                String message = "Cannot create new parameter by import object %s".formatted(object);
                 log.error(message, e);
                 throw new ExportException(message, e);
             }
@@ -278,7 +278,7 @@ public class DataSetParametersImporter {
                         .loadFileAsObject(dataSetAttributesWithoutReplacement.get(attributeIdWithoutReplacement),
                                 DataSetAttribute.class);
                 if (attribute == null) {
-                    String message = String.format("Cannot load file by path %s", path.toString());
+                    String message = "Cannot load file by path %s".formatted(path.toString());
                     log.error(message);
                     result.add(message);
                     return;

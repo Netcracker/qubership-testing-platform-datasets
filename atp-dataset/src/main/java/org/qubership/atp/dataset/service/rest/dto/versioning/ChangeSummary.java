@@ -28,7 +28,7 @@ public enum ChangeSummary {
     OVERRIDE_DELETED("Override Removed"),
     RESTORED("Restored to v. %s");
 
-    private String value;
+    private final String value;
 
     ChangeSummary(String value) {
         this.value = value;
@@ -40,7 +40,7 @@ public enum ChangeSummary {
     }
 
     public String toString(Object... extraParameters) {
-        return String.format(value, extraParameters);
+        return value.formatted(extraParameters);
     }
 
     /**

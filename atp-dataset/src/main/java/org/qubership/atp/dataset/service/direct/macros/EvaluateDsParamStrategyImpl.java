@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.macros.EvalContextImpl;
 import org.qubership.atp.dataset.macros.MacroRegistry;
@@ -67,12 +67,12 @@ public class EvaluateDsParamStrategyImpl implements EvaluateDsParamStrategy {
     @Override
     public Optional<String> apply(@Nonnull OverlapItem.Reachable target) {
         Optional<Parameter> parameterOpt = target.getParameter();
-        if (!parameterOpt.isPresent()) {
+        if (parameterOpt.isEmpty()) {
             return Optional.empty();
         }
         Parameter parameter = parameterOpt.get();
         Optional<String> valueOpt = target.getValue();
-        if (!valueOpt.isPresent()) {
+        if (valueOpt.isEmpty()) {
             return Optional.empty();
         }
         String value = valueOpt.get();

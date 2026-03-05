@@ -26,6 +26,6 @@ public class DataSetLockedException extends DataSetException {
     private static final String DEFAULT_MESSAGE = "Dataset with name '%s' is locked";
 
     public DataSetLockedException(String dataSetName) {
-        super(String.format(DEFAULT_MESSAGE, dataSetName));
+        super(DEFAULT_MESSAGE.formatted(dataSetName));
     }
 }

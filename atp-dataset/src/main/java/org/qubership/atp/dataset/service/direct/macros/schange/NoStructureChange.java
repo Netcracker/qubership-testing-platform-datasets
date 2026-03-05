@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.service.direct.macros.schange;
 
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.db.DataSetRepository;
 import org.qubership.atp.dataset.model.DataSet;

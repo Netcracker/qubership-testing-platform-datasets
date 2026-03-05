@@ -24,6 +24,7 @@ import org.qubership.atp.dataset.config.listeners.ConnectionClosedListener;
 import org.qubership.atp.dataset.db.DBConfig;
 import org.qubership.atp.dataset.db.DbConfigImpl;
 import org.qubership.atp.dataset.service.direct.helper.DbCreationFacade;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -97,6 +98,7 @@ public class DbConfiguration {
     }
 
     @Bean
+    @DependsOnDatabaseInitialization
     public SQLQueryFactory queryFactory(DataSource dataSource, Configuration qdslConfig) {
         return new SQLQueryFactory(qdslConfig, new TransactionAwareDataSourceProxy(dataSource));
     }

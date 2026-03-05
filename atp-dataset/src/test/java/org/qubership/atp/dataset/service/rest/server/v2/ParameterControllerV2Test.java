@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.service.rest.server.v2;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.qubership.atp.dataset.RegexpMatcher.matchesToRegExp;
@@ -31,7 +31,6 @@ import java.util.UUID;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.model.api.ParameterRequest;
@@ -43,7 +42,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +51,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Isolated
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 class ParameterControllerV2Test extends AbstractJpaTest {

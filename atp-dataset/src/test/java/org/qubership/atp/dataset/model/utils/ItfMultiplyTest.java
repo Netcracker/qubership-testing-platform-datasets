@@ -41,10 +41,10 @@ public class ItfMultiplyTest {
         MultiplyTestData d = new MultiplyTestData(SimpleCreationFacade.INSTANCE);
         String expectedJson = "{\n"
                 + "    \"Account\": "
-                + String.format("\"MULTIPLY %s %s\"", d.resCA.getId(), d.b2bCA.getId())
+                + "\"MULTIPLY %s %s\"".formatted(d.resCA.getId(), d.b2bCA.getId())
                 + "    ,\n"
                 + "    \"Subscription\": "
-                + String.format("\"MULTIPLY %s %s %s\"", d.baseCheck.getId(), d.proStart.getId(), d.base.getId())
+                + "\"MULTIPLY %s %s %s\"".formatted(d.baseCheck.getId(), d.proStart.getId(), d.base.getId())
                 + "    }\n"
                 + "}";
         ObjectNode actual = Utils.serializeInItfWay(d.mix, MAPPER, EvaluatorMock.INSTANCE);

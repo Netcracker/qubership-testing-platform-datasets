@@ -14,17 +14,17 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.boot.version>2.7.18</spring.boot.version>
-        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <spring.boot.version>3.3.13</spring.boot.version>
+        <spring.cloud.version>2023.0.6</spring.cloud.version>
         <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
 
-        <atp.auth.version>1.2.80</atp.auth.version>
+        <atp.auth.version>2.0.1-SNAPSHOT</atp.auth.version>
         <ei.version>0.2.46</ei.version>
         <macros.core.version>1.0.33</macros.core.version>
 
-        <atp.common.version>0.0.47</atp.common.version>
-        <atp-crypt.version>0.0.24</atp-crypt.version>
-        <atp.integration.version>0.2.42</atp.integration.version>
+        <atp.common.version>1.0.0-SNAPSHOT</atp.common.version>
+        <atp-crypt.version>1.0.0-SNAPSHOT</atp-crypt.version>
+        <atp.integration.version>1.0.0-SNAPSHOT</atp.integration.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
         <querydsl.version>5.0.0</querydsl.version>
@@ -33,12 +33,12 @@
         <liquibase.locking.version>1.0.0_modified.2</liquibase.locking.version>
         <liquibase.slf4j.version>4.1.0</liquibase.slf4j.version>
         <shedlock.spring>4.14.0</shedlock.spring>
-        <glassfish.jersey.version>2.34</glassfish.jersey.version>
+        <glassfish.jersey.version>3.1.11</glassfish.jersey.version>
         <jackson.core.version>2.15.2</jackson.core.version>
         <hazelcast.version>4.2.6</hazelcast.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <lombok.version>1.18.30</lombok.version>
-        <undertow.version>2.2.39.Final</undertow.version>
+        <lombok.version>1.18.42</lombok.version>
+        <undertow.version>2.3.21.Final</undertow.version>
     </properties>
 
     <dependencyManagement>
@@ -88,22 +88,22 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
+                <version>6.3.10</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>5.7.13</version>
+                <version>6.3.10</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
-                <version>2.9.11</version>
+                <version>3.0.17</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>5.3.34</version>
+                <version>6.1.21</version>
             </dependency>
 
             <dependency>
@@ -181,6 +181,22 @@
                         <artifactId>error_prone_annotations</artifactId>
                         <groupId>com.google.errorprone</groupId>
                     </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15to18</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15to18</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+          </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -232,6 +248,22 @@
                         <artifactId>error_prone_annotations</artifactId>
                         <groupId>com.google.errorprone</groupId>
                     </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15to18</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15to18</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+          </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -248,7 +280,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>3.12.4</version>
+                <version>5.22.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -365,11 +397,6 @@
                 <version>2.9.9</version>
             </dependency>
             <dependency>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-core</artifactId>
-                <version>${liquibase.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
@@ -377,7 +404,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>5.3.8</version>
+                <version>6.1.21</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -430,7 +457,7 @@
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-client</artifactId>
-                <version>2.34</version>
+                <version>3.1.11</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -456,12 +483,12 @@
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>2.3.3</version>
+                <version>3.0.1</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>2.1.6</version>
+                <version>3.1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
@@ -489,19 +516,9 @@
                 <version>1.21</version>
             </dependency>
             <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>1.6.0</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>1.2.13</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.2.13</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
+                <version>2.0.0-M4</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -552,11 +569,6 @@
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-websockets-jsr</artifactId>
                 <version>${undertow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-compat</artifactId>
-                <version>3.8.1</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>

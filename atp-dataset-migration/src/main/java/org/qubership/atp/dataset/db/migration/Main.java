@@ -20,6 +20,7 @@ import java.sql.SQLException;
 
 import org.qubership.atp.dataset.db.migration.config.DbConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ import org.springframework.context.annotation.Import;
 import liquibase.exception.LiquibaseException;
 import lombok.extern.slf4j.Slf4j;
 
-@Import({DbConfiguration.class})
+@Import({DbConfiguration.class, ServletWebServerFactoryAutoConfiguration.class})
 @Configuration
 @ComponentScan("org.qubership.atp.dataset.db.migration")
 @Slf4j

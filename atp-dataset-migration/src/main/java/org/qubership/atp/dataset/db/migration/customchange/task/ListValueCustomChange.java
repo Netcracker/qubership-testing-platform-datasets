@@ -133,9 +133,10 @@ public class ListValueCustomChange implements CustomTaskChange {
 
     private void updateParameter(UUID listValueId, UUID parameterId)
             throws DatabaseException, SQLException {
-        String updateParameter = String.format("UPDATE public.\"parameter\"\n"
-                + "SET   list='%s'::uuid\n"
-                + "WHERE id='%s'::uuid", listValueId, parameterId);
+        String updateParameter = """
+                UPDATE public."parameter"
+                SET   list='%s'::uuid
+                WHERE id='%s'::uuid""".formatted(listValueId, parameterId);
         PreparedStatement stmt2 = connection.prepareStatement(updateParameter);
         stmt2.execute();
     }

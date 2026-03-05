@@ -29,7 +29,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -84,7 +84,7 @@ import lombok.extern.slf4j.Slf4j;
         ParameterController.class,
         DataSetListController.class
 })
-@ContextConfiguration(classes = {DatasetsAndCatalogContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndCatalogContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,
@@ -131,7 +131,7 @@ public class DatasetsAndCatalogContractTest {
     @MockBean
     CompareDatasetServiceImpl compareDs;
 
-    public void beforeAll() throws DataSetServiceException {
+    public void beforeAll() {
         JSONObject jsonObject = new JSONObject();
         List<JSONObject> resultListJson = new ArrayList<>();
         resultListJson.add(jsonObject);

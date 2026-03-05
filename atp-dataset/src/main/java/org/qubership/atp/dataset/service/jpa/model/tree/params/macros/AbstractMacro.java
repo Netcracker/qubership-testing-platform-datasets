@@ -22,8 +22,8 @@ import static org.apache.commons.lang3.StringUtils.defaultIfEmpty;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.antlr4.TextParameterParser;

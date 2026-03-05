@@ -101,7 +101,7 @@ public class DataSetsImporter {
         }
         log.debug("import object: {}", object);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -151,7 +151,7 @@ public class DataSetsImporter {
         dsService.replicate(object.getId(), object.getName(), object.getDataSetList(),
                             order, object.getSourceId(), isDataSetLocked(object));
         } catch (DataSetServiceException e) {
-            String message = String.format("Cannot create new data set by import object %s", object);
+            String message = "Cannot create new data set by import object %s".formatted(object);
             throw new ExportException(message, e);
         }
     }

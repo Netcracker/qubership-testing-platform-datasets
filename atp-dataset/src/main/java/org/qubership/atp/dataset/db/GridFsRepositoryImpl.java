@@ -30,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bson.Document;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.impl.file.FileData;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.model.GridFSFile;
@@ -43,10 +42,9 @@ public class GridFsRepositoryImpl implements GridFsRepository {
 
     private final GridFSBucket gridFsBucket;
 
-    private ThreadLocal<Map<UUID, Optional<FileData>>> cachedFileInfo =
+    private final ThreadLocal<Map<UUID, Optional<FileData>>> cachedFileInfo =
             ThreadLocal.withInitial(() -> new ConcurrentHashMap<>());
 
-    @Autowired
     public GridFsRepositoryImpl(GridFSBucket gridFsBucket) {
         this.gridFsBucket = gridFsBucket;
     }

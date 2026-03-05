@@ -23,8 +23,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -343,7 +343,7 @@ public abstract class OverlapItem {
                         return Optional.ofNullable(param.getFileData()).map(FileData::getFileName);
                     default:
                         throw new UnsupportedOperationException(
-                                String.format("Could not extract text value from parameter %s with type %s",
+                                "Could not extract text value from parameter %s with type %s".formatted(
                                         this,
                                         getAttribute().getType().getName()));
                 }

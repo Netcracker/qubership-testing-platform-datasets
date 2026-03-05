@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.service.direct;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.springframework.http.HttpStatus;
 

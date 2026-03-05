@@ -94,8 +94,7 @@ public abstract class AbstractObjectWrapper<T extends AbstractUuidBasedEntity> e
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof AbstractObjectWrapper) {
-            AbstractObjectWrapper otherWrapper = (AbstractObjectWrapper) other;
+        if (other instanceof AbstractObjectWrapper otherWrapper) {
             return entity.getId().equals(otherWrapper.entity.getId());
         }
         return false;

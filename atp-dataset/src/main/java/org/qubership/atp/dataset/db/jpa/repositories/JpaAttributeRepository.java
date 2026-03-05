@@ -56,14 +56,15 @@ public interface JpaAttributeRepository extends JpaAbstractAttributeRepository<A
             + "dataset d where d.id = ?1)", nativeQuery = true)
     List<AttributeEntity> getByDatasetId(UUID datasetId);
 
-    @Query(value = "select \n"
-            + "   (CASE WHEN leftAttr.type_datasetlist_id  != rightAttr.type_datasetlist_id \n"
-            + "   and leftAttr.attribute_type_id = 4 \n"
-            + "   and leftAttr.attribute_type_id = rightAttr.attribute_type_id\n"
-            + "    THEN true ELSE false END) AS is_equal\n"
-            + "   from \n"
-            + "   (select * from \"attribute\" a2 where id = ?1) as leftAttr,\n"
-            + "    (select * from \"attribute\" a2 where id = ?2) as rightAttr", nativeQuery = true)
+    @Query(value = """
+            select\s
+               (CASE WHEN leftAttr.type_datasetlist_id  != rightAttr.type_datasetlist_id\s
+               and leftAttr.attribute_type_id = 4\s
+               and leftAttr.attribute_type_id = rightAttr.attribute_type_id
+                THEN true ELSE false END) AS is_equal
+               from\s
+               (select * from "attribute" a2 where id = ?1) as leftAttr,
+                (select * from "attribute" a2 where id = ?2) as rightAttr""", nativeQuery = true)
     boolean isDifferentDslAttributes(UUID leftAttrId, UUID rightAttrId);
 
     @Query(value = "SELECT * from \"attribute\" a WHERE a.datasetlist_id = ?1"

@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.macros.cache;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public interface MacroCacheKey {
 

@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.utils.Proxies;
 import org.qubership.atp.dataset.model.DataSet;
@@ -31,7 +31,6 @@ import org.qubership.atp.dataset.model.Label;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.impl.DataSetImpl;
 import org.qubership.atp.dataset.model.impl.TableResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -59,7 +58,6 @@ public class DataSetRepository extends AbstractRepository {
      *
      * @param queryFactory is used for creating sql queries.
      */
-    @Autowired
     public DataSetRepository(@Nonnull SQLQueryFactory queryFactory,
                              @Nonnull Provider<DataSetListRepository> dslRepo,
                              @Nonnull Provider<ParameterRepository> paramRepo,

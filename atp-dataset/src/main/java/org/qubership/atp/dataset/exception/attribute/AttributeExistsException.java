@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.CONFLICT, reason = "TDS-3001")
 public class AttributeExistsException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Attribute with name '%s' already exists";
+    private static final String DEFAULT_MESSAGE = "Attribute with name '%s' already exists";
 
     public AttributeExistsException(String message) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

@@ -31,7 +31,7 @@ public class FalloutReport implements AutoCloseable {
     }
 
     public void report(String location, String problemPlace, String shortMessage, String detailedMessage) {
-        writer.println(String.format("%s\t%s\t%s\t%s", location, problemPlace, shortMessage, detailedMessage));
+        writer.println("%s\t%s\t%s\t%s".formatted(location, problemPlace, shortMessage, detailedMessage));
     }
 
     @Override

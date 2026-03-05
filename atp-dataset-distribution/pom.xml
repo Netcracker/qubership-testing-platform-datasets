@@ -34,6 +34,14 @@
                     <artifactId>log4j-core</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
                 </exclusion>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
             </exclusions>
         </dependency>
         <dependency>

@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-7007")
 public class ImportExcelNotSupportedAttributeTypeException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Invalid attribute '%s' type: '%s'. Supported import types: %s";
+    private static final String DEFAULT_MESSAGE = "Invalid attribute '%s' type: '%s'. Supported import types: %s";
 
     public ImportExcelNotSupportedAttributeTypeException(String attributeName, String attributeTypeValue,
                                                          List<AttributeType> supportedImportAttributeTypes) {
-        super(String.format(DEFAULT_MESSAGE, attributeName, attributeTypeValue, supportedImportAttributeTypes));
+        super(DEFAULT_MESSAGE.formatted(attributeName, attributeTypeValue, supportedImportAttributeTypes));
     }
 }

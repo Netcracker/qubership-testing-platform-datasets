@@ -48,11 +48,12 @@ public interface JpaParameterRepository extends JpaRepository<ParameterEntity, U
             + ".\"name\" ", nativeQuery = true)
     List<ParameterEntity> getByDataSetIdSorted(UUID dataSetId);
 
-    @Query(value = "select p.* from parameter p, attribute a, attribute_key ak \n"
-            + "where p.dataset_id =?1 \n"
-            + "and p.attribute_id = ak.id \n"
-            + "and a.id = ak.attribute_id \n"
-            + "ORDER by a.name", nativeQuery = true)
+    @Query(value = """
+            select p.* from parameter p, attribute a, attribute_key ak\s
+            where p.dataset_id =?1\s
+            and p.attribute_id = ak.id\s
+            and a.id = ak.attribute_id\s
+            ORDER by a.name""", nativeQuery = true)
     List<ParameterEntity> getOverlapByDataSetIdSorted(UUID dataSetId);
 
     @Query(value = "select distinct p.dataSet.id from ParameterEntity p where p.dataSetReferenceId = ?1")

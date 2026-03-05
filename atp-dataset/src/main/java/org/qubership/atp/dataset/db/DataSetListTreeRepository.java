@@ -26,9 +26,9 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.dto.AttributePathDto;
 import org.qubership.atp.dataset.db.utils.Proxies;
@@ -52,7 +52,6 @@ import org.qubership.atp.dataset.model.impl.DataSetImpl;
 import org.qubership.atp.dataset.model.impl.DataSetListImpl;
 import org.qubership.atp.dataset.model.impl.ParameterImpl;
 import org.qubership.atp.dataset.model.impl.ParameterOverlapImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
@@ -102,7 +101,6 @@ public class DataSetListTreeRepository extends AbstractRepository {
      *
      * @param queryFactory is used for creating sql queries.
      */
-    @Autowired
     public DataSetListTreeRepository(@Nonnull SQLQueryFactory queryFactory,
                                      @Nonnull Provider<VisibilityAreaRepository> vaRepo,
                                      @Nonnull Provider<TestPlanRepository> testPlanRepo,

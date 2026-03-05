@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.model.DataSetListDependencyNode;

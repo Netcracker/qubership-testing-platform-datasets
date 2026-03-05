@@ -21,10 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -33,14 +31,7 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.dataset.db.jpa.repositories.JpaAttributeKeyRepository;
 import org.qubership.atp.dataset.ei.DataSetImportExecutor;
 import org.qubership.atp.dataset.service.jpa.JpaAttributeService;
@@ -48,9 +39,12 @@ import org.qubership.atp.dataset.service.jpa.delegates.AttributeKey;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ValidationResult;
 import org.qubership.atp.ei.node.dto.validation.ValidationType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 
 @Isolated
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class DataSetAttributesImporterIntegrationTest {
 
@@ -74,7 +68,7 @@ public class DataSetAttributesImporterIntegrationTest {
     @Test
     @Sql(scripts = "classpath:test_data/sql/overlap_lost_positive.sql")
     public void importData_importOverlapIntoDbWithOverlapsWithTheSameParameters_OverlapsInDbShouldBeChangedWithoutDuplication() throws Exception {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
         int attributeKeysNumber = attributeKeyRepository.findAll().size();
 
         dataSetImportExecutor.importData(importData, workDir);
@@ -91,7 +85,7 @@ public class DataSetAttributesImporterIntegrationTest {
     @Test
     @Sql(scripts = "classpath:test_data/sql/overlap_lost_negative.sql")
     public void importData_importOverlapIntoDbWithOverlapsWithTheSameParameters_OverlapsInDbShouldBeDuplicated() throws Exception {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
         int attributeKeysNumber = attributeKeyRepository.findAll().size();
 
         dataSetImportExecutor.importData(importData, workDir);
@@ -119,7 +113,7 @@ public class DataSetAttributesImporterIntegrationTest {
     public void handleCreateNewProjectValidation_validateData_returnReplacementMap() throws Exception {
         ExportImportData importData = new ExportImportData(UUID.randomUUID(), null, null,
                 true, false, null, new HashMap<>(), new HashMap<>(), ValidationType.VALIDATE, false);
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
 
         ValidationResult result = dataSetImportExecutor.validateData(importData, workDir);
 
@@ -133,7 +127,7 @@ public class DataSetAttributesImporterIntegrationTest {
     public void handleInterProjectImportValidation_validateData_returnReplacementMap() throws Exception {
         ExportImportData importData = new ExportImportData(UUID.randomUUID(), null, null,
                 false, true, null, new HashMap<>(), new HashMap<>(), ValidationType.VALIDATE, false);
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206211");
 
         ValidationResult result = dataSetImportExecutor.validateData(importData, workDir);
         assertTrue(result.isValid());
@@ -145,9 +139,9 @@ public class DataSetAttributesImporterIntegrationTest {
     @AfterEach
     public void clearDb() throws IOException {
         String pathStr = "src/test/resources/test_data/sql/overlap_lost_clear_tables.sql";
-        Path path = Paths.get(pathStr);
+        Path path = Path.of(pathStr);
         Files.readAllBytes(path);
-        String query = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        String query = Files.readString(path);
         jdbcTemplate.execute(query);
     }
 }

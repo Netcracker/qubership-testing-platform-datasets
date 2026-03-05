@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import org.qubership.atp.dataset.ei.service.DataSetAttributesImporter;
@@ -49,6 +49,7 @@ import org.qubership.atp.ei.node.dto.validation.ValidationType;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class DataSetImportExecutorTest {
 
     private DataSetImportExecutor dataSetImportExecutor;
@@ -78,7 +79,7 @@ public class DataSetImportExecutorTest {
         ExportImportData importData =
                 new ExportImportData(UUID.randomUUID(), null, null, false, false, null, new HashMap<>(),
                         new HashMap<>(), ValidationType.VALIDATE, false);
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
 
         ValidationResult result =
                 dataSetImportExecutor.validateData(importData, workDir);
@@ -95,10 +96,10 @@ public class DataSetImportExecutorTest {
         ExportImportData importData =
                 new ExportImportData(projectId, null, null, false, false, null, new HashMap<>(),
                         new HashMap<>(), ValidationType.VALIDATE, false);
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
 
         when(dataSetAttributesImporter.validateDataSetAttributes(workDir, Collections.emptyMap(), false))
-                .thenReturn(Arrays.asList("There is a problem"));
+                .thenReturn(List.of("There is a problem"));
 
         ValidationResult result =
                 dataSetImportExecutor.validateData(importData, workDir);
@@ -111,7 +112,7 @@ public class DataSetImportExecutorTest {
     @Test
     public void importData() throws Exception {
         ExportImportData importData = mock(ExportImportData.class);
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         List<UUID> importedDsl = new ArrayList();
 
         when(dataSetListImporter.importDataSetLists(workDir, importData)).thenReturn(importedDsl);

@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.db.jpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.qubership.atp.dataset.db.jdbc.JdbcTemplates;
 import org.qubership.atp.dataset.service.direct.GridFsService;

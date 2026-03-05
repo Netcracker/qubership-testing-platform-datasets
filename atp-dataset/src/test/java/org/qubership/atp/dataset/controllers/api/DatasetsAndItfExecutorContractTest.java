@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,29 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import au.com.dius.pact.provider.junit5.PactVerificationContext;
-import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-import au.com.dius.pact.provider.junitsupport.Provider;
-import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
-import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.qubership.atp.dataset.db.jpa.entities.VisibilityAreaEntity;
@@ -49,7 +25,6 @@ import org.qubership.atp.dataset.model.impl.DataSetListImpl;
 import org.qubership.atp.dataset.model.impl.MixInIdImpl;
 import org.qubership.atp.dataset.model.impl.TestPlanImpl;
 import org.qubership.atp.dataset.service.jpa.ContextType;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.delegates.Attribute;
 import org.qubership.atp.dataset.service.jpa.impl.DataSetParameterProvider;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
@@ -65,6 +40,29 @@ import org.qubership.atp.dataset.service.rest.server.AttributeController;
 import org.qubership.atp.dataset.service.rest.server.DataSetController;
 import org.qubership.atp.dataset.service.rest.server.DataSetListController;
 import org.qubership.atp.dataset.service.rest.server.VisibilityAreaController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.Provider;
+import au.com.dius.pact.provider.junitsupport.State;
+import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
+import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 
 @Isolated
 @Provider("atp-datasets")
@@ -72,7 +70,7 @@ import org.qubership.atp.dataset.service.rest.server.VisibilityAreaController;
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {AttachmentController.class, DataSetController.class,
         DataSetListController.class, AttributeController.class, VisibilityAreaController.class})
-@ContextConfiguration(classes = {DatasetsAndItfExecutorContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndItfExecutorContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         AttachmentController.class, DataSetController.class, DataSetListController.class, AttributeController.class,
@@ -97,7 +95,7 @@ public class DatasetsAndItfExecutorContractTest {
     @MockBean
     private VisibilityAreaController visibilityAreaController;
 
-    public void beforeAll() throws DataSetServiceException, IOException {
+    public void beforeAll() {
         InputStreamResource responseBody1 = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-Disposition", "attachment; filename=\"name\"");
@@ -165,7 +163,7 @@ public class DatasetsAndItfExecutorContractTest {
                 new ArrayList<>(), new ArrayList<>());
 
         AttributeEntity attributeEntity2 = new AttributeEntity();
-        attributeEntity2.setAttributeTypeId(2l);
+        attributeEntity2.setAttributeTypeId(2L);
         attributeEntity2.setId(UUID.fromString("c2737427-05e4-4c17-8032-455539deaa02"));
         Attribute attribute2 = new Attribute(attributeEntity2);
         attribute2.setAttributeType(AttributeTypeName.TEXT);

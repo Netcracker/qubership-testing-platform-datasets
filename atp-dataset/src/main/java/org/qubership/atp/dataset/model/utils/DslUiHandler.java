@@ -85,7 +85,7 @@ public class DslUiHandler extends AbstractDslUiHandler {
             OverlapIterator overlapIterator = OverlapIterator.create(uiDataSet.getSource(), attr.getId(), attrPath);
             OverlapItem context = overlapIterator.next();
             Optional<Parameter> parameter = context.getParameter();
-            if (!parameter.isPresent()) {
+            if (parameter.isEmpty()) {
                 continue;
             }
             Parameter param = parameter.get();

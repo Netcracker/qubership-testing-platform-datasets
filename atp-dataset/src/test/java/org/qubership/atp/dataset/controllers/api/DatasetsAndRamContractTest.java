@@ -20,7 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -54,7 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 @WebMvcTest(controllers = {DataSetController.class,
         DataSetListController.class
 })
-@ContextConfiguration(classes = {DatasetsAndRamContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndRamContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,
@@ -116,7 +116,7 @@ public class DatasetsAndRamContractTest {
     }
 
     @BeforeEach
-    void before(PactVerificationContext context) throws Exception {
+    void before(PactVerificationContext context) {
         beforeAll();
         context.setTarget(new MockMvcTestTarget(mockMvc));
     }

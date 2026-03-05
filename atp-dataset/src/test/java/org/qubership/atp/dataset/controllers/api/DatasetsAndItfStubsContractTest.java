@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -40,7 +40,7 @@ import org.qubership.atp.dataset.service.rest.server.AttachmentController;
 @PactUrl(urls = {"src/test/resources/pacts/atp-itf-stubs-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {AttachmentController.class})
-@ContextConfiguration(classes = {DatasetsAndItfStubsContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndItfStubsContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         AttachmentController.class})

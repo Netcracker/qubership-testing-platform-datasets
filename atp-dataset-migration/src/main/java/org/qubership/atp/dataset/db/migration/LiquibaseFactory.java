@@ -20,8 +20,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -34,7 +32,6 @@ public class LiquibaseFactory {
 
     private final DataSource dataSource;
 
-    @Autowired
     public LiquibaseFactory(DataSource dataSource) {
         this.dataSource = dataSource;
     }
