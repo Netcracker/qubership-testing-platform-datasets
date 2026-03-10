@@ -19,6 +19,7 @@ package org.qubership.atp.dataset.db.jpa;
 import java.util.List;
 
 import org.qubership.atp.dataset.db.jpa.entities.JvSnapshotEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -38,7 +39,7 @@ public class JobRunner {
     private Long lastRevisionCount;
 
     public JobRunner(JaversSnapshotService javersSnapshotService,
-                     ThreadPoolTaskExecutor archiveJobExecutor) {
+                     @Qualifier("archiveJobExecutor") ThreadPoolTaskExecutor archiveJobExecutor) {
         this.javersSnapshotService = javersSnapshotService;
         this.archiveJobExecutor = archiveJobExecutor;
     }

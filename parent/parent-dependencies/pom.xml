@@ -20,7 +20,7 @@
         <kotlin.version>1.9.25</kotlin.version>
 
         <atp.auth.version>2.0.2-SNAPSHOT</atp.auth.version>
-        <ei.version>0.2.46</ei.version>
+        <ei.version>1.0.0-SNAPSHOT</ei.version>
         <macros.core.version>2.0.0-SNAPSHOT</macros.core.version>
 
         <atp.common.version>1.0.0-SNAPSHOT</atp.common.version>
@@ -119,11 +119,11 @@
                 <artifactId>spring-security-core</artifactId>
                 <version>6.3.10</version>
             </dependency>
-            <dependency>
+            <!--<dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>3.0.17</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
@@ -298,6 +298,10 @@
                     <exclusion>
                         <groupId>org.mockito</groupId>
                         <artifactId>mockito-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>

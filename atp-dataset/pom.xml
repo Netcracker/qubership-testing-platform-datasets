@@ -340,12 +340,6 @@
         <dependency>
             <groupId>org.qubership.atp</groupId>
             <artifactId>atp-crypt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -358,7 +352,7 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
-            <version>1.0.12</version>
+            <version>1.3.13</version>
         </dependency>
         <dependency>
             <groupId>org.javers</groupId>
@@ -444,7 +438,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
+            <version>5.10.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>1.10.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -599,6 +599,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.15.0</version>
                 <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <release>${java.version}</release>
+                    <parameters>true</parameters>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -616,7 +619,6 @@
                             <version>0.2.0</version>
                         </path>
                     </annotationProcessorPaths>
-                    <release>${java.version}</release>
                 </configuration>
                 <executions>
                     <execution>

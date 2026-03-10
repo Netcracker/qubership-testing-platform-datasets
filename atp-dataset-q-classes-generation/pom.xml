@@ -269,6 +269,9 @@
                                     <compileSourceRoots>${src.dir}</compileSourceRoots>
                                     <outputDirectory>${project.build.directory}/pg-classes/</outputDirectory>
                                     <useIncrementalCompilation>false</useIncrementalCompilation>
+                                    <encoding>${project.build.sourceEncoding}</encoding>
+                                    <release>${java.version}</release>
+                                    <parameters>true</parameters>
                                 </configuration>
                             </execution>
                         </executions>
