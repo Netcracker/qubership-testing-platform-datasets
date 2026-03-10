@@ -16,11 +16,12 @@
     <properties>
         <spring.boot.version>3.3.13</spring.boot.version>
         <spring.cloud.version>2023.0.6</spring.cloud.version>
-        <javers.spring.boot.starter.sql.version>6.8.2</javers.spring.boot.starter.sql.version>
+        <javers.spring.boot.starter.sql.version>7.9.0</javers.spring.boot.starter.sql.version>
+        <kotlin.version>1.9.25</kotlin.version>
 
-        <atp.auth.version>2.0.1-SNAPSHOT</atp.auth.version>
+        <atp.auth.version>2.0.2-SNAPSHOT</atp.auth.version>
         <ei.version>0.2.46</ei.version>
-        <macros.core.version>1.0.33</macros.core.version>
+        <macros.core.version>2.0.0-SNAPSHOT</macros.core.version>
 
         <atp.common.version>1.0.0-SNAPSHOT</atp.common.version>
         <atp-crypt.version>1.0.0-SNAPSHOT</atp-crypt.version>
@@ -34,7 +35,7 @@
         <liquibase.slf4j.version>4.1.0</liquibase.slf4j.version>
         <shedlock.spring>4.14.0</shedlock.spring>
         <glassfish.jersey.version>3.1.11</glassfish.jersey.version>
-        <jackson.core.version>2.15.2</jackson.core.version>
+        <jackson.version>2.17.3</jackson.version>
         <hazelcast.version>4.2.6</hazelcast.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.42</lombok.version>
@@ -44,6 +45,29 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>5.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>5.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>6.5.3.Final</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>3.27.7</version> <!-- Bump from 3.22.0 to fix GHSA-rqfh-9r24-8c9r -->
@@ -52,7 +76,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.6.0</version>
+                <version>${kotlin.version}</version>
             </dependency>
 
             <dependency>
@@ -425,7 +449,17 @@
             <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
-                <version>4.7</version>
+                <version>4.13.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>4.13.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr-runtime</artifactId>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>net.javacrumbs.shedlock</groupId>
@@ -464,21 +498,27 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>0.2.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.core.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${jackson.core.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.core.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>

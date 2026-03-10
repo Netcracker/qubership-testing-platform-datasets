@@ -332,7 +332,6 @@
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
-            <version>4.7</version>
         </dependency>
         <dependency>
             <groupId>org.qubership.atp</groupId>
@@ -456,12 +455,15 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
             <artifactId>junit5</artifactId>
-            <version>4.1.0</version>
+            <version>4.6.15</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-io</groupId>
@@ -496,7 +498,7 @@
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
             <artifactId>junit5spring</artifactId>
-            <version>4.1.0</version>
+            <version>4.6.15</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate.validator</groupId>
@@ -571,7 +573,7 @@
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.7</version>
+                <version>4.13.2</version>
                 <configuration>
                     <arguments>
                         <argument>-package</argument>
