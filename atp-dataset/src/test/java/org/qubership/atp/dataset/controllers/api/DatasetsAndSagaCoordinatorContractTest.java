@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-saga-coordinator-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-saga-coordinator-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {SagaController.class
 })

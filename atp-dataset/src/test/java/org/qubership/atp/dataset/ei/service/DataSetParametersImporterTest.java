@@ -22,7 +22,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,8 +35,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.service.direct.ClearCacheService;
 import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.JpaAttributeService;
@@ -50,10 +49,12 @@ import org.qubership.atp.dataset.service.jpa.delegates.Parameter;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.validation.ValidationType;
 import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class DataSetParametersImporterTest {
 
     private ObjectLoaderFromDiskService objectLoaderFromDiskService;

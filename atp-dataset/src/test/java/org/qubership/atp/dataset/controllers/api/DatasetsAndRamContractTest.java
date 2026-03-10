@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-ram-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-ram-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {DataSetController.class,
         DataSetListController.class

@@ -4,8 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +24,7 @@ import org.qubership.atp.dataset.model.impl.DataSetImpl;
 import org.qubership.atp.dataset.model.impl.DataSetListImpl;
 import org.qubership.atp.dataset.model.impl.MixInIdImpl;
 import org.qubership.atp.dataset.model.impl.TestPlanImpl;
+import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.jpa.ContextType;
 import org.qubership.atp.dataset.service.jpa.delegates.Attribute;
 import org.qubership.atp.dataset.service.jpa.impl.DataSetParameterProvider;
@@ -50,12 +51,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
@@ -66,7 +67,7 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-itf-executor-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-itf-executor-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {AttachmentController.class, DataSetController.class,
         DataSetListController.class, AttributeController.class, VisibilityAreaController.class})
@@ -96,12 +97,24 @@ public class DatasetsAndItfExecutorContractTest {
     private VisibilityAreaController visibilityAreaController;
 
     public void beforeAll() {
-        InputStreamResource responseBody1 = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add("Content-Disposition", "attachment; filename=\"name\"");
+        InputStreamResource responseBody = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
+
+        FileData fileData = new FileData();
+        fileData.setContentType("multipart/form-data");
+        fileData.setFileName("name");
+
+        ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+                .filename("name", StandardCharsets.UTF_8)
+                .build();
+        ResponseEntity<InputStreamResource> attachmentResponse =
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaType.parseMediaType(fileData.getContentType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+                        .body(responseBody);
 
         when(attachmentController.getAttachmentByParameterId(any()))
-                .thenReturn(new ResponseEntity<>(responseBody1, headers, HttpStatus.OK));
+                .thenReturn(attachmentResponse);
 
         String responseBody2 = "{\"key\":\"context\"}";
         when(dataSetController.getItfContext(any())).thenReturn(responseBody2);
@@ -134,7 +147,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     @BeforeEach
-    void before(PactVerificationContext context) throws Exception {
+    void before(PactVerificationContext context) {
         beforeAll();
         context.setTarget(new MockMvcTestTarget(mockMvc));
     }
@@ -143,7 +156,6 @@ public class DatasetsAndItfExecutorContractTest {
     public void allPass() {
     }
 
-
     private DataSetTree getResponseBody3_4_5_6(ContextType contextType) {
         DataSetContext dataSetContext = getDataSetContext();
         DataSetParameterProvider dataSetParameterProvider = new DataSetParameterProvider();
@@ -151,10 +163,8 @@ public class DatasetsAndItfExecutorContractTest {
         DataSetListContext dataSetListContext = new DataSetListContext(UUID.randomUUID());
         macroContext.setDataSetListContext(dataSetListContext);
 
-        DataSetTree dataSetTree = new DataSetTree(dataSetContext, 0, true, macroContext,
+        return new DataSetTree(dataSetContext, 0, true, macroContext,
                 dataSetListContext, dataSetParameterProvider, contextType);
-
-        return dataSetTree;
     }
 
     private DataSetContext getDataSetContext(){
@@ -171,7 +181,7 @@ public class DatasetsAndItfExecutorContractTest {
         attribute2.setName("1ATTRIBUTE");
 
         ParameterContext parameterContext2 = new ParameterContext(attribute2);
-        dataSetContext.setParameters(Arrays.asList(parameterContext2));
+        dataSetContext.setParameters(List.of(parameterContext2));
 
         return dataSetContext;
     }
@@ -198,7 +208,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<VisibilityAreaFlatModel> getResponseBody7() {
-        return Arrays.asList(getVisibilityAreaFlatModel());
+        return List.of(getVisibilityAreaFlatModel());
     }
 
     private DataSetList getDataSetList() {
@@ -213,7 +223,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<DataSetList> getResponseBody8() {
-        return Arrays.asList(getDataSetList());
+        return List.of(getDataSetList());
     }
 
     private DataSet getDataSet() {
@@ -225,7 +235,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<DataSet> getResponseBody9() {
-        return Arrays.asList(getDataSet());
+        return List.of(getDataSet());
     }
 
     private List<String> getResponseBody10() {

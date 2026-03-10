@@ -19,25 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.web.servlet.MockMvc;
-
-import au.com.dius.pact.provider.junit5.PactVerificationContext;
-import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-import au.com.dius.pact.provider.junitsupport.Provider;
-import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
-import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;
@@ -62,7 +43,6 @@ import org.qubership.atp.dataset.service.direct.impl.CompareDatasetServiceImpl;
 import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListExportService;
 import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListImportService;
 import org.qubership.atp.dataset.service.jpa.ContextType;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetService;
 import org.qubership.atp.dataset.service.jpa.JpaParameterService;
@@ -73,11 +53,30 @@ import org.qubership.atp.dataset.service.rest.server.CopyDataSetListsResponse;
 import org.qubership.atp.dataset.service.rest.server.DataSetController;
 import org.qubership.atp.dataset.service.rest.server.DataSetListController;
 import org.qubership.atp.dataset.service.rest.server.ParameterController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.Provider;
+import au.com.dius.pact.provider.junitsupport.State;
+import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
+import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import lombok.extern.slf4j.Slf4j;
 
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-catalogue-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-catalogue-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {
         DataSetController.class,
@@ -197,7 +196,7 @@ public class DatasetsAndCatalogContractTest {
     }
 
     @BeforeEach
-    void before(PactVerificationContext context) throws Exception {
+    void before(PactVerificationContext context) {
         beforeAll();
         context.setTarget(new MockMvcTestTarget(mockMvc));
     }
