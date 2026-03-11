@@ -315,7 +315,10 @@
                         <artifactId>clover-maven-plugin</artifactId>
                         <version>4.5.2</version>
                         <configuration>
-                            <jdk>21</jdk>
+                            <jdk>${java.version}</jdk>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
+                            <sourceJavaVersion>21</sourceJavaVersion>
                             <targetJavaVersion>21</targetJavaVersion>
                             <sourceJavaVersion>21</sourceJavaVersion>
                             <outputDirectory>${project.build.directory}/clover</outputDirectory>
