@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,7 +50,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Isolated
 @SpringBootTest
-@ContextConfiguration(classes = {TestConfiguration.class})
+@Import(TestConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 class ParameterControllerV2Test extends AbstractJpaTest {
@@ -116,8 +116,8 @@ class ParameterControllerV2Test extends AbstractJpaTest {
             if (e.getCause() != null) {
                 assertThat(e.getCause(), instanceOf(IllegalArgumentException.class));
                 String causedByMessage = e.getCause().toString();
-                assertThat(causedByMessage, matchesToRegExp(".*Can not change parameter with attribute id: .* " +
-                        "because dataset id locked.*"));
+                assertThat(causedByMessage, matchesToRegExp(
+                        ".*Can not change parameter with attribute id: .* because dataset id locked.*"));
             }
         }
     }
@@ -171,8 +171,8 @@ class ParameterControllerV2Test extends AbstractJpaTest {
             if (e.getCause() != null) {
                 assertThat(e.getCause(), instanceOf(AopInvocationException.class));
                 String causedByMessage = e.getCause().toString();
-                assertThat(causedByMessage, StringContains.containsString("Null return value from advice " +
-                        "does not match primitive return type for"));
+                assertThat(causedByMessage, StringContains.containsString(
+                        "Null return value from advice does not match primitive return type for"));
             }
         }
     }
@@ -230,11 +230,6 @@ class ParameterControllerV2Test extends AbstractJpaTest {
                 value of "org.qubership.atp.dataset.db.jpa.ModelsProvider.getParameterById(java.util.UUID)" is null
                 at org.qubership.atp.dataset.service.rest.server.v2.ParameterControllerV2Test
                 .bulkUpdateAttribute_notExistingVisibilityArea_InternalServerError(ParameterControllerV2Test.java:199)
-             */
-            /*
-            System.out.println("Exception: " + e
-                    + "\nMessage: " + e.getMessage()
-                    + "\nCaused by: " + e.getCause());
              */
             if (e.getCause() != null) {
                 assertThat(e.getCause(), instanceOf(NullPointerException.class));
