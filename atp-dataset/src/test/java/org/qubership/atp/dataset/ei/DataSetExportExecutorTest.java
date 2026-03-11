@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -40,14 +40,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.GridFsRepository;
@@ -69,38 +65,41 @@ import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ExportScope;
 import org.qubership.atp.ei.node.services.FileService;
 import org.qubership.atp.ei.node.services.ObjectSaverToDiskService;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 
 @Isolated
-@ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 @MockitoSettings(strictness = Strictness.LENIENT)
+@TestPropertySource(properties = {"atp.export.pretty-print=true"})
 public class DataSetExportExecutorTest {
 
     @Spy
     private ObjectSaverToDiskService objectSaverToDiskService =
             new ObjectSaverToDiskService(new FileService(), true);
-    @Mock
+    @MockBean
     private JpaDataSetListRepository jpaDataSetListRepository;
-    @Mock
+    @MockBean
     private JpaDataSetRepository jpaDataSetRepository;
-    @Mock
+    @MockBean
     private GridFsRepository gridFsRepository;
-    @Mock
+    @MockBean
     private MacroContextService macroContextService;
-    @Mock
+    @MockBean
     private DataSetListContextService dataSetListContextService;
     @Spy
     private ObjectMapper objectMapper;
-    @InjectMocks
+    @Autowired
     DataSetExportExecutor dataSetExportExecutor;
-    @Mock
+    @MockBean
     private JpaDataSetListService dslService;
-    @Mock
+    @MockBean
     private JpaDataSetServiceImpl dsService;
     @TempDir
     private Path tempDir;
@@ -211,7 +210,6 @@ public class DataSetExportExecutorTest {
         Set<UUID> datasetIds = new HashSet<>();
         datasetIds.add(dsId);
         Path path = Files.createDirectories(tempDir.resolve("dsExport"));
-//        Path path = folder.newFolder("dsExport").toPath();
         UUID visibilityAreaId = UUID.fromString("0cce99d6-ef89-4163-8518-9e1dbf173a6d");
         ExportImportData exportData = new ExportImportData(visibilityAreaId, atpExportScope, ExportFormat.ATP);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASETS,
@@ -239,7 +237,6 @@ public class DataSetExportExecutorTest {
         UUID dataSetId = UUID.fromString("8147cd6a-b742-4f63-be42-59c7c1ab5f2f");
         datasetIds.add(dataSetId);
         Path path = Files.createDirectories(tempDir.resolve("dsExport"));
-//        Path path = folder.newFolder("dsExport").toPath();
         UUID visibilityAreaId = UUID.fromString("0cce99d6-ef89-4163-8518-9e1dbf173a6d");
         ExportImportData exportData = new ExportImportData(visibilityAreaId, atpExportScope, ExportFormat.NTT);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASETS,
@@ -278,7 +275,7 @@ public class DataSetExportExecutorTest {
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASET_STORAGE, new HashSet<>());
         Set<UUID> idsFromDb = new HashSet<>();
         idsFromDb.add(dslId);
-        Mockito.when(jpaDataSetListRepository.getDslIdsByVa(exportData.getProjectId())).thenReturn(idsFromDb);
+        Mockito.when(jpaDataSetListRepository.getDslIdsByVa(Mockito.eq(exportData.getProjectId()))).thenReturn(idsFromDb);
         dataSetExportExecutor.expandExportScope(exportData);
         assertTrue(exportData.getExportScope().getEntities()
                 .getOrDefault(Constants.ENTITY_DATASET_STORAGE, new HashSet<>()).contains(dslId.toString()));

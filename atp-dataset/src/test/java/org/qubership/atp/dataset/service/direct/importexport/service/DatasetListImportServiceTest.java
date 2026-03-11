@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -105,7 +105,6 @@ import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.delegates.ListValue;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.collect.ImmutableMap;
@@ -171,7 +170,6 @@ import jakarta.persistence.EntityManager;
  */
 
 @Isolated
-@ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
