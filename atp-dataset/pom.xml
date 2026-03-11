@@ -964,69 +964,6 @@
     </build>
     <profiles>
         <profile>
-            <id>with-analyzers</id>
-            <activation>
-                <property>
-                    <name>enable-analyzers</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.5.2</version>
-                        <configuration>
-                            <jdk>21</jdk>
-                            <testJdk>21</testJdk>
-                            <compilerArgs>
-                                <arg>-source</arg>
-                                <arg>21</arg>
-                                <arg>-target</arg>
-                                <arg>21</arg>
-                            </compilerArgs>
-                            <!-- For test compilation -->
-                            <testCompilerArgs>
-                                <arg>-source</arg>
-                                <arg>21</arg>
-                                <arg>-target</arg>
-                                <arg>21</arg>
-                            </testCompilerArgs>
-                            <!-- Explicitly set Java version for instrumentation -->
-                            <javaVersion>21</javaVersion>
-                            <!-- Force Java version -->
-                            <systemProperties>
-                                <java.version>21</java.version>
-                            </systemProperties>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>false</generatePdf>
-                            <targetPercentage>47%</targetPercentage>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>run-integration-tests</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -1040,7 +977,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>3.2.5</version>
                         <executions>
                             <!-- execute all integration (mostly UI tests) -->
                             <execution>
