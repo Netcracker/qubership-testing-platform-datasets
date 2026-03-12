@@ -161,10 +161,10 @@ jobs:
   run-tests:
     needs: [ build-and-push ]
     if: |
-      needs.build-and-push.result == 'success' && 
+      needs.build-and-push.result == 'success' &&
       (
-        (github.event_name == 'pull_request' && github.base_ref == 'main') ||
-        (github.event_name == 'push' && (github.ref == 'refs/heads/main' || steps.pr_check.outputs.result == 'true'))
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main')
       )
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
