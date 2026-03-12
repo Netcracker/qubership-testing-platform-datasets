@@ -964,6 +964,25 @@
     </build>
     <profiles>
         <profile>
+            <id>no-mongodb-available</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/GridFsServiceTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>run-integration-tests</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
