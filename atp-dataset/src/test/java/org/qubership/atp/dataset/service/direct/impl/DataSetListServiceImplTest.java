@@ -35,15 +35,18 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterEach;
@@ -735,5 +738,41 @@ public class DataSetListServiceImplTest extends DataSetBuilder {
         UUID vaUuid = UUID.fromString("31fdbadd-540c-4021-89e5-ad00880ba595");
 
         assertEquals(0, dataSetListService.getAll(vaUuid, null).size());
+    }
+
+    @Disabled
+    @Test
+    public void testContextProcessingPerformance() {
+        List<List<Integer>> lists = new ArrayList<>();
+        List<Integer> loaded = IntStream.rangeClosed(101, 600).boxed().toList();
+        Random random = new Random();
+        List<Integer> list1 = random
+                .ints(5000, 1, 10001) // 5000 numbers, 1-10000
+                .boxed()
+                .toList();
+        List<Integer> list2 = random
+                .ints(5000, 51, 6001) // 5000 numbers, 51-6000
+                .boxed()
+                .toList();
+        List<Integer> list3 = random
+                .ints(5000, 101, 7501) // 5000 numbers, 101-7500
+                .boxed()
+                .toList();
+        lists.add(list1);
+        lists.add(list2);
+        lists.add(list3);
+        long t = System.nanoTime();
+        for (List<Integer> list : lists) {
+            boolean result = list.containsAll(loaded);
+            System.out.println("Result: " + result + " elapsed: " + (System.nanoTime() - t) / 1000000.0 + " ms");
+        }
+        System.out.println("Total elapsed: " + (System.nanoTime() - t) / 1000000.0 + " ms");
+
+        t = System.nanoTime();
+        for (List<Integer> list : lists) {
+            boolean result = (new HashSet<>(list)).containsAll(loaded);
+            System.out.println("Result: " + result + " elapsed: " + (System.nanoTime() - t) / 1000000.0 + " ms");
+        }
+        System.out.println("Total elapsed: " + (System.nanoTime() - t) / 1000000.0 + " ms");
     }
 }

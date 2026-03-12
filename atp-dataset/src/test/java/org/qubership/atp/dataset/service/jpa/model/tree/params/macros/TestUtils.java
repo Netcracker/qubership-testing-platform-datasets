@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@
 
 package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
-import static com.google.common.collect.ImmutableList.of;
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.nonNull;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.qubership.atp.macros.core.model.Macros;
@@ -59,7 +57,7 @@ public class TestUtils {
                       : 'Unknown ' + variableName;
                 }\
                 """);
-        context.setParameters(of(
+        context.setParameters(List.of(
                 getMacrosParameter("variableName", null))
         );
         return context;
@@ -109,9 +107,9 @@ public class TestUtils {
                     return result.toString();
                 }\
                 """);
-        macros.setParameters(unmodifiableList(asList(
+        macros.setParameters(List.of(
                 getMacrosParameter("min", "1"),
-                getMacrosParameter("max", "100"))));
+                getMacrosParameter("max", "100")));
         return macros;
     }
 
@@ -131,33 +129,28 @@ public class TestUtils {
                     return print.format(date);
                 }\
                 """);
-        macros.setParameters(unmodifiableList(asList(
+        macros.setParameters(List.of(
                 getMacrosParameter("format", "dd.MM.yyyy hh:mm:ss"),
-                getMacrosParameter("timeZone", null))));
+                getMacrosParameter("timeZone", null)));
         return macros;
     }
 
     public static Macros getCharsMacros() {
-        Macros macros = getMacros("CHARS",
-                """
-                function main(count) {
-                    var result = '';
-                    var characters = 'abcdefghijklmnopqrstuvwxyz';
-                    var length = characters.length;
-                    for (var i = 0; i < count; i++) {
-                        result += characters.charAt(Math.floor(Math.random() * length));
-                    }
-                    return result;
-                }\
-                """);
-        macros.setParameters(of(
+        Macros macros = getMacros("CHARS", charsMacroContent(false));
+        macros.setParameters(List.of(
                 getMacrosParameter("count", null)));
         return macros;
     }
 
     public static Macros getCharsUpperCaseMacros() {
-        Macros macros = getMacros("CHARS_UPPERCASE",
-                """
+        Macros macros = getMacros("CHARS_UPPERCASE", charsMacroContent(true));
+        macros.setParameters(List.of(
+                getMacrosParameter("count", null)));
+        return macros;
+    }
+
+    private static String charsMacroContent(boolean upperCase) {
+        return """
                 function main(count) {
                     var result = '';
                     var characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -165,12 +158,9 @@ public class TestUtils {
                     for (var i = 0; i < count; i++) {
                         result += characters.charAt(Math.floor(Math.random() * length));
                     }
-                    return result.toUpperCase();
+                    return result""" + (upperCase ? ".toUpperCase();" : ";") + """
                 }\
-                """);
-        macros.setParameters(of(
-                getMacrosParameter("count", null)));
-        return macros;
+                """;
     }
 
     public static Macros getSumMacros() {
@@ -180,9 +170,9 @@ public class TestUtils {
                     return parseInt(first) + parseInt(second);
                 }\
                 """);
-        macros.setParameters(unmodifiableList(asList(
+        macros.setParameters(List.of(
                 getMacrosParameter("first", null),
-                getMacrosParameter("second", null))));
+                getMacrosParameter("second", null)));
         return macros;
     }
 
@@ -208,10 +198,10 @@ public class TestUtils {
                     }
                 }\
                 """);
-        macros.setParameters(unmodifiableList(asList(
+        macros.setParameters(List.of(
                 getMacrosParameter("value", null),
                 getMacrosParameter("date", null),
-                getMacrosParameter("format", null))));
+                getMacrosParameter("format", null)));
         return macros;
     }
 
@@ -226,20 +216,19 @@ public class TestUtils {
                 return result.toString();
             }\
             """);
-        macros.setParameters(of(
+        macros.setParameters(List.of(
             getMacrosParameter("digit", "1")));
         return macros;
     }
 
     public static Macros getTrNameMacros() {
-        Macros macros = getMacros("TEST_CASE_SHORT_NAME",
+        return getMacros("TEST_CASE_SHORT_NAME",
                 """
                 function main() {   \s
                 	return (contextMap != null && contextMap.get('TEST_CASE_SHORT_NAME') != null)\s
                 		? contextMap.get('TEST_CASE_SHORT_NAME') : 'Unknown TEST_CASE_SHORT_NAME';
                 }\
                 """);
-        return macros;
     }
 
     private static Macros getMacros(String name, String content) {

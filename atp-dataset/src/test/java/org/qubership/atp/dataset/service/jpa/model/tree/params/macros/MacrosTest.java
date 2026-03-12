@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-
 import org.qubership.atp.dataset.model.utils.Utils;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.AbstractTextParameter;
 
@@ -39,13 +38,7 @@ public class MacrosTest extends AbstractMacroTest {
         }
         Pattern pattern = Pattern.compile("[0-9]{10}");
         Assertions.assertTrue(pattern.matcher(result.toString()).matches());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -57,13 +50,7 @@ public class MacrosTest extends AbstractMacroTest {
             result.append(abstractTextParameter.getValue());
         }
         Assertions.assertEquals(MACRO_RESULT, result.toString());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -75,13 +62,7 @@ public class MacrosTest extends AbstractMacroTest {
             result.append(abstractTextParameter.getValue());
         }
         Assertions.assertEquals(MACRO_RESULT, result.toString());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -93,13 +74,7 @@ public class MacrosTest extends AbstractMacroTest {
             evaluatedResult.append(abstractTextParameter.getValue());
         }
         Assertions.assertEquals(MACRO_RESULT, evaluatedResult.toString());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -111,13 +86,7 @@ public class MacrosTest extends AbstractMacroTest {
             result.append(abstractTextParameter.getValue());
         }
         Assertions.assertTrue(Utils.isUuid(result.toString()));
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -129,13 +98,7 @@ public class MacrosTest extends AbstractMacroTest {
             result.append(abstractTextParameter.getValue());
         }
         Assertions.assertEquals(parameterValue, result.toString());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -148,13 +111,7 @@ public class MacrosTest extends AbstractMacroTest {
         }
         Pattern pattern = Pattern.compile("[a-z]{10}");
         Assertions.assertTrue(pattern.matcher(result.toString()).matches());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -167,13 +124,7 @@ public class MacrosTest extends AbstractMacroTest {
         }
         Pattern pattern = Pattern.compile("[A-Z]{10}");
         Assertions.assertTrue(pattern.matcher(result.toString()).matches());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -185,13 +136,7 @@ public class MacrosTest extends AbstractMacroTest {
             result.append(abstractTextParameter.getValue());
         }
         Assertions.assertEquals(parameterValue, result.toString());
-
-        List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
-        StringBuilder unevaluatedResult = new StringBuilder();
-        for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
-            unevaluatedResult.append(abstractTextParameter.getValue());
-        }
-        Assertions.assertEquals(parameterValue, unevaluatedResult.toString());
+        parseThenCheck(parameterValue);
     }
 
     @Test
@@ -204,7 +149,10 @@ public class MacrosTest extends AbstractMacroTest {
         }
         Pattern pattern = Pattern.compile("[0-9]{5}");
         Assertions.assertTrue(pattern.matcher(result.toString()).matches());
+        parseThenCheck(parameterValue);
+    }
 
+    private void parseThenCheck(String parameterValue) {
         List<AbstractTextParameter> parseUnevaluatedResult = parser.parse(parameterValue, false);
         StringBuilder unevaluatedResult = new StringBuilder();
         for (AbstractTextParameter abstractTextParameter : parseUnevaluatedResult) {
