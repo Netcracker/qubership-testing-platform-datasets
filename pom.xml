@@ -202,12 +202,10 @@
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast-spring</artifactId>
-                <version>5.3.5</version> <!-- Should be tested, because versions are set different currently: 4.2.8 and 5.3.5 -->
             </dependency>
             <dependency>
                 <groupId>com.hazelcast</groupId>
                 <artifactId>hazelcast</artifactId>
-                <version>5.3.5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

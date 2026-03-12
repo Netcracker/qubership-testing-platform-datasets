@@ -35,8 +35,8 @@
         <liquibase.slf4j.version>4.1.0</liquibase.slf4j.version>
         <shedlock.spring>4.14.0</shedlock.spring>
         <glassfish.jersey.version>3.1.11</glassfish.jersey.version>
-        <jackson.version>2.17.3</jackson.version>
-        <hazelcast.version>4.2.6</hazelcast.version>
+        <jackson.version>2.18.6</jackson.version>
+        <hazelcast.version>5.3.5</hazelcast.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.42</lombok.version>
         <undertow.version>2.3.21.Final</undertow.version>
@@ -54,7 +54,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>
-                <version>5.4.1</version>
+                <version>5.4.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents.core5</groupId>
@@ -560,9 +560,9 @@
                 <version>1.21</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
-                <version>2.0.0-M4</version>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.6.0</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
@@ -628,6 +628,27 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
                 <version>3.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast-spring</artifactId>
+                <version>5.3.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>5.3.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
