@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.macros.MacroRegistry;
 import org.qubership.atp.dataset.macros.args.ArgsParser;
@@ -161,10 +161,7 @@ public class AliasWrapperServiceImpl implements AliasWrapperService {
     @Nullable
     private <T extends Identified & Named> T getAlias(@Nonnull ReferenceAliasType<T> type, @Nonnull UUID objectId) {
         T result = getAliasObject(type, objectId);
-        if (result != null) {
-            return result;
-        }
-        return null;
+        return result;
     }
 
     @Nullable
@@ -203,7 +200,7 @@ public class AliasWrapperServiceImpl implements AliasWrapperService {
             List<SignatureArg> toResolve = args.getParsed();
             for (int i = 0; i < toResolve.size(); i++) {
                 Optional<? extends RefArg.Signature<?>> signature = toResolve.get(i).asRef();
-                if (!signature.isPresent()) {
+                if (signature.isEmpty()) {
                     continue;
                 }
                 resolve(toResolve.subList(0, i), signature.get());
@@ -216,13 +213,13 @@ public class AliasWrapperServiceImpl implements AliasWrapperService {
     private class UnWrap implements Replacer {
 
         @Override
-        public boolean replace(ArgsParser.Result args) throws Exception {
+        public boolean replace(ArgsParser.Result args) {
             boolean changed = false;
             Iterator<SignatureArg> argsIter = args.getParsed().iterator();
             while (argsIter.hasNext()) {
                 SignatureArg macroArg = argsIter.next();
                 Optional<? extends RefArg.Signature<?>> signature = macroArg.asRef();
-                if (!signature.isPresent()) {
+                if (signature.isEmpty()) {
                     continue;
                 }
                 UnwrapStatus unwrapStatus = AliasWrapperServiceImpl.this.unWrapAlias(signature.get());

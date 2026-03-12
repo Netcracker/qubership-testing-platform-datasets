@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.args;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * May be text or ref. Contains in macro arguments signature.

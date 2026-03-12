@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,7 @@ public class RefAliasProcessorTest {
             return new Macros(key.toUpperCase()) {
 
                 @Override
-                public Object evaluate(Stream input, EvaluationContext context) throws Exception {
+                public Object evaluate(Stream input, EvaluationContext context) {
                     throw new UnsupportedOperationException("Mock method");
                 }
 
@@ -73,7 +73,7 @@ public class RefAliasProcessorTest {
                 public ArgsParser createArgsParser() {
                     return new DotSeparatedArgsParser(new MacroArgsFactory()) {
                         @Override
-                        protected SignatureArg createArg(int index, @Nonnull MacroArgFactory args) throws Exception {
+                        protected SignatureArg createArg(int index, @Nonnull MacroArgFactory args) {
                             return args.text();
                         }
                     };

@@ -19,15 +19,14 @@ package org.qubership.atp.dataset.db;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.utils.Proxies;
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.model.impl.VisibilityAreaImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -53,7 +52,6 @@ public class VisibilityAreaRepository extends AbstractRepository {
      * @param queryFactory is used for creating sql queries.
      * @param filtersRepo  repository for deleting filters;
      */
-    @Autowired
     public VisibilityAreaRepository(@Nonnull SQLQueryFactory queryFactory,
                                     @Nonnull Provider<DataSetListRepository> dslRepo,
                                     @Nonnull CacheRepository cacheRepo,

@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "TDS-7004")
 public class ExcelImportNotExistingRefParameterException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Provided referenced [%s], DS '%s', in attribute '%s' "
+    private static final String DEFAULT_MESSAGE = "Provided referenced [%s], DS '%s', in attribute '%s' "
             + "parameter doesn't exist";
 
     public ExcelImportNotExistingRefParameterException(String parameterValue,
                                                        String parameterDsRefName,
                                                        String attributeName) {
-        super(String.format(DEFAULT_MESSAGE, parameterValue, parameterDsRefName, attributeName));
+        super(DEFAULT_MESSAGE.formatted(parameterValue, parameterDsRefName, attributeName));
     }
 
 }

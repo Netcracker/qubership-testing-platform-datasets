@@ -53,7 +53,7 @@ public class DatasetLinkAttributeExportConverter implements AttributeExportConve
             if (Objects.nonNull(reference) && Objects.nonNull(parameter)
                     && Objects.nonNull(parameter.getValue())
                     && Strings.isNotBlank(parameter.getValue().toString())) {
-                cell.setCellValue(String.format("%s %s %s",
+                cell.setCellValue("%s %s %s".formatted(
                         reference.getName(), REFERENCE_DELIMITER, parameter.getValue()));
             }
         }

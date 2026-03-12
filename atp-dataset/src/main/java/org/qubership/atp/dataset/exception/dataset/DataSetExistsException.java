@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.CONFLICT, reason = "TDS-4002")
 public class DataSetExistsException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Dataset with name '%s' already exists";
+    private static final String DEFAULT_MESSAGE = "Dataset with name '%s' already exists";
 
     public DataSetExistsException(String message) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

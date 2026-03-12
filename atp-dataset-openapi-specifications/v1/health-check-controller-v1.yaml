@@ -32,4 +32,3 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-components: {}

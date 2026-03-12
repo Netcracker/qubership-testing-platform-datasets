@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.migration;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.apache.poi.ss.usermodel.Cell;
 

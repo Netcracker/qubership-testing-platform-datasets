@@ -26,8 +26,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -75,7 +75,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -108,7 +107,6 @@ public class DataSetListController {
             + "T(org.qubership.atp.dataset.model.UserManagementEntities).DATASET_LIST.getName(),"
             + "#vaId,'CREATE')")
     @PutMapping("/va/{vaId}")
-    @ApiOperation(value = "Creates new DSL with name provided.")
     @Operation(summary = "Creates new DSL with name provided.")
     public ResponseEntity<UUID> create(@PathVariable("vaId") UUID vaId,
                                        @RequestParam("name") String name,

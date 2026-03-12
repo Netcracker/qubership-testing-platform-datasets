@@ -26,13 +26,11 @@ import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,7 +50,6 @@ import org.qubership.atp.dataset.versioning.service.RestoreService;
 @Isolated
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
 public class VersioningRestoreTest extends AbstractJpaTest {
     @Autowired
     protected DataSetListService queryDslDataSetListService;
@@ -75,7 +72,7 @@ public class VersioningRestoreTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/version_restore_test/versionRestorTest.sql")
-    public void createHistoryItem_lockDataSet_newFilledRowInHistory() throws Exception {
+    public void createHistoryItem_lockDataSet_newFilledRowInHistory() {
 
         int initialRevision = getCurrentRevision(rootDataSetListId);
         // Lock DataSet
@@ -95,7 +92,7 @@ public class VersioningRestoreTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/version_restore_test/versionRestorTest.sql")
-    public void restore_RestoreWithLockedDataSet_Exception() throws Exception {
+    public void restore_RestoreWithLockedDataSet_Exception() {
         //Original data
         int initialRevision = getCurrentRevision(rootDataSetListId);
         // Lock DataSet
@@ -116,7 +113,7 @@ public class VersioningRestoreTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/version_restore_test/versionRestorTest.sql")
-    public void rename_createHistoryItem_newFilledRowInHistory() throws Exception {
+    public void rename_createHistoryItem_newFilledRowInHistory() {
         //Original data
         int initialRevision = getCurrentRevision(rootDataSetListId);
         String dataSetNewName = "Data Set 1 new name";
@@ -131,8 +128,8 @@ public class VersioningRestoreTest extends AbstractJpaTest {
         HistoryItemResponseDto allHistory = historyService.getAllHistory(rootDataSetListId, 0, 50);
         HistoryItemDto item = allHistory.getHistoryItems().get(0);
 
-        Assertions.assertEquals(item.getOldValue(), "Data Set 1");
-        Assertions.assertEquals(item.getNewValue(), dataSetNewName);
+        Assertions.assertEquals("Data Set 1", item.getOldValue());
+        Assertions.assertEquals(dataSetNewName, item.getNewValue());
 
         restore(initialRevision);
     }

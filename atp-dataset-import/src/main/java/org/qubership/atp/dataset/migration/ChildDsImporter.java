@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.migration;
 import java.util.Iterator;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

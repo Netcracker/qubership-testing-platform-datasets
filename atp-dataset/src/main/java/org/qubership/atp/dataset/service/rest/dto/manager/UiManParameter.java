@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.service.rest.dto.manager;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.Parameter;

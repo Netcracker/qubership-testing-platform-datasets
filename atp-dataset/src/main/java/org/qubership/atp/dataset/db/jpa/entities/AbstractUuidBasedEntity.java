@@ -19,15 +19,14 @@ package org.qubership.atp.dataset.db.jpa.entities;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +36,6 @@ public abstract class AbstractUuidBasedEntity implements Serializable {
     @Id
     @Getter
     @Setter
-    @Type(type = "pg-uuid")
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
     @GeneratedValue(
             strategy = GenerationType.TABLE,
@@ -55,7 +53,7 @@ public abstract class AbstractUuidBasedEntity implements Serializable {
     /*
     To resolve deletion conflicts. DS removal and attribute removal both
     lead to parameter deletion. If both events happen in single transaction
-    there can be conflict, when we trying to delete already deleted parameter.
+    there can be conflict, when we are trying to delete already deleted parameter.
      */
     @Getter
     @Setter
@@ -64,8 +62,7 @@ public abstract class AbstractUuidBasedEntity implements Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof AttributeKeyEntity) {
-            AttributeKeyEntity otherEntity = (AttributeKeyEntity) other;
+        if (other instanceof AttributeKeyEntity otherEntity) {
             return otherEntity.getId().equals(getId());
         }
         return false;

@@ -31,21 +31,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.db.GridFsRepository;
 import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.AbstractTest;
 
 @Isolated
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfiguration.class})
+@SpringJUnitConfig(classes = {TestConfiguration.class})
 public class GridFsServiceTest extends AbstractTest {
 
     @Autowired

@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.model;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.service.rest.View;
 

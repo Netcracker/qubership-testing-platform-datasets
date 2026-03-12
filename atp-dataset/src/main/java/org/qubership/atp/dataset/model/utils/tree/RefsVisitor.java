@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.model.utils.tree;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class RefsVisitor<I, O> extends LeafsDetector<I, O, Object> {
 
@@ -34,8 +34,7 @@ public class RefsVisitor<I, O> extends LeafsDetector<I, O, Object> {
      *
      * @param parents     to iterate over. Inclusive.
      * @param visitor     to handle visit events.
-     * @param itemsFilter filters objects to iterate over. Delegates to {@link
-     *                    AllRefsIterator#itemsFilter}
+     * @param itemsFilter filters objects to iterate over. Delegates to {@link AllRefsIterator}.
      */
     public RefsVisitor(@Nonnull Iterator<? extends I> parents,
                        @Nonnull TraverseVisitor<I, O> visitor,

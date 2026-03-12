@@ -23,12 +23,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.dataset.config.TransactionTestConfiguration;
@@ -41,8 +38,7 @@ import org.qubership.atp.dataset.service.direct.DataSetListService;
 import org.qubership.atp.dataset.service.direct.VisibilityAreaService;
 
 @Disabled
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TransactionTestConfiguration.class})
+@SpringJUnitConfig(classes = {TransactionTestConfiguration.class})
 public class TransactionInterceptorTest {
 
     private final String dslName = "TransactionInterceptorTestDsl";

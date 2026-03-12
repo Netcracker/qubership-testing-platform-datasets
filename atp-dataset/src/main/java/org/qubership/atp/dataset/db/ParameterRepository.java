@@ -24,8 +24,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.constants.CacheEnum;
 import org.qubership.atp.dataset.db.dto.AttributePathDto;
@@ -47,7 +47,6 @@ import org.qubership.atp.dataset.model.impl.ParameterOverlapImpl;
 import org.qubership.atp.dataset.model.impl.TableResponse;
 import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.direct.ClearCacheService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Repository;
 
@@ -75,7 +74,6 @@ public class ParameterRepository extends AbstractRepository {
     private final CacheRepository cacheRepo;
     private final ClearCacheService clearCacheService;
 
-    @Autowired
     protected ParameterRepository(SQLQueryFactory queryFactory,
                                   DataSetRepository dsRepo,
                                   ListValueRepository lvRepo,

@@ -21,7 +21,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -62,7 +61,7 @@ public class ExcelTest {
     @Test
     @Disabled//ignored because it is not required to perform such parsing each time
     public void get_all_formulas() throws IOException, InvalidFormatException {
-        final List<Path> files = Files.find(Paths.get("TEST DATA\\test data"), 1,
+        final List<Path> files = Files.find(Path.of("TEST DATA\\test data"), 1,
                 (path, basicFileAttributes) -> basicFileAttributes.isRegularFile()
                         && !path.startsWith("~")
                         && path.getFileName().toString().toLowerCase().matches(".+\\.xlsx?"))
@@ -70,7 +69,7 @@ public class ExcelTest {
         //YA - can be removed from here and calculated in the formula parsing test
         final int[] totalFormulas = {0};
         for (Path file : files) {
-            final Path test_excel = Paths.get("test_excel", file.getFileName().toString() + ".txt");
+            final Path test_excel = Path.of("test_excel", file.getFileName().toString() + ".txt");
             Files.deleteIfExists(test_excel);
             ExcelEvaluator excelEvaluator = new ExcelEvaluator(files, evaluator);
             Path formulasFile = Files.createFile(test_excel);
@@ -139,11 +138,11 @@ public class ExcelTest {
                 .map(s -> evaluator.getFormula(new CellData(s, "unknown")).getFormulaType())
                 .collect(Collectors.groupingBy(
                         FormulaType::name, Collectors.counting()));
-        LOG.error("Error: ", result);
+        LOG.error("Error: {}", result);
     }
 
     private Stream<String> getFormulasStream() throws IOException {
-        return Files.find(Paths.get("test_excel"), 1,
+        return Files.find(Path.of("test_excel"), 1,
                 (p, a) -> a.isRegularFile() && p.getFileName().toString().endsWith(".txt"))
                 .flatMap(path -> {
                     try {

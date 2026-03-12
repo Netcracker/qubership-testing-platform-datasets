@@ -16,17 +16,17 @@
 
 package org.qubership.atp.dataset.migration;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -40,16 +40,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
-
 import org.qubership.atp.dataset.migration.model.Settings;
 import org.qubership.atp.dataset.migration.repo.DsServicesFacade;
 import org.qubership.atp.dataset.model.Attribute;
@@ -57,6 +53,9 @@ import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.direct.helper.SimpleCreationFacade;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Isolated
 public class DataSetImporterTest {
@@ -109,14 +108,14 @@ public class DataSetImporterTest {
 
     @Nonnull
     private static List<FalloutRecord> getFallout(@Nonnull String filename) throws IOException {
-        return Files.readAllLines(Paths.get(EXCEL_FOLDER).resolve(filename), Charset.forName("UTF-8")).stream()
+        return Files.readAllLines(Path.of(EXCEL_FOLDER).resolve(filename), StandardCharsets.UTF_8).stream()
                 .skip(1)//header
                 .map(FalloutRecord::create)
                 .collect(Collectors.toList());
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         Mockito.reset(SERVICES);
         when(SERVICES.get_VA_ByNameOrCreate(VA.getName())).thenReturn(VA);
         when(SERVICES.getDslByNameOrCreate(VA, DSL.getName())).thenReturn(DSL);
@@ -126,7 +125,7 @@ public class DataSetImporterTest {
     }
 
     @Test
-    public void doImport_ParentWithRootAttributes_NothingIsCreated() throws Exception {
+    public void doImport_ParentWithRootAttributes_NothingIsCreated() {
         doImportWithTimeout("OneRowDefaultGroup.xlsx", null, true);
         verify(SERVICES, never()).getDslByNameOrCreate(any(), any());
         verify(SERVICES, never()).get_DS_ByNameOrCreate(any(), any());
@@ -134,7 +133,7 @@ public class DataSetImporterTest {
     }
 
     @Test
-    public void doImport_ParentWithGroup_GroupDsAndParameterAreCreated() throws Exception {
+    public void doImport_ParentWithGroup_GroupDsAndParameterAreCreated() {
         Attribute attr = SimpleCreationFacade.INSTANCE.textAttr(GROUP_DSL, "atpMacro");
         when(SERVICES.get_Attr_ByNameOrCreate(eq(GROUP_DSL), eq(attr.getName()), any(), any(), any())).thenReturn(attr);
         doImportWithTimeout("OneRowDefaultGroup.xlsx", null, false);
@@ -149,7 +148,7 @@ public class DataSetImporterTest {
     }
 
     @Test
-    public void doImport_ChildWithRootAttributes_ParameterIsCreatedAndGroupIsNot() throws Exception {
+    public void doImport_ChildWithRootAttributes_ParameterIsCreatedAndGroupIsNot() {
         Attribute attr = SimpleCreationFacade.INSTANCE.textAttr(DSL, "atpMacro");
         when(SERVICES.get_Attr_ByNameOrCreate(eq(DSL), eq(attr.getName()), any(), any(), any())).thenReturn(attr);
         doImportWithTimeout(null, "OneRowDefaultGroup.xlsx", true);

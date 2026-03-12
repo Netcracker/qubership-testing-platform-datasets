@@ -26,7 +26,7 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.junit.jupiter.api.Test;
 
@@ -186,7 +186,7 @@ public class AbstractMacroProcessorTest {
         public final class TestMacroContext extends MacroContextBase {
 
             private StringBuilder args;
-            private StringBuilder text = new StringBuilder();
+            private final StringBuilder text = new StringBuilder();
             private String macro;
 
             public TestMacroContext() {

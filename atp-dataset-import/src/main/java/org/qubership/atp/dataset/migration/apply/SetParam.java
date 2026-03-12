@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.migration.apply;
 
 import java.io.ByteArrayInputStream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.migration.formula.model.Formula;
 import org.qubership.atp.dataset.migration.formula.model.TransformationException;

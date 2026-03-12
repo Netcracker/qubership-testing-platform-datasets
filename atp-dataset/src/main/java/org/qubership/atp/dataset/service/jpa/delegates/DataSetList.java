@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.qubership.atp.dataset.service.jpa.delegates;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -50,6 +47,7 @@ import org.qubership.atp.dataset.service.jpa.model.copy.DataSetListCopyData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -147,9 +145,9 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public Integer getAttributesCount() {
         String nativeQuery = "select count(1) from attribute where datasetlist_id = :dsl_id";
-        return ((BigInteger) entityManager.createNativeQuery(nativeQuery)
+        return (Integer) entityManager.createNativeQuery(nativeQuery)
                 .setParameter("dsl_id", getId())
-                .getSingleResult()).intValue();
+                .getSingleResult();
     }
 
     /**
@@ -180,11 +178,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where id in (:ds_ids)";
-        List<BigInteger> queryResult = entityManager.createNativeQuery(nativeQuery)
+        List<Integer> queryResult = entityManager.createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_ids", dataSetIds)
                 .getResultList();
-        queryResult.forEach(bigInteger -> result.add(bigInteger.intValue() - 1));
+        queryResult.forEach(bigInteger -> result.add(bigInteger - 1));
         return result;
     }
 
@@ -200,11 +198,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where name = :ds_name";
-        return ((BigInteger) entityManager
+        return (Integer) entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_name", dataSetName)
-                .getSingleResult()).intValue() - 1;
+                .getSingleResult() - 1;
     }
 
     /**
@@ -219,11 +217,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where id = :ds_id";
-        return ((BigInteger) entityManager
+        return (Integer) entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_id", dataSetId)
-                .getSingleResult()).intValue() - 1;
+                .getSingleResult() - 1;
     }
 
     /**
@@ -245,7 +243,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                 .getResultList();
         List<Integer> result = new ArrayList<>();
         for (Object o : untypedResult) {
-            result.add(((BigInteger) o).intValue() - 1);
+            result.add((Integer) o - 1);
         }
         return result;
     }
@@ -312,10 +310,10 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public Integer getDataSetsCount() {
         String nativeQuery = "select count(1) from dataset where datasetlist_id = :list_id";
-        return ((BigInteger) entityManager
+        return (Integer) entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
-                .getSingleResult()).intValue();
+                .getSingleResult();
     }
 
     public List<LabelEntity> getLabels() {
@@ -506,11 +504,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public long getLastDataSetsOrderNumber() {
         String nativeQuery = "select max(ordering) max_order_number from dataset where datasetlist_id = ?";
-        BigInteger result = ((BigInteger) entityManager
+        Long result = ((Long) entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter(1, getId())
                 .getSingleResult());
-        return result != null ? result.longValue() : 0L;
+        return result != null ? result : 0L;
     }
 
     public void setName(String name) {
@@ -605,7 +603,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                     try {
                         gridFsService.copy(oldOverlap.getId(), newOverlap.getId(), true);
                     } catch (IllegalStateException | FileDsNotFoundToCopyException | FileDsCopyException e) {
-                        log.error("File " + oldOverlap.getId() + " not found. Continue copying.", e);
+                        log.error("File {} not found. Continue copying.", oldOverlap.getId(), e);
                     }
                     break;
                 case DSL:
@@ -665,7 +663,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                     new AttributeCopyData(copyAttribute, listValuesMap)
             );
         }
-        log.debug("copyAttributesTo() - " + originalToCopy.entrySet());
+        log.debug("copyAttributesTo() - {}", originalToCopy.entrySet());
         return originalToCopy;
     }
 
@@ -694,11 +692,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
         if (!StringUtils.isEmpty(prevNamePattern) && name.contains(prevNamePattern)) {
             newName = name.replaceAll(prevNamePattern, postfix);
         } else {
-            newName = String.format("%s %s", name, postfix);
+            newName = "%s %s".formatted(name, postfix);
         }
 
         while (dataSetListNames.contains(newName)) {
-            newName = String.format("%s %s", newName, "Copy");
+            newName = "%s %s".formatted(newName, "Copy");
         }
 
         return newName;

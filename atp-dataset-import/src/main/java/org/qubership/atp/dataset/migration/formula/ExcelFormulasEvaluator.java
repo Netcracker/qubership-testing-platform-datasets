@@ -39,7 +39,7 @@ import org.qubership.atp.dataset.migration.model.FalloutReport;
 public class ExcelFormulasEvaluator {
 
     private final FalloutReport report;
-    private Set<ExcelFormulaAdapter> adapters = new HashSet<>();
+    private final Set<ExcelFormulaAdapter> adapters = new HashSet<>();
 
     /**
      * creates evaluator with default formulas parsers.
@@ -77,9 +77,9 @@ public class ExcelFormulasEvaluator {
     }
 
     /**
-     * tries to find formula by input formula from excel.
+     * tries to find formula by input formula from Excel.
      *
-     * @param cellData data from excel cell
+     * @param cellData data from Excel cell
      * @return calculated formula or UNKNOWN formula if formula is not implemented yet
      */
     public Formula getFormula(CellData cellData) {
@@ -91,7 +91,7 @@ public class ExcelFormulasEvaluator {
                     return new Formula(cellData, adapter.getType(), datasetValue, null);
                 } catch (TransformationException e) {
                     report.report(cellData.getLocation(), excelFormula,
-                            String.format("failed to convert formula to '%s'", adapter.getType()), e.getMessage());
+                            "failed to convert formula to '%s'".formatted(adapter.getType()), e.getMessage());
                 }
             }
         }

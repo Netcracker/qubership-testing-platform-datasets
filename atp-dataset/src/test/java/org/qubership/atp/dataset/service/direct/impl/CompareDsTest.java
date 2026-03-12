@@ -18,17 +18,9 @@ package org.qubership.atp.dataset.service.direct.impl;
 
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.model.api.DetailedComparisonDsRequest;
@@ -39,6 +31,13 @@ import org.qubership.atp.dataset.model.impl.ComparedAttribute;
 import org.qubership.atp.dataset.service.direct.EncryptionService;
 import org.qubership.atp.dataset.service.direct.GridFsService;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+
+import jakarta.transaction.Transactional;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class})
@@ -58,16 +57,17 @@ public class CompareDsTest extends DataSetBuilder {
     @SpyBean
     EncryptionService encryptionService;
 
-    private UUID leftDs = UUID.fromString("527b9023-b6a8-4a64-99c1-af80b94449d2");
-    private UUID identicalDs = UUID.fromString("1919170b-5733-4a9a-b67d-80a6ca027d7d");
-    private UUID oneParamDs = UUID.fromString("d450e596-1910-4ad4-8c94-61c576296e4d");
-    private UUID diffAttrTypeDs = UUID.fromString("23be800d-dd13-4ead-ae82-883a4a228a92");
-    private UUID diffAttrNameDs = UUID.fromString("e8fe4a2b-815c-46ba-b32f-13a63204eb8a");
-    private UUID diffStringValueDs = UUID.fromString("fa11fd87-4461-4908-9069-f0c2f4a2d058");
-    private UUID diffDslValueDs = UUID.fromString("1ff48d2c-1819-4682-afc1-a1092a198929");
-    private UUID diffListValueDs = UUID.fromString("6ab9a777-3b0d-478c-8340-4b12843342e7");
-    private UUID leftDsNoParameters = UUID.fromString("3e2d9226-453a-452d-999e-f060627f8c6c");
-    private UUID rightDsNoParameters = UUID.fromString("9b3d09e7-2ddf-4381-a711-187174d7ad73");
+    private final UUID leftDs = UUID.fromString("527b9023-b6a8-4a64-99c1-af80b94449d2");
+    private final UUID identicalDs = UUID.fromString("1919170b-5733-4a9a-b67d-80a6ca027d7d");
+    private final UUID oneParamDs = UUID.fromString("d450e596-1910-4ad4-8c94-61c576296e4d");
+    private final UUID diffAttrTypeDs = UUID.fromString("23be800d-dd13-4ead-ae82-883a4a228a92");
+    private final UUID diffAttrNameDs = UUID.fromString("e8fe4a2b-815c-46ba-b32f-13a63204eb8a");
+    private final UUID diffStringValueDs = UUID.fromString("fa11fd87-4461-4908-9069-f0c2f4a2d058");
+    private final UUID diffDslValueDs = UUID.fromString("1ff48d2c-1819-4682-afc1-a1092a198929");
+    private final UUID diffListValueDs = UUID.fromString("6ab9a777-3b0d-478c-8340-4b12843342e7");
+    private final UUID leftDsNoParameters = UUID.fromString("3e2d9226-453a-452d-999e-f060627f8c6c");
+    private final UUID rightDsNoParameters = UUID.fromString("9b3d09e7-2ddf-4381-a711-187174d7ad73");
+
     @Test
     @Transactional
     public void compare_IdenticalDs_statusOk() {

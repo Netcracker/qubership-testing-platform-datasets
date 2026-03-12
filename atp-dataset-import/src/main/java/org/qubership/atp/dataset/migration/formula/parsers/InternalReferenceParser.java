@@ -49,7 +49,7 @@ public class InternalReferenceParser extends RegexpFormulaAdapter {
 
     private String getAddress(ParameterAssociation referencedParameter) {
         //IN SCOPE: DSL_NAME.DATA_SET_NAME.ATTRIBUTE_NAME
-        return String.format("#REF_DSL(%s.%s.%s)",
+        return "#REF_DSL(%s.%s.%s)".formatted(
                 referencedParameter.parameterSup.getContainer().getGroupDsl().getName(),
                 referencedParameter.parameterSup.getContainer().getGroupDs().getName(),
                 referencedParameter.parameterSup.getAttrName());

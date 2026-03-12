@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
 import org.qubership.atp.dataset.macros.Macros;
@@ -86,12 +86,12 @@ public class ReferenceToDslMacros extends Macros<String> {
         }
         OverlapItem.Reachable reachable = refItem.asReachable();
         Optional<Parameter> paramOpt = reachable.getParameter();
-        if (!paramOpt.isPresent()) {
+        if (paramOpt.isEmpty()) {
             return "";
         }
         Parameter parameter = paramOpt.get();
         Optional<String> valueOpt = reachable.getValue();
-        if (!valueOpt.isPresent()) {
+        if (valueOpt.isEmpty()) {
             return "";
         }
         String value = valueOpt.get();

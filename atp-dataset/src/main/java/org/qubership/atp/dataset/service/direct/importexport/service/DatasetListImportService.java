@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -292,9 +291,8 @@ public class DatasetListImportService {
         if (Objects.nonNull(dataSets) && !dataSets.isEmpty()) {
             Map<String, UUID> map = dataSets.stream().collect(Collectors.toMap(DataSet::getName, DataSet::getId));
             String dslName = dataSetListService.getById(targetDslId).getName();
-            String message = String.format(
-                    "Failed to import DataSetList '%s' with id: '%s'. Reason: some datasets are locked: %s",
-                    dslName, targetDslId, map);
+            String message = "Failed to import DataSetList '%s' with id: '%s'. Reason: some datasets are locked: %s"
+                    .formatted(dslName, targetDslId, map);
             log.error(message);
             throw new ImportFailedException(message);
         }
@@ -370,7 +368,7 @@ public class DatasetListImportService {
         boolean isSupportedAttributeType = supportedImportAttributeTypes.stream()
                 .anyMatch(attributeType -> attributeType.name().equalsIgnoreCase(attributeTypeValue));
         if (!isSupportedAttributeType) {
-            log.error(String.format("Invalid attribute '%s' type: '%s'. Supported import types: %s",
+            log.error("Invalid attribute '%s' type: '%s'. Supported import types: %s".formatted(
                     attributeName, attributeTypeValue, supportedImportAttributeTypes));
             throw new ImportExcelNotSupportedAttributeTypeException(attributeName, attributeTypeValue,
                     supportedImportAttributeTypes);
@@ -378,7 +376,7 @@ public class DatasetListImportService {
         boolean isAttrTypeEquals = context.getAttributesNameMap().get(attributeName)
                 .getAttributeType().getName().equalsIgnoreCase(attributeTypeValue);
         if (!isAttrTypeEquals) {
-            log.error(String.format("The attribute '%s' with type '%s' is different compared to DSL", attributeName,
+            log.error("The attribute '%s' with type '%s' is different compared to DSL".formatted(attributeName,
                     attributeTypeValue));
             throw new ImportExcelNotEqualsAttributeTypeException(attributeName, attributeTypeValue);
         }
@@ -676,7 +674,7 @@ public class DatasetListImportService {
 
             final boolean isRowHeaderCellIsTrue = headingRow.containsKey(requiredHeaderIndex);
             if (!isRowHeaderCellIsTrue) {
-                String errorMessage = String.format("Required heading '%s' is absent", requiredHeader);
+                String errorMessage = "Required heading '%s' is absent".formatted(requiredHeader);
                 log.error(errorMessage);
                 throw new ImportFailedException(errorMessage);
             } else {
@@ -685,7 +683,7 @@ public class DatasetListImportService {
 
                 final boolean isRowHeaderValueDoesntMatch = !requiredHeader.equals(rowHeader);
                 if (isRowHeaderValueDoesntMatch) {
-                    String errorMessage = String.format("Required heading '%s' has incorrect name", requiredHeader);
+                    String errorMessage = "Required heading '%s' has incorrect name".formatted(requiredHeader);
                     log.error(errorMessage);
                     throw new ImportFailedException(errorMessage);
                 }

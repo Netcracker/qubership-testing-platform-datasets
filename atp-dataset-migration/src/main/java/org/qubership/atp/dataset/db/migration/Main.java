@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.sql.SQLException;
 
 import org.qubership.atp.dataset.db.migration.config.DbConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,9 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException, LiquibaseException {
         log.info("Started migration runner in Main Migration module");
-        ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(Main.class, args);
+        SpringApplication application = new SpringApplication(Main.class);
+        application.setWebApplicationType(WebApplicationType.NONE);
+        ConfigurableApplicationContext configurableApplicationContext = application.run(args);
         MigrationRunner migrationRunner = configurableApplicationContext.getBean(MigrationRunner.class);
         migrationRunner.runMigration();
     }

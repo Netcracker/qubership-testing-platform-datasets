@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-3002")
 public class AttributeTypeException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Attribute '%s' has invalid type '%s'";
+    private static final String DEFAULT_MESSAGE = "Attribute '%s' has invalid type '%s'";
 
     public AttributeTypeException(String attrName, String type) {
-        super(String.format(DEFAULT_MESSAGE, attrName, type));
+        super(DEFAULT_MESSAGE.formatted(attrName, type));
     }
 }

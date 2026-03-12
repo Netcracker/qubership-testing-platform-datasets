@@ -57,7 +57,7 @@ public class DateParser extends RegexpFormulaAdapter {
         date = transformDate(date);
         time = transformTime(time);
         suffix = transformSuffix(suffix);
-        return String.format("#DATE(%s'T'%s%s)", date, time, suffix);
+        return "#DATE(%s'T'%s%s)".formatted(date, time, suffix);
     }
 
     private String transformSuffix(String suffix) {
@@ -88,7 +88,7 @@ public class DateParser extends RegexpFormulaAdapter {
             Integer hours = Integer.valueOf(timeFormatMatcher.group(1));
             Integer minutes = Integer.valueOf(timeFormatMatcher.group(2));
             Integer seconds = Integer.valueOf(timeFormatMatcher.group(3));
-            time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            time = "%02d:%02d:%02d".formatted(hours, minutes, seconds);
         }
         return time;
     }

@@ -21,13 +21,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.dto.AttributePathDto;
 import org.qubership.atp.dataset.db.generated.QAttributeKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Joiner;
@@ -54,7 +53,6 @@ public class AttributePathRepository extends AbstractRepository {
      *
      * @param queryFactory is used for creating sql queries.
      */
-    @Autowired
     public AttributePathRepository(@Nonnull Provider<ParameterRepository> paramRepo,
                                    @Nonnull SQLQueryFactory queryFactory) {
         super();

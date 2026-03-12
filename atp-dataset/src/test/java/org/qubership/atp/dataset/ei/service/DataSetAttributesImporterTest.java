@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,8 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.qubership.atp.dataset.ei.model.DataSetAttribute;
 import org.qubership.atp.dataset.ei.model.DataSetList;
 import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
@@ -52,9 +50,11 @@ import org.qubership.atp.dataset.service.jpa.delegates.ListValue;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.validation.ValidationType;
 import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class DataSetAttributesImporterTest {
 
     private ObjectLoaderFromDiskService objectLoaderFromDiskService;
@@ -82,7 +82,7 @@ public class DataSetAttributesImporterTest {
 
     @Test
     public void validateDataSetAttributes_TypeDataSetListNotFound() {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(dslService.getById(any())).thenReturn(null);
         when(attrService.getById(any())).thenReturn(null);
         List<String> result = dataSetAttributesImporter.validateDataSetAttributes(workDir,
@@ -96,8 +96,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributes_noOneDslImportedDoNothing() throws IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributes_noOneDslImportedDoNothing() {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         List<UUID> dataSetLists = new ArrayList<>();
         dataSetAttributesImporter.importDataSetAttributes(workDir, dataSetLists, importData);
         verify(attrService, times(0)).remove(any());
@@ -105,8 +105,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributes_1() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributes_1() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         Map<UUID, Path> dataSetListsMap = objectLoaderFromDiskService.getListOfObjects(workDir, DataSetList.class);
         List<UUID> dataSetLists = new ArrayList<>();
 
@@ -126,8 +126,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributes_2() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributes_2() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         Map<UUID, Path> dataSetListsMap = objectLoaderFromDiskService.getListOfObjects(workDir, DataSetList.class);
         List<UUID> dataSetLists = new ArrayList<>();
 
@@ -142,8 +142,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributes_21() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributes_21() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         Map<UUID, Path> dataSetListsMap = objectLoaderFromDiskService.getListOfObjects(workDir, DataSetList.class);
         List<UUID> dataSetLists = new ArrayList<>();
 
@@ -170,8 +170,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributeKeys_1() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributeKeys_1() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         when(attrService.getById(any())).thenReturn(null);
         dataSetAttributesImporter.importDataSetAttributeKeys(workDir, importData);
 
@@ -185,8 +185,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributeKeys_2() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributeKeys_2() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         when(attrService.getById(UUID.fromString("4400c445-d685-48ce-9817-d6dcebd927d9")))
                 .thenReturn(null);
         dataSetAttributesImporter.importDataSetAttributeKeys(workDir, importData);
@@ -201,8 +201,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributeKeys_3() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributeKeys_3() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         when(attrService.getById(UUID.fromString("4400c445-d685-48ce-9817-d6dcebd927d9")))
                 .thenReturn(mock(Attribute.class));
         dataSetAttributesImporter.importDataSetAttributeKeys(workDir, importData);
@@ -217,8 +217,8 @@ public class DataSetAttributesImporterTest {
     }
 
     @Test
-    public void importDataSetAttributeKeys_4() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+    public void importDataSetAttributeKeys_4() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         when(attrService.getById(UUID.fromString("4400c445-d685-48ce-9817-d6dcebd927d9")))
                 .thenReturn(mock(Attribute.class));
         dataSetAttributesImporter.importDataSetAttributeKeys(workDir, importData);
@@ -235,7 +235,7 @@ public class DataSetAttributesImporterTest {
     @Test
     public void importDataSetAttributeKeys_importOverlapIntoDbWithOverlapWithTheSameParameters_OverlapsInDbShouldBeChangedWithoutDuplication()
             throws IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         when(attrService.getById(UUID.fromString("4400c445-d685-48ce-9817-d6dcebd927d9")))
                 .thenReturn(mock(Attribute.class));
         AttributeKey attrKey = mock(AttributeKey.class);
@@ -260,7 +260,7 @@ public class DataSetAttributesImporterTest {
        
         dataSetAttributesImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
 
@@ -282,7 +282,7 @@ public class DataSetAttributesImporterTest {
 
         dataSetAttributesImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -303,7 +303,7 @@ public class DataSetAttributesImporterTest {
 
         dataSetAttributesImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -336,6 +336,6 @@ public class DataSetAttributesImporterTest {
 
         dataSetAttributesImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name + " Copy _2");
+        Assertions.assertEquals(name + " Copy _2", object.getName());
     }
 }

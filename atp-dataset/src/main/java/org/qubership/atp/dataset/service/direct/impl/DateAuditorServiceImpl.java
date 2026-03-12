@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.UUID;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.dataset.service.direct.DataSetListService;

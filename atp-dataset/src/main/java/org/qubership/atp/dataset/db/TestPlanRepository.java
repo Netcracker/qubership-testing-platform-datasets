@@ -20,9 +20,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.utils.Proxies;
 import org.qubership.atp.dataset.model.TestPlan;
@@ -30,7 +30,6 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.model.impl.TestPlanImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -55,7 +54,6 @@ public class TestPlanRepository extends AbstractRepository {
     /**
      * visibility area repository.
      */
-    @Autowired
     public TestPlanRepository(@Nonnull SQLQueryFactory queryFactory,
                               @Nonnull CacheRepository cacheRepo,
                               @Nonnull Provider<VisibilityAreaRepository> visibilityAreaRepo,

@@ -17,6 +17,7 @@
 package org.qubership.atp.dataset.macros.impl;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
@@ -47,7 +48,7 @@ public class RandomBetweenMacros extends Macros<Long> {
         long min = getLong(list.get(0));
         long max = getLong(list.get(1));
 
-        return min + (long) (Math.random() * ((max - min) + 1));
+        return min + (long) (ThreadLocalRandom.current().nextDouble() * ((max - min) + 1));
     }
 
     @Override

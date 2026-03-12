@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.impl;
 
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
 import org.qubership.atp.dataset.macros.Macros;
@@ -57,12 +57,7 @@ public class ReferenceMacros extends Macros<String> {
 
             @Override
             protected SignatureArg createArg(int index, @Nonnull MacroArgFactory args) throws Exception {
-                switch (index) {
-                    case 0:
-                        return args.ds();
-                    default:
-                        return args.attr();
-                }
+                return index == 0 ? args.ds() : args.attr();
             }
         };
     }

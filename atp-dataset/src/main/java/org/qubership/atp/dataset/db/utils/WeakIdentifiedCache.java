@@ -22,8 +22,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.db.IdentifiedCache;
 import org.qubership.atp.dataset.model.Identified;
@@ -33,7 +33,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
 public class WeakIdentifiedCache implements IdentifiedCache {
-    private static CacheBuilder CACHE_BUILDER = CacheBuilder.from("weakValues");
+    private static final CacheBuilder CACHE_BUILDER = CacheBuilder.from("weakValues");
     private Map<Class<? extends Identified>, Cache<UUID, Identified>> caches = null;
 
     @Nonnull

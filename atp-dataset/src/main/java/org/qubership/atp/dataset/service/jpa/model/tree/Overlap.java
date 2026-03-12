@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.tree;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Overlap implements Serializable {
+    @Serial
     private static final long serialVersionUID = 4198235021753958581L;
 
     @Getter

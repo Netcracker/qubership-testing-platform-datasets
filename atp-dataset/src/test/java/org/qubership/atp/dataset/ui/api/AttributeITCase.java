@@ -26,8 +26,8 @@ import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
@@ -57,7 +57,7 @@ public class AttributeITCase extends AbstractApiIntegrationCase {
         List<AttributePojo> attributesActual =
                 baseUrl.path("/attribute/dsl").path(testData.ds.getDataSetList().getId().toString())
                         .request(MediaType.APPLICATION_JSON_TYPE)
-                        .get(new GenericType<List<AttributePojo>>() {
+                        .get(new GenericType<>() {
                         });
         Mockito.verify(queryFactory).select((Expression<?>[]) any());
     }
@@ -69,7 +69,7 @@ public class AttributeITCase extends AbstractApiIntegrationCase {
         List<AttributePojo> attributesActual =
                 baseUrl.path("/attribute/dsl").path(testData.ds.getDataSetList().getId().toString())
                         .request(MediaType.APPLICATION_JSON_TYPE)
-                        .get(new GenericType<List<AttributePojo>>() {
+                        .get(new GenericType<>() {
                         });
         List<AttributePojo> attributesExpected = getAttributePojosWithSortedListValues(testData);
         assertEquals(attributesExpected, attributesActual);

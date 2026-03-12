@@ -11,12 +11,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.qubership.atp.dataset.service.jpa.impl.MetricsService;
-import org.qubership.atp.dataset.service.rest.facade.AttachmentControllerFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
+import org.qubership.atp.dataset.model.impl.file.FileData;
+import org.qubership.atp.dataset.model.utils.DatasetResponse;
+import org.qubership.atp.dataset.service.direct.AttributeService;
+import org.qubership.atp.dataset.service.direct.ConcurrentModificationService;
+import org.qubership.atp.dataset.service.direct.DataSetListService;
+import org.qubership.atp.dataset.service.direct.DataSetService;
+import org.qubership.atp.dataset.service.direct.GridFsService;
+import org.qubership.atp.dataset.service.direct.ParameterService;
+import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListExportService;
+import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListImportService;
+import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
+import org.qubership.atp.dataset.service.jpa.JpaParameterService;
+import org.qubership.atp.dataset.service.jpa.impl.DataSetListCheckService;
+import org.qubership.atp.dataset.service.jpa.impl.MetricsService;
+import org.qubership.atp.dataset.service.rest.facade.AttachmentControllerFacade;
+import org.qubership.atp.dataset.service.rest.server.AttachmentController;
+import org.qubership.atp.dataset.service.rest.server.DataSetListController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
@@ -31,7 +47,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -40,34 +56,17 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
-import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
-import org.qubership.atp.dataset.model.impl.file.FileData;
-import org.qubership.atp.dataset.model.utils.DatasetResponse;
-import org.qubership.atp.dataset.service.direct.AttributeService;
-import org.qubership.atp.dataset.service.direct.ConcurrentModificationService;
-import org.qubership.atp.dataset.service.direct.DataSetListService;
-import org.qubership.atp.dataset.service.direct.DataSetService;
-import org.qubership.atp.dataset.service.direct.GridFsService;
-import org.qubership.atp.dataset.service.direct.ParameterService;
-import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListExportService;
-import org.qubership.atp.dataset.service.direct.importexport.service.DatasetListImportService;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
-import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
-import org.qubership.atp.dataset.service.jpa.JpaParameterService;
-import org.qubership.atp.dataset.service.jpa.impl.DataSetListCheckService;
-import org.qubership.atp.dataset.service.rest.server.AttachmentController;
-import org.qubership.atp.dataset.service.rest.server.DataSetListController;
 import lombok.extern.slf4j.Slf4j;
 
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-orchestrator-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-orchestrator-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {
         DataSetListController.class,
         AttachmentController.class
 })
-@ContextConfiguration(classes = {DatasetsAndOrchestratorContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndOrchestratorContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class,
         HttpMessageConvertersAutoConfiguration.class,
@@ -116,7 +115,7 @@ public class DatasetsAndOrchestratorContractTest {
     @MockBean
     private DataSetService dataSetService;
 
-    public void beforeAll() throws DataSetServiceException {
+    public void beforeAll() {
         List<DatasetResponse> resultList = new ArrayList<>();
         DatasetResponse datasetResponse =
                 new DatasetResponse(UUID.randomUUID(), "dsName", UUID.randomUUID(), "dslName");
@@ -124,7 +123,7 @@ public class DatasetsAndOrchestratorContractTest {
 
         UUID id = UUID.fromString("c2737427-05e4-4c17-8032-455539deaa01");
         InputStream inputStream = new ByteArrayInputStream( "blabla".getBytes() );
-        Optional<InputStream> optional = Optional.ofNullable(inputStream);
+        Optional<InputStream> optional = Optional.of(inputStream);
 
         FileData fileData = new FileData();
         fileData.setContentType("multipart/form-data");
@@ -136,13 +135,12 @@ public class DatasetsAndOrchestratorContractTest {
 
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 
-        ResponseEntity<InputStreamResource> re =
+        ResponseEntity<InputStreamResource> attachmentResponse =
                 ResponseEntity
                         .ok()
                         .contentType(MediaType.parseMediaType(fileData.getContentType()))
                         .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
                         .body(inputStreamResource);
-
 
         when(dslService.getListOfDsIdsAndNameAndDslId(any()))
                 .thenReturn(resultList);
@@ -151,7 +149,7 @@ public class DatasetsAndOrchestratorContractTest {
         when(gridFsService.getFileInfo(id)).thenReturn(fileData);
 
         when(attachmentControllerFacade.getAttachmentByParameterId(any()))
-                .thenReturn(re);
+                .thenReturn(attachmentResponse);
     }
 
     @TestTemplate
@@ -161,7 +159,7 @@ public class DatasetsAndOrchestratorContractTest {
     }
 
     @BeforeEach
-    void before(PactVerificationContext context) throws Exception {
+    void before(PactVerificationContext context) {
         beforeAll();
         context.setTarget(new MockMvcTestTarget(mockMvc));
     }

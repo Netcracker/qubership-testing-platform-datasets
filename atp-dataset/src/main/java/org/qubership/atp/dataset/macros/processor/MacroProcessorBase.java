@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.macros.processor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.macros.exception.CtxEvalException;
 import org.qubership.atp.dataset.macros.parser.Token;

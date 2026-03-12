@@ -27,12 +27,13 @@ RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.23/community/" >/etc/apk/repo
           nss_wrapper=1.1.12-r1 \
           pcre2=10.47-r0 \
           procps-ng=4.0.5-r0 \
-          sops=3.11.0-r3 \
+          sops=3.11.0-r4 \
           sysstat=12.7.8-r0 \
           tcpdump=4.99.5-r1 \
           wget=1.25.0-r2 \
           xz-libs=5.8.2-r0 \
-          zip=3.0-r13 && \
+          zip=3.0-r13 \
+          zlib=1.3.2-r0 && \
         rm -rf /var/cache/apk/*
 
 COPY deployments/install deployments/install

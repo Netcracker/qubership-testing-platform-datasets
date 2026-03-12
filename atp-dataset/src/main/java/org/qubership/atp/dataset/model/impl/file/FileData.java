@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.model.impl.file;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.Parameter;
 

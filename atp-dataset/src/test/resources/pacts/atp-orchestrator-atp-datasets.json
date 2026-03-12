@@ -15,7 +15,20 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Disposition": "attachment; filename*=UTF-8''name"
+          "Content-Disposition": "attachment; filename=\"=?UTF-8?Q?name?=\"; filename*=UTF-8''name"
+        }
+      },
+      "matchingRules": {
+        "header": {
+          "Content-Disposition": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^attachment; filename=\"(=\\?UTF-8\\?Q\\?[^\\?]*\\?=|[^\"]*)\"; filename\\*=UTF-8''[^;]*$|^attachment; filename=\"[^\"]*\"$"
+              }
+            ],
+            "combine": "AND"
+          }
         }
       },
       "providerStates": [

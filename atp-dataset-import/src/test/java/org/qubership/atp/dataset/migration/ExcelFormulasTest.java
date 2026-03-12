@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.apache.poi.ss.usermodel.CellType;
 import org.junit.jupiter.api.parallel.Isolated;
@@ -50,7 +50,7 @@ import org.qubership.atp.dataset.service.direct.helper.SimpleCreationFacade;
 @Isolated
 public class ExcelFormulasTest {
 
-    private static CreationFacade CREATE = SimpleCreationFacade.INSTANCE;
+    private static final CreationFacade CREATE = SimpleCreationFacade.INSTANCE;
 
     public static Collection<Object[]> data() {
         EvaluationContext context = EvaluationContext.getContext();
@@ -137,9 +137,9 @@ public class ExcelFormulasTest {
 
     @ParameterizedTest(name = "{index}: formula {0} is {1} and converts to {2}")
     @MethodSource("data")
-    public void excelFormula_parsedToDatasetFormat_successfully(String excelFormula, FormulaType type,
-                                                                String finalExpression) throws TransformationException,
-            IOException {
+    public void excelFormula_parsedToDatasetFormat_successfully(String excelFormula,
+                                                                FormulaType type,
+                                                                String finalExpression) throws IOException {
         ExcelFormulasEvaluator formulas = new ExcelFormulasEvaluator(new FalloutReport("test.report.tsv"));
         Formula formula = formulas.getFormula(new CellData(excelFormula, "test value", "test location", CellType._NONE));
         assertEquals(finalExpression, formula.getDatasetValue());

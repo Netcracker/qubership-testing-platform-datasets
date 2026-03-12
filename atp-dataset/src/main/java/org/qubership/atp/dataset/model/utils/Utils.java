@@ -33,8 +33,8 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -138,7 +138,7 @@ public class Utils {
      */
     @Nonnull
     public static Stream<Identified> allRefs(@Nonnull Identified root) {
-        Iterator<Identified> allRefs = new AllRefsIterator<Identified>(Iterators.singletonIterator(root), true) {
+        Iterator<Identified> allRefs = new AllRefsIterator<>(Iterators.singletonIterator(root), true) {
             @Override
             protected Iterator<? extends Identified> getChildren(@Nonnull Identified parent) {
                 return parent.getReferences().iterator();
@@ -444,8 +444,8 @@ public class Utils {
     public static boolean isUuid(Object value) {
         if (value instanceof UUID) {
             return true;
-        } else if (value instanceof String) {
-            return uuidPattern.matcher((String)value).matches();
+        } else if (value instanceof String string) {
+            return uuidPattern.matcher(string).matches();
         } else {
             return false;
         }

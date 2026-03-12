@@ -100,7 +100,7 @@ public class RestoreServiceImpl implements RestoreService {
                 DataSetList dataSetListById = modelsProvider.getDataSetListById(attribute.getDataSetListReference());
                 if (dataSetListById == null) {
                     violations.add(
-                            String.format("Data Set List reference '%s' not found", attribute.getDataSetListReference())
+                            "Data Set List reference '%s' not found".formatted(attribute.getDataSetListReference())
                     );
                 } else {
                     for (ParameterSnapshot parameter : attribute.getParameters()) {
@@ -109,8 +109,7 @@ public class RestoreServiceImpl implements RestoreService {
                             DataSet dataSetById = modelsProvider.getDataSetById(parameterId);
                             if (dataSetById == null) {
                                 violations.add(
-                                        String.format(
-                                                "Data Set List reference '%s' not found",
+                                        "Data Set List reference '%s' not found".formatted(
                                                 attribute.getDataSetListReference()
                                         )
                                 );
@@ -123,7 +122,7 @@ public class RestoreServiceImpl implements RestoreService {
                 DataSetList dataSetListById = modelsProvider.getDataSetListById(attribute.getDataSetListReference());
                 if (dataSetListById == null) {
                     violations.add(
-                            String.format("Data Set List reference '%s' not found", attribute.getDataSetListReference())
+                            "Data Set List reference '%s' not found".formatted(attribute.getDataSetListReference())
                     );
                 } else {
                     for (ParameterSnapshot parameter : attribute.getParameters()) {
@@ -132,7 +131,7 @@ public class RestoreServiceImpl implements RestoreService {
                         for (UUID dataSetId : dataSetUuids) {
                             DataSet dataSet = modelsProvider.getDataSetById(dataSetId);
                             if (dataSet == null) {
-                                violations.add(String.format("Data Set reference '%s' not found", dataSetId));
+                                violations.add("Data Set reference '%s' not found".formatted(dataSetId));
                             }
                         }
                     }
@@ -142,12 +141,12 @@ public class RestoreServiceImpl implements RestoreService {
         for (AttributeKeySnapshot overlap : dataSetListSnapshot.getOverlaps()) {
             for (UUID attributeId : overlap.getAttributePath().subList(1, overlap.getAttributePath().size())) {
                 if (modelsProvider.getAttributeById(attributeId) == null) {
-                    violations.add(String.format("Attribute '%s' not found", attributeId));
+                    violations.add("Attribute '%s' not found".formatted(attributeId));
                 }
             }
             UUID attributeId = overlap.getAttributeId();
             if (modelsProvider.getAttributeById(attributeId) == null) {
-                violations.add(String.format("Attribute '%s' not found", attributeId));
+                violations.add("Attribute '%s' not found".formatted(attributeId));
             }
         }
         if (!violations.isEmpty()) {
