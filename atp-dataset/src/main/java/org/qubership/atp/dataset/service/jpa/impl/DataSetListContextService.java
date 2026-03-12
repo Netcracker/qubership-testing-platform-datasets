@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.impl;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -45,8 +46,8 @@ public class DataSetListContextService {
         if (dataSetListContexts != null) {
             for (DataSetListContext dataSetListContext : dataSetListContexts) {
                 if (dataSetListContext.getDataSetListId().equals(dataSetListId)
-                    && dataSetListContext.getLoadedColumns().containsAll(loadedColumns)
-                    && dataSetListContext.getLoadedAttributes().containsAll(attributeTypesToLoad)) {
+                    && new HashSet<>(dataSetListContext.getLoadedColumns()).containsAll(loadedColumns)
+                    && new HashSet<>(dataSetListContext.getLoadedAttributes()).containsAll(attributeTypesToLoad)) {
                         return dataSetListContext;
                 }
             }
@@ -84,7 +85,7 @@ public class DataSetListContextService {
             }
             return newContext;
         }
-        log.error("Data Set List not found " + dataSetListId);
+        log.error("Data Set List not found {}", dataSetListId);
         throw new DataSetListNotFoundException();
     }
 
@@ -117,7 +118,7 @@ public class DataSetListContextService {
             }
             return newContext;
         }
-        log.error("Data Set List not found " + dataSetListId);
+        log.error("Data Set List not found {}", dataSetListId);
         throw new DataSetListNotFoundException();
     }
 
