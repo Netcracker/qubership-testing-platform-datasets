@@ -21,7 +21,7 @@ on:
       - ".github/**"
   workflow_dispatch: {}
   pull_request:
-    branches: [main]
+    branches: main
     types:
       [opened, reopened, synchronize]
 
@@ -163,8 +163,7 @@ jobs:
     if: |
       needs.build-and-push.result == 'success' &&
       (
-        github.event_name == 'pull_request' ||
-        (github.event_name == 'push' && github.event.pull_request.base.ref == 'refs/heads/main')
+        github.event_name == 'pull_request'
       )
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
