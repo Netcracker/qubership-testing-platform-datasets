@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-dependencies</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../parent/parent-dependencies/pom.xml</relativePath>
     </parent>
 
     <artifactId>atp-dataset-openapi-specifications</artifactId>
     <name>atp-dataset-openapi-specifications</name>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <build>
