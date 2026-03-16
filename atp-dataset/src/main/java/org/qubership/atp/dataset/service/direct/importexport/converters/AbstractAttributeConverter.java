@@ -29,7 +29,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.dataset.model.AttributeType;
 import org.qubership.atp.dataset.model.ListValue;
 import org.qubership.atp.dataset.model.Parameter;
@@ -71,8 +70,7 @@ public abstract class AbstractAttributeConverter {
         final boolean isDslAttribute = ImportUtils.isArrowDelimiterPresent(attributeKey);
 
         final String overlapKey = ImportUtils.getOverlapKey(datasetName, attributeKey);
-        boolean isOverlapExist = importContext.isOverlapExist(overlapKey);
-        if (isOverlapExist) {
+        if (importContext.isOverlapExist(overlapKey)) {
             log.debug("Is Overlap Exist key: {}, value {}, Dataset name {}", overlapKey, value, datasetName);
             return true;
         }
@@ -90,16 +88,14 @@ public abstract class AbstractAttributeConverter {
             }
         }
 
-        final boolean isDslSubAttribute = isDslSubAttribute(datasetParameterValue);
-        if (isDslSubAttribute) {
+        if (isDslSubAttribute(datasetParameterValue)) {
             final String refAttributeKey = getRefAttributeKey(importModel, datasetParameterValue);
             log.debug("Ref attribute key: {}", refAttributeKey);
 
             final Parameter refParameter = importContext.getRefParameter(refAttributeKey);
             log.debug("Ref parameter: {}", refParameter);
 
-            final boolean isRefParameter = Objects.isNull(refParameter);
-            if (isRefParameter) {
+            if (Objects.isNull(refParameter)) {
                 return !StringUtils.isEmpty(value);
             }
             boolean isParameterValueChanged;
@@ -111,11 +107,9 @@ public abstract class AbstractAttributeConverter {
                 isParameterValueChanged = false;
             }
             log.debug("Parameter should be overlapped");
-
             return isParameterValueChanged;
         }
         log.debug("Parameter shouldn't be overlapped");
-
         return false;
     }
 
@@ -144,7 +138,6 @@ public abstract class AbstractAttributeConverter {
 
         final String refAttributeKey = ImportUtils.getDsParameterKey(datasetParameterValue, attributeName);
         log.debug("Result ref attribute key: {}", refAttributeKey);
-
         return refAttributeKey;
     }
 
@@ -193,7 +186,7 @@ public abstract class AbstractAttributeConverter {
     }
 
     /**
-     * Gets attribute name from imported excel file row.
+     * Gets attribute name from imported Excel file row.
      *
      * @param row excel file row
      * @return attribute name
@@ -215,20 +208,20 @@ public abstract class AbstractAttributeConverter {
     }
 
     /**
-     * Gets attribute key from excel row.
+     * Gets attribute key from Excel row.
      *
      * @param row excel file row
      * @return attribute key
      */
     protected String getAttributeKey(Map<Integer, String> row) {
-        log.debug("Get attribute name for excel row");
+        log.debug("Get attribute key for excel row");
         return getCellValue(row, ATTR_NAME_ROW_INDEX);
     }
 
     /**
      * Get row attribute name.
      *
-     * @param row excel file row
+     * @param row Excel file row
      * @return attribute name
      */
     protected String getRowAttributeName(Map<Integer, String> row) {
@@ -239,7 +232,7 @@ public abstract class AbstractAttributeConverter {
     /**
      * Map text row (Text, Encrypted and List row types) to import model.
      *
-     * @param row           excel file row
+     * @param row           Excel file row
      * @param importContext import context
      * @return import model
      */
@@ -307,7 +300,7 @@ public abstract class AbstractAttributeConverter {
     private String getValueTarget(DatasetParameterValue datasetParameterValue, AttributeImportModel importModel,
                                   AttributeImportContext importContext, UUID attributeId, UUID datasetId,
                                   ParameterService parameterService) {
-        String valueTarget = Strings.EMPTY;
+        String valueTarget = StringUtils.EMPTY;
         UUID targetRefDatasetId = importContext.getRefDatasetsNameIdMap().get(datasetParameterValue
                 .getDatasetListReference() + "_" + datasetParameterValue.getDatasetReference());
         targetRefDatasetId = Objects.isNull(targetRefDatasetId) ? datasetId : targetRefDatasetId;

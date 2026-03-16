@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.service.direct.importexport.models.AttributeImportContext;
 import org.qubership.atp.dataset.service.direct.importexport.models.DatasetParameterValue;
@@ -93,7 +93,7 @@ public class ImportUtils {
      * @return string value string representation
      */
     public static String getCellValue(Map<Integer, String> row, int key) {
-        return row.getOrDefault(key, Strings.EMPTY);
+        return row.getOrDefault(key, StringUtils.EMPTY);
 
     }
 

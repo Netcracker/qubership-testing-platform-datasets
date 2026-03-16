@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
 import org.qubership.atp.auth.springbootstarter.ssl.Provider;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
@@ -477,7 +477,7 @@ public class RestoreServiceImpl implements RestoreService {
     }
 
     private List<UUID> extractDataSetsUuids(String textValue) {
-        if (Strings.isEmpty(textValue)) {
+        if (StringUtils.isEmpty(textValue)) {
             return Collections.emptyList();
         }
         try {

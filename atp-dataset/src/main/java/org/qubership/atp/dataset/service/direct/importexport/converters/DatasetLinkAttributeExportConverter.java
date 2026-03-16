@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.qubership.atp.dataset.model.DataSetList;
@@ -52,7 +52,7 @@ public class DatasetLinkAttributeExportConverter implements AttributeExportConve
             UiManParameter parameter = mapParameterWithDataSet.get(datasetId);
             if (Objects.nonNull(reference) && Objects.nonNull(parameter)
                     && Objects.nonNull(parameter.getValue())
-                    && Strings.isNotBlank(parameter.getValue().toString())) {
+                    && StringUtils.isNotBlank(parameter.getValue().toString())) {
                 cell.setCellValue("%s %s %s".formatted(
                         reference.getName(), REFERENCE_DELIMITER, parameter.getValue()));
             }
