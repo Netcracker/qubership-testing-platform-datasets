@@ -56,7 +56,9 @@ public class SpringLiquibaseConfig {
         SpringLiquibase liquibase = new BeanAwareSpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(this.properties.getChangeLog());
-        liquibase.setContexts(this.properties.getContexts());
+        if (this.properties.getContexts() != null && !this.properties.getContexts().isEmpty()) {
+            liquibase.setContexts(String.join(",", this.properties.getContexts()));
+        }
         liquibase.setDefaultSchema(this.properties.getDefaultSchema());
         liquibase.setDropFirst(this.properties.isDropFirst());
         liquibase.setShouldRun(this.properties.isEnabled());

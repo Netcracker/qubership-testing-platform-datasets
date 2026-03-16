@@ -117,7 +117,7 @@ public class Utils {
             }
         }
         try {
-            return targetClazz.cast(clazz.newInstance());
+            return targetClazz.cast(clazz.getDeclaredConstructor().newInstance());
         } catch (Exception e) {
             throw new RuntimeException(appendDebugInfo(new StringBuilder("Can not instantiate a"),
                     targetClazz, className, debugIdentifier).toString(), e);

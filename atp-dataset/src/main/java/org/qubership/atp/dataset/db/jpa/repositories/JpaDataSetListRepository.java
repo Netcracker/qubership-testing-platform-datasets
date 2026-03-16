@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.qubership.atp.dataset.db.jpa.entities.VisibilityAreaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -45,31 +45,27 @@ public interface JpaDataSetListRepository extends JpaRepository<DataSetListEntit
 
     List<DataSetListEntity> getBySourceIdAndVisibilityAreaId(UUID sourceId, UUID visibilityArea);
 
-    @Query(value = "select cast(id as varchar) from dataset where datasetlist_id = :dsl_id order by ordering",
-            nativeQuery = true)
+    @NativeQuery("select cast(id as varchar) from dataset where datasetlist_id = :dsl_id order by ordering")
     LinkedList<UUID> getDataSetsIdsByDataSetListId(@Param("dsl_id") UUID dslId);
 
-    @Query(value = "select distinct cast(datasetlist_id as varchar) "
+    @NativeQuery("select distinct cast(datasetlist_id as varchar) "
             + "from \"attribute\" "
-            + "where type_datasetlist_id in (:dsl_ids)",
-            nativeQuery = true)
+            + "where type_datasetlist_id in (:dsl_ids)")
     LinkedList<UUID> getAffectedDataSetListIdsByDataSetListId(@Param("dsl_ids") List<UUID> dslIds);
 
-    @Query(value = "select cast(id as varchar) "
+    @NativeQuery("select cast(id as varchar) "
             + "from dataset "
-            + "where datasetlist_id in (:dsl_ids)",
-            nativeQuery = true)
+            + "where datasetlist_id in (:dsl_ids)")
     Set<UUID> getAffectedDataSetIdsByDataSetListId(@Param("dsl_ids") Set<UUID> dslIds);
 
-    @Query(value = "select distinct name from datasetlist dsl where (select count(*) from datasetlist  dsl2 where "
+    @NativeQuery("select distinct name from datasetlist dsl where (select count(*) from datasetlist  dsl2 where "
             + "dsl2.name = dsl.name  and dsl2.visibility_area_id = dsl.visibility_area_id) > 1 and dsl"
-            + ".visibility_area_id  = ?1", nativeQuery = true)
+            + ".visibility_area_id  = ?1")
     List<String> getNotUniqueDslNames(UUID visibilityArea);
 
-    @Query(value = "select cast(id as varchar) "
+    @NativeQuery("select cast(id as varchar) "
             + "from datasetlist "
-            + "where saga_session_id = :saga_session_id and visibility_area_id = :visibility_area_id",
-            nativeQuery = true)
+            + "where saga_session_id = :saga_session_id and visibility_area_id = :visibility_area_id")
     Set<UUID> findAllIdsBySagaSessionIdAndVisibilityAreaId(@Param("saga_session_id") UUID sagaSessionId,
                                                            @Param("visibility_area_id") UUID visibilityAreaId);
 

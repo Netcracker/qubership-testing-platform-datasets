@@ -20,14 +20,14 @@ import java.util.UUID;
 
 import org.qubership.atp.dataset.db.jpa.entities.AttributeTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaAttributeTypeRepository extends JpaRepository<AttributeTypeEntity, Long> {
 
-    @Query(value = "select * from attribute_type t1 "
+    @NativeQuery("select * from attribute_type t1 "
             + "where t1.id = (select t2.attribute_type_id from public.attribute t2 "
-            + "where t2.id = ?1)", nativeQuery = true)
+            + "where t2.id = ?1)")
     AttributeTypeEntity findByAttributeId(UUID attributeId);
 }

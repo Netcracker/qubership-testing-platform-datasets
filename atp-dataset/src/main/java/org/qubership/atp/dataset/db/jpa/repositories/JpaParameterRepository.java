@@ -24,6 +24,7 @@ import org.qubership.atp.dataset.db.jpa.entities.ParameterEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -43,17 +44,17 @@ public interface JpaParameterRepository extends JpaRepository<ParameterEntity, U
     @Query(value = "SELECT p.id FROM ParameterEntity p WHERE  p.dataSetReferenceId = ?1")
     List<UUID> getParametersIdByDataSetReferenceId(UUID dsId);
 
-    @Query(value = "select p.* from \"parameter\" p, \"attribute\" "
+    @NativeQuery("select p.* from \"parameter\" p, \"attribute\" "
             + "a where p.dataset_id =?1 and p.attribute_id = a.id ORDER by a"
-            + ".\"name\" ", nativeQuery = true)
+            + ".\"name\" ")
     List<ParameterEntity> getByDataSetIdSorted(UUID dataSetId);
 
-    @Query(value = """
+    @NativeQuery("""
             select p.* from parameter p, attribute a, attribute_key ak\s
             where p.dataset_id =?1\s
             and p.attribute_id = ak.id\s
             and a.id = ak.attribute_id\s
-            ORDER by a.name""", nativeQuery = true)
+            ORDER by a.name""")
     List<ParameterEntity> getOverlapByDataSetIdSorted(UUID dataSetId);
 
     @Query(value = "select distinct p.dataSet.id from ParameterEntity p where p.dataSetReferenceId = ?1")
