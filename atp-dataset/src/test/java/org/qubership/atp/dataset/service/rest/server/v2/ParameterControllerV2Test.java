@@ -37,6 +37,10 @@ import org.qubership.atp.dataset.model.api.ParameterRequest;
 import org.qubership.atp.dataset.service.jpa.service.AbstractJpaTest;
 import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.MicrometerTracingAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -50,9 +54,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Isolated
 @SpringBootTest
+@EnableAutoConfiguration(exclude = {
+        BraveAutoConfiguration.class,
+        ZipkinAutoConfiguration.class,
+        MicrometerTracingAutoConfiguration.class})
 @Import(TestConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
+@TestPropertySource(properties = {
+        "atp-dataset.javers.enabled=false",
+        "management.zipkin.tracing.enabled=false",
+        "management.tracing.enabled=false"})
 class ParameterControllerV2Test extends AbstractJpaTest {
 
     @Autowired

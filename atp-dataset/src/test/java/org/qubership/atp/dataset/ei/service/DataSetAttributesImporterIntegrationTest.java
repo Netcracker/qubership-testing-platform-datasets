@@ -40,6 +40,10 @@ import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ValidationResult;
 import org.qubership.atp.ei.node.dto.validation.ValidationType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.MicrometerTracingAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -47,6 +51,10 @@ import org.springframework.test.context.jdbc.Sql;
 
 @Isolated
 @SpringBootTest
+@EnableAutoConfiguration(exclude = {
+        BraveAutoConfiguration.class,
+        ZipkinAutoConfiguration.class,
+        MicrometerTracingAutoConfiguration.class})
 @ActiveProfiles("disable-security")
 public class DataSetAttributesImporterIntegrationTest {
 
