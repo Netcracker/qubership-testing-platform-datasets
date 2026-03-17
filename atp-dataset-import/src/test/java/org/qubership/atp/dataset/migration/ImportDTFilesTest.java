@@ -85,7 +85,7 @@ public class ImportDTFilesTest {
     ClearCacheServiceImpl clearCacheService;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         EvaluationContext.getContext().clear();
     }
 
