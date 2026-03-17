@@ -69,8 +69,8 @@ import org.qubership.atp.ei.node.services.FileService;
 import org.qubership.atp.ei.node.services.ObjectSaverToDiskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,29 +80,32 @@ import com.google.common.collect.Sets;
 @Isolated
 @SpringBootTest
 @MockitoSettings(strictness = Strictness.LENIENT)
-@TestPropertySource(properties = {"atp.export.pretty-print=true"})
+@TestPropertySource(properties = {
+        "atp.export.pretty-print=true",
+        "management.zipkin.tracing.enabled=false",
+        "management.tracing.enabled=false"})
 public class DataSetExportExecutorTest {
 
     @Spy
     private ObjectSaverToDiskService objectSaverToDiskService =
             new ObjectSaverToDiskService(new FileService(), true);
-    @MockBean
+    @MockitoBean
     private JpaDataSetListRepository jpaDataSetListRepository;
-    @MockBean
+    @MockitoBean
     private JpaDataSetRepository jpaDataSetRepository;
-    @MockBean
+    @MockitoBean
     private GridFsRepository gridFsRepository;
-    @MockBean
+    @MockitoBean
     private MacroContextService macroContextService;
-    @MockBean
+    @MockitoBean
     private DataSetListContextService dataSetListContextService;
     @Spy
     private ObjectMapper objectMapper;
     @Autowired
     DataSetExportExecutor dataSetExportExecutor;
-    @MockBean
+    @MockitoBean
     private JpaDataSetListService dslService;
-    @MockBean
+    @MockitoBean
     private JpaDataSetServiceImpl dsService;
     @TempDir
     private Path tempDir;

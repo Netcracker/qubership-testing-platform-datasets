@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ import org.qubership.atp.dataset.service.direct.EncryptionService;
 import org.qubership.atp.dataset.service.direct.GridFsService;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.context.jdbc.Sql;
 
 import jakarta.transaction.Transactional;
@@ -48,13 +48,13 @@ import jakarta.transaction.Transactional;
 })
 public class CompareDsTest extends DataSetBuilder {
 
-    @SpyBean
+    @MockitoSpyBean
     CompareDatasetServiceImpl compareDs;
     @Autowired
     protected ModelsProvider modelsProvider;
-    @SpyBean
+    @MockitoSpyBean
     GridFsService gridFsService;
-    @SpyBean
+    @MockitoSpyBean
     EncryptionService encryptionService;
 
     private final UUID leftDs = UUID.fromString("527b9023-b6a8-4a64-99c1-af80b94449d2");

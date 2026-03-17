@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -81,11 +81,11 @@ import org.qubership.atp.macros.core.calculator.MacrosCalculator;
 import org.qubership.atp.macros.core.client.MacrosFeignClient;
 import org.qubership.atp.macros.core.clients.api.dto.macros.MacrosDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -102,13 +102,13 @@ import com.google.common.collect.ImmutableList;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class DataSetListServiceImplTest extends DataSetBuilder {
 
-    @MockBean
+    @MockitoBean
     private DataSetListSnapshotService dataSetListSnapshotService;
-    @MockBean
+    @MockitoBean
     private JpaAttributeRepository attributeRepository;
-    @MockBean
+    @MockitoBean
     private MacrosCalculator macrosCalculator;
-    @MockBean
+    @MockitoBean
     private MacrosFeignClient macrosFeignClient;
     @Autowired
     protected ModelsProvider modelsProvider;

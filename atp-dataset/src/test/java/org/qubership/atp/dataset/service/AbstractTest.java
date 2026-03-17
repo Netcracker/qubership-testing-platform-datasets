@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nonnull;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.jupiter.api.AfterEach;
@@ -42,8 +40,8 @@ import org.qubership.atp.dataset.service.direct.helper.DbCreationFacade;
 import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
 import org.qubership.atp.dataset.utils.MutableSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.google.gson.Gson;
@@ -53,6 +51,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
+import jakarta.annotation.Nonnull;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {
@@ -71,11 +70,11 @@ public abstract class AbstractTest extends AbstractServicesInjected {
     @Autowired
     protected DbCreationFacade factory;
     protected VisibilityArea va;
-    @MockBean
+    @MockitoBean
     protected Encryptor encryptor;
-    @MockBean
+    @MockitoBean
     protected Decryptor decryptor;
-    @MockBean
+    @MockitoBean
     ClearCacheServiceImpl clearCacheService;
     @Nonnull
     private static DataSetList getDataSetListByName(@Nonnull Collection<DataSetList> container, @Nonnull String name) {

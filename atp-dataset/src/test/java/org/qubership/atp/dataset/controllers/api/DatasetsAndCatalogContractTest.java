@@ -1,3 +1,19 @@
+/*
+ * # Copyright 2024-2026 NetCracker Technology Corporation
+ * #
+ * # Licensed under the Apache License, Version 2.0 (the "License");
+ * # you may not use this file except in compliance with the License.
+ * # You may obtain a copy of the License at
+ * #
+ * #      http://www.apache.org/licenses/LICENSE-2.0
+ * #
+ * # Unless required by applicable law or agreed to in writing, software
+ * # distributed under the License is distributed on an "AS IS" BASIS,
+ * # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * # See the License for the specific language governing permissions and
+ * # limitations under the License.
+ */
+
 package org.qubership.atp.dataset.controllers.api;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -59,10 +75,10 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConf
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -101,33 +117,33 @@ public class DatasetsAndCatalogContractTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private DataSetService dsService;
-    @MockBean
+    @MockitoBean
     private ConcurrentModificationService concurrentModificationService;
-    @MockBean
+    @MockitoBean
     private JpaDataSetService dataSetService;
 
-    @MockBean
+    @MockitoBean
     private DataSetListService dslService;
-    @MockBean
+    @MockitoBean
     private DataSetListCheckService dataSetListCheckService;
-    @MockBean
+    @MockitoBean
     private JpaDataSetListService jpaDataSetListService;
-    @MockBean
+    @MockitoBean
     private AttributeService attributeService;
-    @MockBean
+    @MockitoBean
     private org.qubership.atp.auth.springbootstarter.ssl.Provider<UserInfo> userInfoProvider;
-    @MockBean
+    @MockitoBean
     private DatasetListExportService datasetListExportService;
-    @MockBean
+    @MockitoBean
     private DatasetListImportService importService;
 
-    @MockBean
+    @MockitoBean
     private ParameterService parameterService;
-    @MockBean
+    @MockitoBean
     private JpaParameterService jpaParameterService;
-    @MockBean
+    @MockitoBean
     CompareDatasetServiceImpl compareDs;
 
     public void beforeAll() {
