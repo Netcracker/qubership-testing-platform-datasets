@@ -70,6 +70,7 @@ public class SpringLiquibaseConfig {
         parameters.put("service.entities.migration.enabled", serviceEntitiesMigrationEnabled);
         liquibase.setChangeLogParameters(parameters);
         liquibase.setRollbackFile(this.properties.getRollbackFile());
+        liquibase.setAnalyticsEnabled(false);
         return liquibase;
     }
 }

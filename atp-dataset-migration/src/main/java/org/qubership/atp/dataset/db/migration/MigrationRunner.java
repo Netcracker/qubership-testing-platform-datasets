@@ -63,6 +63,7 @@ public class MigrationRunner {
     public void runMigration() {
         if (migrationModuleLaunchEnabled) {
             log.info("Migration module launch is Enabled. DB update has been launched.");
+            System.setProperty("liquibase.analytics.enabled", "false");
             try {
                 log.info("Liquibase migration: install.xml to be processed...");
                 Liquibase liquibase = null;
