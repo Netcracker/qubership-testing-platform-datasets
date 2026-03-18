@@ -3,14 +3,13 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db-properties</artifactId>
-        <version>1.3.174-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
 
     <properties>
         <querydslPackageName>org.qubership.atp.dataset.db.generated</querydslPackageName>
-        <tests.argLine>--add-exports=java.base/jdk.internal.loader=ALL-UNNAMED
-        </tests.argLine>
+        <tests.argLine>--add-exports=java.base/jdk.internal.loader=ALL-UNNAMED</tests.argLine>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
@@ -47,27 +46,13 @@
                     <artifactId>tomcat-embed-websocket</artifactId>
                     <groupId>org.apache.tomcat.embed</groupId>
                 </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
                 <exclusion>
-                    <groupId>org.hibernate.validator</groupId>
-                    <artifactId>hibernate-validator</artifactId>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>tomcat-embed-core</artifactId>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>tomcat-embed-websocket</artifactId>
-                    <groupId>org.apache.tomcat.embed</groupId>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -84,7 +69,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mattbertolini</groupId>
@@ -118,7 +102,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.3</version>
+            <version>5.10.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -130,22 +114,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.17.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.17.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -293,11 +261,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>
-                            ${basedir}/src/test/resources/test-data/atp-dataset-q-classes-generation-pg.jar
-                        </additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/src/test/resources/test-data/atp-dataset-q-classes-generation-pg.jar</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>${tests.argLine}</argLine>
                 </configuration>
@@ -310,8 +275,7 @@
                     <archive>
                         <manifestEntries>
                             <Implementation-Title>DS DB Migration</Implementation-Title>
-                            <Implementation-Version>${project.version}-${svn.revision}
-                            </Implementation-Version>
+                            <Implementation-Version>${project.version}-${svn.revision}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -320,48 +284,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>with-analyzers</id>
-            <activation>
-                <property>
-                    <name>enable-analyzers</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.0</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                            <targetPercentage>22%</targetPercentage>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>migration-on-build-pg</id>
             <activation>
@@ -399,18 +321,15 @@
                                         <argument>-Djdbc.User=${pg.jdbc.User}</argument>
                                         <argument>-Djdbc.Password=${pg.jdbc.Password}</argument>
                                         <argument>-Djdbc.Dialect=${pg.jdbc.Dialect}</argument>
-                                        <argument>
-                                            -Ddrop.database.for.tests=${drop.database.for.tests}
-                                        </argument>
+                                        <argument>-Ddrop.database.for.tests=${drop.database.for.tests}</argument>
                                         <argument>--add-exports=java.base/jdk.internal.loader=ALL-UNNAMED</argument>
                                         <argument>--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED</argument>
-                                        <argument>--illegal-access=warn</argument>
                                         <argument>--add-opens=java.base/java.lang=ALL-UNNAMED</argument>
                                         <argument>--add-opens=java.base/java.util=ALL-UNNAMED</argument>
                                         <argument>-classpath</argument>
                                         <classpath />
-                                        <argument>org.qubership.atp.dataset.db.migration.Main
-                                        </argument>
+                                        <argument>-Dspring.config.location=file:./target/config/application.properties</argument>
+                                        <argument>org.qubership.atp.dataset.db.migration.Main</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

@@ -49,7 +49,7 @@ public class RevisionDetailsServiceImpl implements RevisionDetailsService {
         log.debug("RevisionDetailsServiceImpl#getRevisionDetails(revision={}, entityId={})", revision, entityId);
         Optional<Shadow<DataSetListSnapshot>> entity = getShadow(revision, entityId);
         Shadow<DataSetListSnapshot> shadow = entity.orElseThrow(() -> new EntityNotFoundException(
-                String.format("Failed to found shadow with id=%s and revision=%s", entityId, revision)));
+                "Failed to found shadow with id=%s and revision=%s".formatted(entityId, revision)));
         UiManDataSetListJDto revisionDetails = buildResponse(shadow);
         log.debug("Revision details: {}", revisionDetails);
         return revisionDetails;

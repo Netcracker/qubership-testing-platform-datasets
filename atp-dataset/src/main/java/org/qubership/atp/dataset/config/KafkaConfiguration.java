@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.UUIDDeserializer;
 import org.qubership.atp.dataset.kafka.entities.project.ProjectEvent;
@@ -33,6 +35,8 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.CommonErrorHandler;
+import org.springframework.kafka.listener.MessageListenerContainer;
 
 @Configuration
 @ConditionalOnProperty(
@@ -56,8 +60,20 @@ public class KafkaConfiguration {
                 new ConcurrentKafkaListenerContainerFactory<>();
 
         factory.setConsumerFactory(projectEventConsumerFactory());
-        factory.setErrorHandler((e, consumerRecord) -> {
-            throw new RuntimeException("Error during event processing.", e);
+        factory.setCommonErrorHandler(new CommonErrorHandler() {
+            @Override
+            public void handleOtherException(Exception exception, Consumer<?, ?> consumer,
+                                             MessageListenerContainer container, boolean batchListener) {
+                // Handler to process non-record-processing errors (i.e. during poll)
+                throw new RuntimeException("Error during event processing.", exception);
+            }
+
+            @Override
+            public boolean handleOne(Exception exception, ConsumerRecord<?, ?> record,
+                                     Consumer<?, ?> consumer, MessageListenerContainer container) {
+                // Handler to process record-processing errors (record listener)
+                throw new RuntimeException("Error during event processing.", exception);
+            }
         });
 
         return factory;

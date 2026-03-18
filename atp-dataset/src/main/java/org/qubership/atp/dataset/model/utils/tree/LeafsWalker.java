@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.model.utils.tree;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import com.google.common.collect.AbstractIterator;
 
@@ -34,16 +34,12 @@ public class LeafsWalker<I, O, L> extends AbstractIterator<L> {
      *
      * @param parents         to iterate over. Inclusive.
      * @param traverseHandler describes paths to iterate over and explains how construct leaf.
-     * @param itemsFilter     may filter any tree node. See {@link AllRefsIterator#itemsFilter}. May
-     *                        be used to resolve recursion.
+     * @param itemsFilter     may filter any tree node. See {@link AllRefsIterator}. May be used to resolve recursion.
      */
     public LeafsWalker(@Nonnull Iterator<? extends I> parents,
                        @Nonnull TraverseAndLeafsHandler<I, O, L> traverseHandler,
                        @Nullable Predicate<Object> itemsFilter) {
-        leafsSup = new LeafsDetector<I, O, Object>(parents,
-                traverseHandler,
-                itemsFilter) {
-
+        leafsSup = new LeafsDetector<>(parents, traverseHandler, itemsFilter) {
             @Nullable
             @Override
             protected Iterator<? extends O> getChildren(@Nonnull Object parent) {

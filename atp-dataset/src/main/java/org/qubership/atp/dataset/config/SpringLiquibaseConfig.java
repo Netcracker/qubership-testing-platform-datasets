@@ -35,8 +35,8 @@ import lombok.Getter;
 @EnableConfigurationProperties(LiquibaseProperties.class)
 public class SpringLiquibaseConfig {
 
-    private DataSource dataSource;
-    private LiquibaseProperties properties;
+    private final DataSource dataSource;
+    private final LiquibaseProperties properties;
 
     @Value("${spring.application.name}")
     private String serviceName;
@@ -56,11 +56,12 @@ public class SpringLiquibaseConfig {
         SpringLiquibase liquibase = new BeanAwareSpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(this.properties.getChangeLog());
-        liquibase.setContexts(this.properties.getContexts());
+        if (this.properties.getContexts() != null && !this.properties.getContexts().isEmpty()) {
+            liquibase.setContexts(String.join(",", this.properties.getContexts()));
+        }
         liquibase.setDefaultSchema(this.properties.getDefaultSchema());
         liquibase.setDropFirst(this.properties.isDropFirst());
         liquibase.setShouldRun(this.properties.isEnabled());
-        liquibase.setLabels(this.properties.getLabels());
         Map<String, String> parameters = this.properties.getParameters();
         if (null == parameters) {
             parameters = new HashMap<>();
@@ -69,6 +70,7 @@ public class SpringLiquibaseConfig {
         parameters.put("service.entities.migration.enabled", serviceEntitiesMigrationEnabled);
         liquibase.setChangeLogParameters(parameters);
         liquibase.setRollbackFile(this.properties.getRollbackFile());
+        liquibase.setAnalyticsEnabled(false);
         return liquibase;
     }
 }

@@ -19,7 +19,6 @@ package org.qubership.atp.dataset.migration.model;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.PackagingURIHelper;
@@ -60,10 +59,10 @@ public class ExcelEvaluator {
     private static final Pattern ATP_MACROS_PATTERN = Pattern.compile("\\$(ENV_VARIABLE|RAND)\\(([^)]*)\\)");
     private static final Logger LOG = LoggerFactory.getLogger(ExcelEvaluator.class);
     private final List<Path> refFiles;
-    private Map<XSSFWorkbook, FormulaEvaluator> evaluators = new HashMap<>();
+    private final Map<XSSFWorkbook, FormulaEvaluator> evaluators = new HashMap<>();
     private Map<Path, XSSFWorkbook> filesToExcel = new HashMap<>();
-    private Map<XSSFWorkbook, XSSFWorkbook> childParentMapping = new HashMap<>();
-    private ExcelFormulasEvaluator formulaEvaluator;
+    private final Map<XSSFWorkbook, XSSFWorkbook> childParentMapping = new HashMap<>();
+    private final ExcelFormulasEvaluator formulaEvaluator;
 
     public ExcelEvaluator(List<Path> refFiles, ExcelFormulasEvaluator formulaEvaluator) {
         this.refFiles = refFiles;
@@ -84,7 +83,7 @@ public class ExcelEvaluator {
             String path = PackagingURIHelper.decodeURI(URI.create(fileName));
             //java.nio.file.InvalidPathException: Illegal char <:> at index 4:
             // file://///mockingbird-tst/mockingbird_app_26.08.2016/DAO/dataset/WS Parent.xlsx
-            Paths.get(path);
+            Path.of(path);
             paths.add(path);
         }
         return paths;
@@ -164,7 +163,7 @@ public class ExcelEvaluator {
             }
             FormulaType formulaType = FormulaType.TEXT;
             Matcher matcher = ATP_MACROS_PATTERN.matcher(parameter.data.getValue());
-            StringBuffer valueSb = new StringBuffer();
+            StringBuilder valueSb = new StringBuilder();
             while (matcher.find()) {
                 formulaType = FormulaType.ATP_MACROS;
                 String convertedValue;
@@ -223,7 +222,7 @@ public class ExcelEvaluator {
                 result = dataFormatter.formatCellValue(cell, evaluator); // better in most situations
             } catch (Exception e) {
                 if (cell.getCellTypeEnum() == CellType.ERROR) {
-                    result = cell instanceof XSSFCell ? ((XSSFCell) cell).getErrorCellString() : "####";
+                    result = cell instanceof XSSFCell xssfc ? xssfc.getErrorCellString() : "####";
                 }
                 throw new RuntimeException("Cell parsing report"
                         + "\tSheet: " + cell.getSheet().getSheetName() + ", "

@@ -16,7 +16,6 @@
 
 package org.qubership.atp.dataset.service.rest.server;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +25,7 @@ import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.rest.facade.AttachmentControllerFacade;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,7 +57,7 @@ public class AttachmentController /*extends AttachmentControllerApi*/ {
             + "@parameterServiceImpl.get(#parameterUuid).getDataSet().getDataSetList().getVisibilityArea().getId(),"
             + "'READ')")
     @AuditAction(auditAction = "Get file by parameter: {{#parameterUuid}}")
-    @GetMapping("/{parameterUuid}")
+    @GetMapping(value = "/{parameterUuid}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getAttachmentByParameterId(
             @PathVariable("parameterUuid") UUID parameterUuid) {
         return attachmentControllerFacade.getAttachmentByParameterId(parameterUuid);
@@ -69,7 +69,7 @@ public class AttachmentController /*extends AttachmentControllerApi*/ {
     @PreAuthorize("@entityAccess.checkAccess("
             + "@dataSetServiceImpl.get(#datasetId).getDataSetList().getVisibilityArea().getId(),'READ')")
     @AuditAction(auditAction = "Get file by attribute: {{#attributeId}} and dataset: {{#datasetId}}")
-    @GetMapping("/attributeId/{attributeId}/dataset/{datasetId}")
+    @GetMapping(value = "/attributeId/{attributeId}/dataset/{datasetId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getAttachmentByAttributeIdAndDatasetId(
             @PathVariable("attributeId") UUID attributeId,
             @PathVariable("datasetId") UUID datasetId) {
@@ -93,7 +93,7 @@ public class AttachmentController /*extends AttachmentControllerApi*/ {
     public FileData uploadByParameterId(@PathVariable("parameterUuid") UUID parameterUuid,
                            @RequestParam("type") String contentType,
                            @RequestParam("fileName") String fileName,
-                           InputStream file) throws IOException {
+                           InputStream file) {
         return attachmentControllerFacade.uploadByParameterId(parameterUuid, contentType, fileName, file);
     }
 

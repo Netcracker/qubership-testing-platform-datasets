@@ -21,7 +21,7 @@ import static java.util.Objects.isNull;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.service.direct.ConcurrentModificationService;
 import org.qubership.atp.dataset.service.direct.DataSetListService;

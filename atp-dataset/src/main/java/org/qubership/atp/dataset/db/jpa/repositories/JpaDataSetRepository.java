@@ -26,6 +26,7 @@ import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -62,7 +63,7 @@ public interface JpaDataSetRepository extends JpaRepository<DataSetEntity, UUID>
     @Query(value = "select d.dataSetList.id  from DataSetEntity d where d.id = ?1")
     Optional<UUID> getDslId(UUID datasetId);
 
-    @Query(value = "select cast(datasetlist_id as varchar) from dataset where id = :ds_id", nativeQuery = true)
+    @NativeQuery("select cast(datasetlist_id as varchar) from dataset where id = :ds_id")
     UUID getDataSetsListIdByDataSetId(@Param("ds_id")UUID dsId);
 
     @Query(value = "select d.locked  from DataSetEntity d where d.id = ?1")

@@ -20,14 +20,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.TestPlan;
 import org.qubership.atp.dataset.service.direct.TestPlanService;
 import org.qubership.atp.dataset.service.rest.View;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +55,6 @@ public class TestPlanController {
     /**
      * test plan service.
      */
-    @Autowired
     public TestPlanController(TestPlanService testPlanService) {
         this.testPlanService = testPlanService;
     }

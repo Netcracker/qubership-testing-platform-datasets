@@ -16,18 +16,19 @@
 
 package org.qubership.atp.dataset.db.jpa.entities;
 
+import java.io.Serial;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "attribute_key")
 public class AttributeKeyEntity extends AbstractAttributeEntity {
+    @Serial
     private static final long serialVersionUID = 9009718864988359127L;
 
     @Column(name = "key")

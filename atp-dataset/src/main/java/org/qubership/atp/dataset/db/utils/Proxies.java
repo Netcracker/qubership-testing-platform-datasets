@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import org.qubership.atp.dataset.model.Identified;
@@ -111,7 +111,7 @@ public class Proxies {
 
         @Override
         public String toString() {
-            return String.format("[%s with id: %s]", type.getSimpleName(), id);
+            return "[%s with id: %s]".formatted(type.getSimpleName(), id);
         }
     }
 

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import org.qubership.atp.dataset.db.GridFsRepository;
@@ -39,6 +39,7 @@ import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class DataSetFileImporterTest {
 
     private ObjectLoaderFromDiskService objectLoaderFromDiskService;
@@ -56,7 +57,7 @@ public class DataSetFileImporterTest {
 
     @Test
     public void importFiles() throws IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206210");
         ExportImportData exportImportData =
                 new ExportImportData(null, null, null, false, false, null, new HashMap<>(), new HashMap<>(),
                         ValidationType.VALIDATE, false);

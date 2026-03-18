@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db</artifactId>
-        <version>1.3.174-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../parent/parent-db/pom.xml</relativePath>
     </parent>
 
@@ -53,12 +53,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope><!--TODO YA - move to parent-->
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
@@ -77,21 +71,13 @@
                     <artifactId>log4j-core</artifactId>
                     <groupId>org.apache.logging.log4j</groupId>
                 </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.17.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.17.1</version>
-            <exclusions>
                 <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -159,8 +145,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-basedir/config/
-                        </additionalClasspathElement>
+                        <additionalClasspathElement>${basedir}/target/test-basedir/config/</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>${tests.argLine}</argLine>
                 </configuration>
@@ -176,8 +161,7 @@
                     <archive>
                         <manifestEntries>
                             <Implementation-Title>DI Excel Importer</Implementation-Title>
-                            <Implementation-Version>${project.version}-${svn.revision}
-                            </Implementation-Version>
+                            <Implementation-Version>${project.version}-${svn.revision}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -186,8 +170,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/resources/assemblies/import-excel-assembly.xml
-                        </descriptor>
+                        <descriptor>src/main/resources/assemblies/import-excel-assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>

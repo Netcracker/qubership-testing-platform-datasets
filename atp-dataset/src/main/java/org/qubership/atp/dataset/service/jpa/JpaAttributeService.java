@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.db.jpa.entities.ListValueEntity;
 import org.qubership.atp.dataset.ei.model.AttributeKeyIdsDbUpdate;

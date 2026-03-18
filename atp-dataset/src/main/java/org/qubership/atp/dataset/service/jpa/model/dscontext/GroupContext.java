@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.dscontext;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +40,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GroupContext implements Serializable {
+    @Serial
     private static final long serialVersionUID = -7833021868343081645L;
     private long order;
     private String name;

@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.service.rest.server;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.qubership.atp.dataset.model.api.saga.requests.CopyDataSetListsRequest;
 import org.qubership.atp.dataset.model.api.saga.requests.RevertRequest;

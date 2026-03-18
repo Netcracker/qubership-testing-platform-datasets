@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import javax.script.ScriptEngineManager;
 import javax.sql.DataSource;
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 
 import org.javers.core.Javers;
 import org.javers.repository.api.JaversRepository;
@@ -134,7 +134,7 @@ public class ServiceConfiguration {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "none");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
         properties.setProperty("hibernate.show_sql", "false"); //Set as 'true' to enable verbose query logging
         properties.setProperty("hibernate.format_sql", "false"); //Set as 'true' to enable pretty format

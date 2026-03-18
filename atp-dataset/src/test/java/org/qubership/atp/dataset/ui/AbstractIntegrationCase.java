@@ -21,19 +21,15 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.qubership.atp.dataset.config.IntegrationTestConfiguration;
 import org.qubership.atp.dataset.config.MockJaversCommitEntityServiceConfiguration;
 import org.qubership.atp.dataset.service.AbstractTest;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {IntegrationTestConfiguration.class, MockJaversCommitEntityServiceConfiguration.class})
+@SpringJUnitConfig(classes = {IntegrationTestConfiguration.class, MockJaversCommitEntityServiceConfiguration.class})
 public class AbstractIntegrationCase extends AbstractTest {
 
     protected static String serverBaseUrl;

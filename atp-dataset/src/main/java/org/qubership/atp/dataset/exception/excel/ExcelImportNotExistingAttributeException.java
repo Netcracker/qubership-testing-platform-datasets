@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "TDS-7002")
 public class ExcelImportNotExistingAttributeException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Failed to import data set list: attribute '%s' doesn't exist "
+    private static final String DEFAULT_MESSAGE = "Failed to import data set list: attribute '%s' doesn't exist "
             + "in DSL schema";
 
     public ExcelImportNotExistingAttributeException(String attributeName) {
-        super(String.format(DEFAULT_MESSAGE, attributeName));
+        super(DEFAULT_MESSAGE.formatted(attributeName));
     }
 
 }

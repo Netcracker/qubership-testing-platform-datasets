@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.db.utils;
 import java.util.UUID;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.db.IdentifiedCache;
 import org.qubership.atp.dataset.model.Identified;

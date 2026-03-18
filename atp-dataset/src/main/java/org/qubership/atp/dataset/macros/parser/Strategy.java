@@ -43,6 +43,6 @@ public abstract class Strategy implements Token {
 
     @Override
     public String toString() {
-        return String.format("%s   %s", String.valueOf(getKey()), String.valueOf(getValue()));
+        return "%s   %s".formatted(String.valueOf(getKey()), String.valueOf(getValue()));
     }
 }

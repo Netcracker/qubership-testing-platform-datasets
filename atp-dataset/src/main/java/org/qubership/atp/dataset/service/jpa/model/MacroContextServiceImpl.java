@@ -188,7 +188,7 @@ public class MacroContextServiceImpl implements MacroContextService {
         }
         if (dataSets.size() > 1) {
             throw new DataSetServiceException(
-                    String.format("Multiple datasets found with name %s under dslId %s", dataSetName, dataSetListId));
+                    "Multiple datasets found with name %s under dslId %s".formatted(dataSetName, dataSetListId));
         }
         return dataSets.get(0).getId();
     }

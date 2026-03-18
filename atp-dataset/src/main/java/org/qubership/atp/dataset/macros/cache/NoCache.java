@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.macros.cache;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class NoCache implements Cache, MacroCacheKey {
     private static final NoCache SELF = new NoCache();//to not to expose impl class

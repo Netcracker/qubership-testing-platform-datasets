@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 
 import org.qubership.atp.dataset.db.migration.LiquibaseFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -54,6 +55,7 @@ public class DbConfiguration {
     }
 
     @Bean
+    @DependsOnDatabaseInitialization
     public LiquibaseFactory liquibaseFactory(DataSource dataSource) {
         return new LiquibaseFactory(dataSource);
     }

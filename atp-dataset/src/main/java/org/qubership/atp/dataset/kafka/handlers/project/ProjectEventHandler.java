@@ -23,7 +23,6 @@ import java.util.Set;
 import org.qubership.atp.dataset.kafka.entities.project.EventType;
 import org.qubership.atp.dataset.kafka.entities.project.ProjectEvent;
 import org.qubership.atp.dataset.kafka.handlers.KafkaEventHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -34,14 +33,13 @@ import org.springframework.stereotype.Component;
 )
 public class ProjectEventHandler implements KafkaEventHandler<ProjectEvent> {
 
-    private Map<EventType, ProcessingStrategy> processingStrategyMap;
+    private final Map<EventType, ProcessingStrategy> processingStrategyMap;
 
     /**
      * ProjectEventHandler constructor.
      *
      * @param handleStrategySet is set of processing strategies for a project event.
      */
-    @Autowired
     public ProjectEventHandler(Set<ProcessingStrategy<ProjectEvent,EventType>> handleStrategySet) {
 
         processingStrategyMap = new HashMap<>();

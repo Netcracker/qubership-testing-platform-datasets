@@ -30,7 +30,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.qubership.atp.dataset.db.jpa.entities.ListValueEntity;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.service.direct.importexport.utils.ImportUtils;
@@ -94,22 +94,22 @@ public class AttributeImportContext {
 
     private String getValueOverlaps(AtomicReference<AttributeKey> attributeKeyTemp, AttributeKey attributeKey) {
         attributeKeyTemp.set(attributeKey);
-        String valueTextParameter = Strings.EMPTY;
+        String valueTextParameter = StringUtils.EMPTY;
 
         org.qubership.atp.dataset.service.jpa.delegates.Parameter parameter = attributeKey.getParameter();
         if (Objects.nonNull(parameter)) {
             String textValue = parameter.getStringValue();
-            if (Strings.isNotBlank(textValue)) {
+            if (StringUtils.isNotBlank(textValue)) {
                 return textValue;
             }
             DataSet dataset = parameter.getDataSetReferenceValue();
             if (Objects.nonNull(dataset)
-                    && Strings.isNotBlank(dataset.getName())) {
+                    && StringUtils.isNotBlank(dataset.getName())) {
                 return dataset.getName();
             }
             ListValueEntity listValueEnt = parameter.getListValue();
             if (Objects.nonNull(listValueEnt)
-                    && Strings.isNotBlank(listValueEnt.getText())) {
+                    && StringUtils.isNotBlank(listValueEnt.getText())) {
                 return listValueEnt.getText();
             }
         }

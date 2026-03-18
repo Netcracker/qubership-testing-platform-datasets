@@ -39,7 +39,6 @@ import org.qubership.atp.dataset.service.rest.dto.versioning.HistoryItemResponse
 import org.qubership.atp.dataset.service.rest.dto.versioning.PageInfoDto;
 import org.qubership.atp.dataset.versioning.model.domain.DataSetListSnapshot;
 import org.qubership.atp.dataset.versioning.service.JaversHistoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -54,7 +53,6 @@ public class JaversHistoryServiceImpl implements JaversHistoryService {
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
-    @Autowired
     public JaversHistoryServiceImpl(Javers javers, JaversHistoryCacheableService javersHistoryCacheableService) {
         this.javers = javers;
         this.javersHistoryCacheableService = javersHistoryCacheableService;
@@ -113,7 +111,7 @@ public class JaversHistoryServiceImpl implements JaversHistoryService {
             Optional<Shadow<DataSetListSnapshot>> oldShadow
     ) {
         HistoryItemDto historyItem;
-        boolean isDslCreated = !oldShadow.isPresent();
+        boolean isDslCreated = oldShadow.isEmpty();
         boolean isDlsDeleted = actualShadow.get().getId() == null;
         boolean isRestored = actualShadow.getCommitMetadata().getProperties().get(RESTORED_TO_PROPERTY) != null;
         if (isDslCreated) {

@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.dscontext;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DataSetListContext implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8928150301939110223L;
     private UUID visibilityAreaId;
     private UUID dataSetListId;

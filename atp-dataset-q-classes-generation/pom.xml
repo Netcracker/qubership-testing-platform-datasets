@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-parent-db-properties</artifactId>
-        <version>1.3.174-SNAPSHOT</version>
+        <version>2.0.1-SNAPSHOT</version>
         <relativePath>../parent/parent-db-properties/pom.xml</relativePath>
     </parent>
 
@@ -257,7 +257,11 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.13.0</version>
+                        <version>3.15.0</version>
+                        <configuration>
+                            <release>${java.version}</release>
+                            <parameters>true</parameters>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>pg-compile</id>
@@ -269,6 +273,9 @@
                                     <compileSourceRoots>${src.dir}</compileSourceRoots>
                                     <outputDirectory>${project.build.directory}/pg-classes/</outputDirectory>
                                     <useIncrementalCompilation>false</useIncrementalCompilation>
+                                    <encoding>${project.build.sourceEncoding}</encoding>
+                                    <release>${java.version}</release>
+                                    <parameters>true</parameters>
                                 </configuration>
                             </execution>
                         </executions>
@@ -283,13 +290,10 @@
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>atp-dataset-q-classes-generation
-                                    </finalName>
+                                    <finalName>atp-dataset-q-classes-generation</finalName>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <descriptors>
-                                        <descriptor>
-                                            ${project.basedir}/src/main/assembly-descriptors/pg.xml
-                                        </descriptor>
+                                        <descriptor>${project.basedir}/src/main/assembly-descriptors/pg.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>

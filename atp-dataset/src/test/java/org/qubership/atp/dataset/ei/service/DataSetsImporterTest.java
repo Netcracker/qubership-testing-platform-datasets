@@ -22,9 +22,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -34,21 +32,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
-import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.service.direct.ClearCacheService;
 import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetService;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSet;
+import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.validation.ValidationType;
 import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @Slf4j
 public class DataSetsImporterTest {
 
@@ -84,8 +87,8 @@ public class DataSetsImporterTest {
     }
 
     @Test
-    public void importDataSets() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSets() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
 
         dataSetsImporter.importDataSets(workDir, importData);
 
@@ -93,8 +96,8 @@ public class DataSetsImporterTest {
     }
 
     @Test
-    public void importDataSets_2() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
+    public void importDataSets_2() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206209");
         when(dsService.getById(any())).thenReturn(mock(DataSet.class));
         dataSetsImporter.importDataSets(workDir, importData);
 
@@ -112,7 +115,7 @@ public class DataSetsImporterTest {
 
         dataSetsImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -133,7 +136,7 @@ public class DataSetsImporterTest {
 
         dataSetsImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -154,7 +157,7 @@ public class DataSetsImporterTest {
 
         dataSetsImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -186,6 +189,6 @@ public class DataSetsImporterTest {
 
         dataSetsImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name + " Copy _2");
+        Assertions.assertEquals(name + " Copy _2", object.getName());
     }
 }

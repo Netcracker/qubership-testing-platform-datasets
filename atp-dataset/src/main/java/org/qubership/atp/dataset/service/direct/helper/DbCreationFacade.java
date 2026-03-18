@@ -23,8 +23,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.exception.dataset.DataSetExistsException;
 import org.qubership.atp.dataset.model.Attribute;
@@ -105,12 +105,12 @@ public class DbCreationFacade extends AbstractServicesInjected implements Creati
     public Label label(@Nonnull LabelProvider labelProvider, @Nonnull String name) {
         LabelProviderService service;
         UUID targetId;
-        if (labelProvider instanceof DataSet) {
+        if (labelProvider instanceof DataSet set) {
             service = dataSetService;
-            targetId = ((DataSet) labelProvider).getId();
-        } else if (labelProvider instanceof DataSetList) {
+            targetId = set.getId();
+        } else if (labelProvider instanceof DataSetList list) {
             service = dataSetListService;
-            targetId = ((DataSetList) labelProvider).getId();
+            targetId = list.getId();
         } else {
             throw new IllegalArgumentException("No service found for ["
                     + labelProvider.getClass().getSimpleName() + "] LabelProvider");

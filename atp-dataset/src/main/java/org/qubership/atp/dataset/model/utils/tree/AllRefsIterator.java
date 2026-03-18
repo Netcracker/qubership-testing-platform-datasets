@@ -22,8 +22,8 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Sets;

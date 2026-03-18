@@ -30,10 +30,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.impl.macro.CachedDslMacroResultContainer;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
@@ -43,8 +43,11 @@ import org.qubership.atp.dataset.service.jpa.model.dscontext.DataSetListContext;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.AbstractTextParameter;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.macros.ParameterPositionContext;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.macros.RefDslMacro;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class TextParameterParserTest {
     private static MacroContext macroContext;
     public static String MACRO_RESULT = "MY TEXT";
@@ -63,8 +66,7 @@ public class TextParameterParserTest {
             @Override
             public String getTextParameterByListDataSetAndPath(UUID visibilityAreaId, PathStep dataSetList,
                                                                PathStep dataSet, List<PathStep> referenceAttributePath,
-                                                               PathStep parameterAttribute)
-                    throws DataSetServiceException {
+                                                               PathStep parameterAttribute) {
                 return MACRO_RESULT;
             }
 
@@ -72,8 +74,7 @@ public class TextParameterParserTest {
             public String getTextParameterByExternalListDataSetAndPath(UUID visibilityAreaId, PathStep dataSetList,
                                                                        PathStep dataSet,
                                                                        List<PathStep> referenceAttributePath,
-                                                                       PathStep parameterAttribute)
-                    throws DataSetServiceException {
+                                                                       PathStep parameterAttribute) {
                 return MACRO_RESULT;
             }
 
@@ -81,18 +82,17 @@ public class TextParameterParserTest {
             public String getTextParameterFromCachedContextByNamesPath(UUID visibilityAreaId,
                                                                        PathStep topLevelDataSetList, UUID dataSetId,
                                                                        int dataSetColumn, List<UUID> macroPosition,
-                                                                       List<PathStep> pathSteps, PathStep attribute)
-                    throws DataSetServiceException {
+                                                                       List<PathStep> pathSteps, PathStep attribute) {
                 return MACRO_RESULT;
             }
 
             @Override
-            public String getDataSetListName(UUID dataSetListId) throws DataSetServiceException {
+            public String getDataSetListName(UUID dataSetListId) {
                 return MACRO_RESULT;
             }
 
             @Override
-            public String getDataSetName(UUID dataSetListId) throws DataSetServiceException {
+            public String getDataSetName(UUID dataSetListId) {
                 return MACRO_RESULT;
             }
 
@@ -102,15 +102,14 @@ public class TextParameterParserTest {
             }
 
             @Override
-            public DataSetList getDataSetList(UUID visibilityAreaId, PathStep dataSetListPathStep)
-                    throws DataSetServiceException {
+            public DataSetList getDataSetList(UUID visibilityAreaId, PathStep dataSetListPathStep) {
                 DataSetListEntity dataSetListEntity = new DataSetListEntity();
                 dataSetListEntity.setId(DATA_SET_LIST_ID);
                 return new DataSetList(dataSetListEntity);
             }
 
             @Override
-            public String getAttributeName(UUID dataSetListId) throws DataSetServiceException {
+            public String getAttributeName(UUID dataSetListId) {
                 return MACRO_RESULT;
             }
 
@@ -179,7 +178,7 @@ public class TextParameterParserTest {
         for (AbstractTextParameter abstractTextParameter : parseResult) {
             abstractTextParameter.getValue();
         }
-        Assertions.assertTrue(parseResult.get(1) instanceof RefDslMacro);
+        Assertions.assertInstanceOf(RefDslMacro.class, parseResult.get(1));
         RefDslMacro dslMacro = (RefDslMacro) parseResult.get(1);
         Assertions.assertEquals(1, dslMacro.getDataSets().size());
         Assertions.assertEquals(1, dslMacro.getDataSetLists().size());

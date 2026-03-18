@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
@@ -656,7 +656,7 @@ public class JpaDataSetServiceImpl implements JpaDataSetService {
                                     && attr.getAttributeType().equals(sourceHeadLinkAttr.getAttributeType()))
                     .findFirst();
 
-            if (!targetHeadLinkAttr.isPresent()) {
+            if (targetHeadLinkAttr.isEmpty()) {
                 throw new AttributeParentDslNotExistException();
             }
 

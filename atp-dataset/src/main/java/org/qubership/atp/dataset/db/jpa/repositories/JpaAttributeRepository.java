@@ -23,7 +23,7 @@ import java.util.UUID;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -39,37 +39,37 @@ public interface JpaAttributeRepository extends JpaAbstractAttributeRepository<A
 
     Page<AttributeEntity> getByTypeDataSetListId(UUID dataSetListId, Pageable pageable);
 
-    @Query(value = "select count(a.id)  from \"attribute\" a where datasetlist_id = (select d.datasetlist_id  from "
-            + "dataset d where d.id = ?1)", nativeQuery = true)
+    @NativeQuery("select count(a.id)  from \"attribute\" a where datasetlist_id = (select d.datasetlist_id  from "
+            + "dataset d where d.id = ?1)")
     int countAttributesByDataset(UUID datasetId);
 
-    @Query(value = "select * from \"attribute\" a "
+    @NativeQuery("select * from \"attribute\" a "
             + "where a.datasetlist_id = ("
             + "select datasetlist_id from \"dataset\" d "
             + "where d.id = ?1) "
             + "and a.id not in ("
             + "select attribute_id from \"parameter\" p "
-            + "where p.dataset_id = ?1)", nativeQuery = true)
+            + "where p.dataset_id = ?1)")
     List<AttributeEntity> getNotUsedByDatasetId(UUID datasetId);
 
-    @Query(value = "select * from \"attribute\" a where a.datasetlist_id = (select d.datasetlist_id from "
-            + "dataset d where d.id = ?1)", nativeQuery = true)
+    @NativeQuery("select * from \"attribute\" a where a.datasetlist_id = (select d.datasetlist_id from "
+            + "dataset d where d.id = ?1)")
     List<AttributeEntity> getByDatasetId(UUID datasetId);
 
-    @Query(value = "select \n"
-            + "   (CASE WHEN leftAttr.type_datasetlist_id  != rightAttr.type_datasetlist_id \n"
-            + "   and leftAttr.attribute_type_id = 4 \n"
-            + "   and leftAttr.attribute_type_id = rightAttr.attribute_type_id\n"
-            + "    THEN true ELSE false END) AS is_equal\n"
-            + "   from \n"
-            + "   (select * from \"attribute\" a2 where id = ?1) as leftAttr,\n"
-            + "    (select * from \"attribute\" a2 where id = ?2) as rightAttr", nativeQuery = true)
+    @NativeQuery("""
+            select\s
+               (CASE WHEN leftAttr.type_datasetlist_id  != rightAttr.type_datasetlist_id\s
+               and leftAttr.attribute_type_id = 4\s
+               and leftAttr.attribute_type_id = rightAttr.attribute_type_id
+                THEN true ELSE false END) AS is_equal
+               from\s
+               (select * from "attribute" a2 where id = ?1) as leftAttr,
+                (select * from "attribute" a2 where id = ?2) as rightAttr""")
     boolean isDifferentDslAttributes(UUID leftAttrId, UUID rightAttrId);
 
-    @Query(value = "SELECT * from \"attribute\" a WHERE a.datasetlist_id = ?1"
+    @NativeQuery(value = "SELECT * from \"attribute\" a WHERE a.datasetlist_id = ?1"
             + " AND a.attribute_type_id IN ?2 ORDER BY a.ordering",
             countQuery = "SELECT COUNT(*) FROM \"attribute\" a WHERE a.datasetlist_id = ?1 "
-                    + "AND a.attribute_type_id IN ?2",
-            nativeQuery = true)
+                    + "AND a.attribute_type_id IN ?2")
     Page<AttributeEntity> findByEntityAndTypeIds(UUID dslId, List<Long> typeIds, Pageable pageable);
 }

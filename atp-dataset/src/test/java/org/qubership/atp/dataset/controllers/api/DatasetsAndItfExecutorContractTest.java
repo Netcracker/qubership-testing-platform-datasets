@@ -1,12 +1,27 @@
+/*
+ * # Copyright 2024-2026 NetCracker Technology Corporation
+ * #
+ * # Licensed under the Apache License, Version 2.0 (the "License");
+ * # you may not use this file except in compliance with the License.
+ * # You may obtain a copy of the License at
+ * #
+ * #      http://www.apache.org/licenses/LICENSE-2.0
+ * #
+ * # Unless required by applicable law or agreed to in writing, software
+ * # distributed under the License is distributed on an "AS IS" BASIS,
+ * # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * # See the License for the specific language governing permissions and
+ * # limitations under the License.
+ */
+
 package org.qubership.atp.dataset.controllers.api;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -15,29 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import au.com.dius.pact.provider.junit5.PactVerificationContext;
-import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-import au.com.dius.pact.provider.junitsupport.Provider;
-import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
-import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.qubership.atp.dataset.db.jpa.entities.VisibilityAreaEntity;
@@ -48,8 +40,8 @@ import org.qubership.atp.dataset.model.impl.DataSetImpl;
 import org.qubership.atp.dataset.model.impl.DataSetListImpl;
 import org.qubership.atp.dataset.model.impl.MixInIdImpl;
 import org.qubership.atp.dataset.model.impl.TestPlanImpl;
+import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.jpa.ContextType;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.delegates.Attribute;
 import org.qubership.atp.dataset.service.jpa.impl.DataSetParameterProvider;
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
@@ -65,14 +57,37 @@ import org.qubership.atp.dataset.service.rest.server.AttributeController;
 import org.qubership.atp.dataset.service.rest.server.DataSetController;
 import org.qubership.atp.dataset.service.rest.server.DataSetListController;
 import org.qubership.atp.dataset.service.rest.server.VisibilityAreaController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.Provider;
+import au.com.dius.pact.provider.junitsupport.State;
+import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
+import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 
 @Isolated
 @Provider("atp-datasets")
-@PactUrl(urls = {"src/test/resources/pacts/atp-itf-executor-atp-datasets.json"})
+@PactUrl(urls = {"file:./src/test/resources/pacts/atp-itf-executor-atp-datasets.json"})
 @AutoConfigureMockMvc(addFilters = false, webDriverEnabled = false)
 @WebMvcTest(controllers = {AttachmentController.class, DataSetController.class,
         DataSetListController.class, AttributeController.class, VisibilityAreaController.class})
-@ContextConfiguration(classes = {DatasetsAndItfExecutorContractTest.TestApp.class})
+@SpringJUnitConfig(classes = {DatasetsAndItfExecutorContractTest.TestApp.class})
 @EnableAutoConfiguration
 @Import({JacksonAutoConfiguration.class, HttpMessageConvertersAutoConfiguration.class,
         AttachmentController.class, DataSetController.class, DataSetListController.class, AttributeController.class,
@@ -86,24 +101,36 @@ public class DatasetsAndItfExecutorContractTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private AttachmentController attachmentController;
-    @MockBean
+    @MockitoBean
     private DataSetController dataSetController;
-    @MockBean
+    @MockitoBean
     private DataSetListController dataSetListController;
-    @MockBean
+    @MockitoBean
     private AttributeController attributeController;
-    @MockBean
+    @MockitoBean
     private VisibilityAreaController visibilityAreaController;
 
-    public void beforeAll() throws DataSetServiceException, IOException {
-        InputStreamResource responseBody1 = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add("Content-Disposition", "attachment; filename=\"name\"");
+    public void beforeAll() {
+        InputStreamResource responseBody = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
+
+        FileData fileData = new FileData();
+        fileData.setContentType("multipart/form-data");
+        fileData.setFileName("name");
+
+        ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+                .filename("name", StandardCharsets.UTF_8)
+                .build();
+        ResponseEntity<InputStreamResource> attachmentResponse =
+                ResponseEntity
+                        .ok()
+                        .contentType(MediaType.parseMediaType(fileData.getContentType()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString())
+                        .body(responseBody);
 
         when(attachmentController.getAttachmentByParameterId(any()))
-                .thenReturn(new ResponseEntity<>(responseBody1, headers, HttpStatus.OK));
+                .thenReturn(attachmentResponse);
 
         String responseBody2 = "{\"key\":\"context\"}";
         when(dataSetController.getItfContext(any())).thenReturn(responseBody2);
@@ -136,7 +163,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     @BeforeEach
-    void before(PactVerificationContext context) throws Exception {
+    void before(PactVerificationContext context) {
         beforeAll();
         context.setTarget(new MockMvcTestTarget(mockMvc));
     }
@@ -145,7 +172,6 @@ public class DatasetsAndItfExecutorContractTest {
     public void allPass() {
     }
 
-
     private DataSetTree getResponseBody3_4_5_6(ContextType contextType) {
         DataSetContext dataSetContext = getDataSetContext();
         DataSetParameterProvider dataSetParameterProvider = new DataSetParameterProvider();
@@ -153,10 +179,8 @@ public class DatasetsAndItfExecutorContractTest {
         DataSetListContext dataSetListContext = new DataSetListContext(UUID.randomUUID());
         macroContext.setDataSetListContext(dataSetListContext);
 
-        DataSetTree dataSetTree = new DataSetTree(dataSetContext, 0, true, macroContext,
+        return new DataSetTree(dataSetContext, 0, true, macroContext,
                 dataSetListContext, dataSetParameterProvider, contextType);
-
-        return dataSetTree;
     }
 
     private DataSetContext getDataSetContext(){
@@ -165,7 +189,7 @@ public class DatasetsAndItfExecutorContractTest {
                 new ArrayList<>(), new ArrayList<>());
 
         AttributeEntity attributeEntity2 = new AttributeEntity();
-        attributeEntity2.setAttributeTypeId(2l);
+        attributeEntity2.setAttributeTypeId(2L);
         attributeEntity2.setId(UUID.fromString("c2737427-05e4-4c17-8032-455539deaa02"));
         Attribute attribute2 = new Attribute(attributeEntity2);
         attribute2.setAttributeType(AttributeTypeName.TEXT);
@@ -173,7 +197,7 @@ public class DatasetsAndItfExecutorContractTest {
         attribute2.setName("1ATTRIBUTE");
 
         ParameterContext parameterContext2 = new ParameterContext(attribute2);
-        dataSetContext.setParameters(Arrays.asList(parameterContext2));
+        dataSetContext.setParameters(List.of(parameterContext2));
 
         return dataSetContext;
     }
@@ -200,7 +224,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<VisibilityAreaFlatModel> getResponseBody7() {
-        return Arrays.asList(getVisibilityAreaFlatModel());
+        return List.of(getVisibilityAreaFlatModel());
     }
 
     private DataSetList getDataSetList() {
@@ -215,7 +239,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<DataSetList> getResponseBody8() {
-        return Arrays.asList(getDataSetList());
+        return List.of(getDataSetList());
     }
 
     private DataSet getDataSet() {
@@ -227,7 +251,7 @@ public class DatasetsAndItfExecutorContractTest {
     }
 
     private List<DataSet> getResponseBody9() {
-        return Arrays.asList(getDataSet());
+        return List.of(getDataSet());
     }
 
     private List<String> getResponseBody10() {

@@ -18,8 +18,8 @@ package org.qubership.atp.dataset.model.utils.tree;
 
 import java.util.Iterator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import com.google.common.collect.AbstractIterator;
 

@@ -25,7 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Enumeration;
 
 import org.hamcrest.core.StringContains;
@@ -41,7 +40,7 @@ public class ParentLastClassloaderTest {
     @BeforeEach
     public void setUp() throws MalformedURLException {
 
-        Path path = Paths.get("atp-dataset-migration/target/scripts");
+        Path path = Path.of("atp-dataset-migration/target/scripts");
         URL[] urls = new URL[]{path.toUri().toURL()};
         URLClassLoader urlClassLoader = new URLClassLoader(urls);
         parentLassCL = new ParentLastClassloader(urlClassLoader, "src/test/resources/data", "pg");

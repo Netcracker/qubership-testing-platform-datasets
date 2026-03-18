@@ -22,8 +22,8 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +78,7 @@ public class Utils {
      */
     private static String replacePlaceholders(Matcher matcher, int groupToConvert,
                                               Function<String, String> placeholderIntoValue) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         while (matcher.find()) {
             matcher.appendReplacement(result, placeholderIntoValue.apply(matcher.group(groupToConvert)));
         }
@@ -117,7 +117,7 @@ public class Utils {
             }
         }
         try {
-            return targetClazz.cast(clazz.newInstance());
+            return targetClazz.cast(clazz.getDeclaredConstructor().newInstance());
         } catch (Exception e) {
             throw new RuntimeException(appendDebugInfo(new StringBuilder("Can not instantiate a"),
                     targetClazz, className, debugIdentifier).toString(), e);

@@ -218,7 +218,7 @@ public class DatasetListExportService {
                                              UiManAttribute attribute, String attrName) {
         List<UiManAttribute> dslAttributesList = attribute.getAttributes();
         for (UiManAttribute attrItem : dslAttributesList) {
-            String attrItemName = String.format("%s %s %s", attrName, REFERENCE_DELIMITER, attrItem.getName());
+            String attrItemName = "%s %s %s".formatted(attrName, REFERENCE_DELIMITER, attrItem.getName());
             String attrType = getAttributeType(attrItem);
             mapAttributeToRow(sheet, attrItemName, attrType, datasetIds, attrItem);
             if (AttributeTypeConverterEnum.DSL.getName().equals(attrType)) {

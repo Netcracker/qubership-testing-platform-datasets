@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "TDS-8002")
 public class ExcelExportNotExistDatasetListlException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "No DSL was found for the specified id: '%s' during Excel import";
+    private static final String DEFAULT_MESSAGE = "No DSL was found for the specified id: '%s' during Excel import";
 
     public ExcelExportNotExistDatasetListlException(UUID dslId) {
-        super(String.format(DEFAULT_MESSAGE, dslId));
+        super(DEFAULT_MESSAGE.formatted(dslId));
     }
 }

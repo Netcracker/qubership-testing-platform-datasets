@@ -18,15 +18,15 @@ package org.qubership.atp.dataset.service.direct.macros;
 
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.utils.OverlapItem;
 import org.qubership.atp.dataset.service.direct.AliasWrapperService;
 
+import jakarta.annotation.Nonnull;
+
 public class UnwrapAlias implements EvaluateDsParamStrategy {
 
-    private AliasWrapperService aliasWrapperService;
+    private final AliasWrapperService aliasWrapperService;
 
     public UnwrapAlias(AliasWrapperService aliasWrapperService) {
         this.aliasWrapperService = aliasWrapperService;

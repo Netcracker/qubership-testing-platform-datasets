@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.args;
 
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.macros.Position;
 

@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -34,7 +34,7 @@ public class HealthCheckController {
     @Autowired
     protected HealthCheckService healthCheckService;
 
-    @RequestMapping(value = "/visibility_areas_list", method = RequestMethod.GET)
+    @GetMapping("/visibility_areas_list")
     public List<UUID> getTestVisibilityAreasList() {
         return healthCheckService.getCheckVisibilityAreasIdsList();
     }

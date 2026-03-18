@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.model;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.impl.file.FileData;
 
