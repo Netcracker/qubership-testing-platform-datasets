@@ -37,10 +37,13 @@
         <glassfish.jersey.version>3.1.11</glassfish.jersey.version>
         <jackson.version>2.18.6</jackson.version>
         <hazelcast.version>5.3.5</hazelcast.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.44</lombok.version>
         <undertow.version>2.3.21.Final</undertow.version>
         <bouncycastle.version>1.80</bouncycastle.version>
+
+        <spring-security.version>6.5.9</spring-security.version>
+        <netty.version>4.1.132.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -113,18 +116,13 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>6.5.8</version>
+                <version>${spring-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>6.5.8</version>
+                <version>${spring-security.version}</version>
             </dependency>
-            <!--<dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>3.0.17</version>
-            </dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
@@ -556,17 +554,17 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http2</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.yaml</groupId>
@@ -606,7 +604,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
-                <version>4.1.125.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.shared</groupId>
@@ -616,7 +614,7 @@
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>3.9.1</version>
+                <version>3.9.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tika</groupId>
