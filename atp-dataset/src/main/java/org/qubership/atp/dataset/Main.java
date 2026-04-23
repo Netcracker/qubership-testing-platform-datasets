@@ -35,6 +35,8 @@ import org.qubership.atp.dataset.db.migration.MigrationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -58,7 +60,10 @@ import lombok.extern.slf4j.Slf4j;
         CacheConfiguration.class
 })
 @SpringBootConfiguration
-@EnableAutoConfiguration(exclude = MongoAutoConfiguration.class)
+@EnableAutoConfiguration(exclude = {
+        MongoAutoConfiguration.class,
+        MongoDataAutoConfiguration.class,
+        MongoRepositoriesAutoConfiguration.class})
 @AtpCryptoEnable
 @AtpDecryptorEnable
 @EnableFeignClients(basePackages = {
