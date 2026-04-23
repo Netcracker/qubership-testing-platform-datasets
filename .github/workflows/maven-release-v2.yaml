@@ -87,7 +87,7 @@ jobs:
           mongo_db: dsgridfs
 
       - name: "Build and Publish current SNAPSHOT (dry run)"
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@5edd67e98d2f0eec5ab77b4deca0e1d481137462 #v2.1.1
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@d11baa8a4b42d1a931808c0766ee23eb344c47dd #v2.2.0
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -132,7 +132,7 @@ jobs:
           mongo_db: dsgridfs
 
       - name: "Prepare app token"
-        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf #v2.2.1
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 #v3.0.0
         id: app-token
         with:
           app-id: ${{ vars.GH_BUMP_VERSION_APP_ID }}
@@ -140,7 +140,7 @@ jobs:
       - name: "Build and Publish"
         id: build-and-publish
 
-        uses: netcracker/qubership-workflow-hub/actions/maven-release@5edd67e98d2f0eec5ab77b4deca0e1d481137462 #v2.1.1
+        uses: netcracker/qubership-workflow-hub/actions/maven-release@d11baa8a4b42d1a931808c0766ee23eb344c47dd #v2.2.0
         with:
           java-version: "21"
           version-type: ${{ github.event.inputs.version-type }}
@@ -157,7 +157,7 @@ jobs:
           dry-run: 'false'
 
       - name: Upload all Maven target directories
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: qubership-testing-platform-datasets
           path: '${{ github.event.repository.name }}/**/target'
@@ -212,7 +212,7 @@ jobs:
     steps:
       - name: "Docker Build"
         id: docker_build
-        uses: netcracker/qubership-workflow-hub/actions/docker-action@5edd67e98d2f0eec5ab77b4deca0e1d481137462 #v2.1.1
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@d11baa8a4b42d1a931808c0766ee23eb344c47dd #v2.2.0
         with:
           ref: v${{ needs.deploy.outputs.release-version }}
           download-artifact: true
@@ -227,7 +227,7 @@ jobs:
   github-release:
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' }}
-    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@5edd67e98d2f0eec5ab77b4deca0e1d481137462 #v2.1.1
+    uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@d11baa8a4b42d1a931808c0766ee23eb344c47dd #v2.2.0
     with:
       version: ${{ needs.deploy.outputs.release-version }}
       publish: true
