@@ -30,6 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.qubership.atp.dataset.db.jpa.entities.VisibilityAreaEntity;
@@ -113,6 +114,8 @@ public class DatasetsAndItfExecutorContractTest {
     private VisibilityAreaController visibilityAreaController;
 
     public void beforeAll() {
+        TestUtils.turnPactMetricsOff();
+
         InputStreamResource responseBody = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
 
         FileData fileData = new FileData();

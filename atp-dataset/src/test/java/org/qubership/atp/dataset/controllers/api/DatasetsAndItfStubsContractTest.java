@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.service.rest.server.AttachmentController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,8 @@ public class DatasetsAndItfStubsContractTest {
     private AttachmentController attachmentController;
 
     private void beforeAll() {
+        TestUtils.turnPactMetricsOff();
+
         InputStreamResource responseBody = new InputStreamResource(new ByteArrayInputStream("test".getBytes()));
 
         FileData fileData = new FileData();

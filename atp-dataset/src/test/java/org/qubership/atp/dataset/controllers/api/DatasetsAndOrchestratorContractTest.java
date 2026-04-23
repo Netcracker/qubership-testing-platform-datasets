@@ -32,6 +32,7 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.model.impl.file.FileData;
 import org.qubership.atp.dataset.model.utils.DatasetResponse;
 import org.qubership.atp.dataset.service.direct.AttributeService;
@@ -132,6 +133,8 @@ public class DatasetsAndOrchestratorContractTest {
     private DataSetService dataSetService;
 
     public void beforeAll() {
+        TestUtils.turnPactMetricsOff();
+
         List<DatasetResponse> resultList = new ArrayList<>();
         DatasetResponse datasetResponse =
                 new DatasetResponse(UUID.randomUUID(), "dsName", UUID.randomUUID(), "dslName");

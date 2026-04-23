@@ -36,6 +36,7 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.Label;
@@ -147,6 +148,8 @@ public class DatasetsAndCatalogContractTest {
     CompareDatasetServiceImpl compareDs;
 
     public void beforeAll() {
+        TestUtils.turnPactMetricsOff();
+
         JSONObject jsonObject = new JSONObject();
         List<JSONObject> resultListJson = new ArrayList<>();
         resultListJson.add(jsonObject);

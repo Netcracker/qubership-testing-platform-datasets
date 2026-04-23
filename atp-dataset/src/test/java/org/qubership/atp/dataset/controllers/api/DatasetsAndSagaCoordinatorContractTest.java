@@ -29,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.service.direct.DataSetListService;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
 import org.qubership.atp.dataset.service.rest.server.CopyDataSetListsResponse;
@@ -87,6 +88,8 @@ public class DatasetsAndSagaCoordinatorContractTest {
 
     @BeforeEach
     void before(PactVerificationContext context) {
+        TestUtils.turnPactMetricsOff();
+
         CopyDataSetListsResponse response = new CopyDataSetListsResponse();
         response.setCopyId(UUID.randomUUID());
         response.setOriginalId(UUID.randomUUID());

@@ -28,6 +28,7 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
+import org.qubership.atp.dataset.TestUtils;
 import org.qubership.atp.dataset.model.impl.DataSetImpl;
 import org.qubership.atp.dataset.model.impl.MixInIdImpl;
 import org.qubership.atp.dataset.model.utils.DatasetResponse;
@@ -108,7 +109,10 @@ public class DatasetsAndRamContractTest {
     private DatasetListImportService importService;
     @MockitoBean
     CompareDatasetServiceImpl compareDs;
+
     public void beforeAll() {
+        TestUtils.turnPactMetricsOff();
+
         List<DatasetResponse> resultList = new ArrayList<>();
         DatasetResponse datasetResponse =
                 new DatasetResponse(UUID.randomUUID(), "dsName", UUID.randomUUID(), "dslName");
