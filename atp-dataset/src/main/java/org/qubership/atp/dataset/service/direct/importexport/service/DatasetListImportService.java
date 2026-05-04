@@ -563,7 +563,16 @@ public class DatasetListImportService {
                             }
 
                             final Attribute attribute = importContext.getAttribute(attributeName);
+                            if (Objects.isNull(attribute)) {
+                                log.warn("Skip DSL mapping for unresolved attribute '{}'", attributeName);
+                                continue;
+                            }
                             final DataSetList dataSetList = attribute.getTypeDataSetList();
+                            if (Objects.isNull(dataSetList)) {
+                                log.warn("Skip DSL mapping for attribute '{}' because referenced DSL is absent",
+                                        attributeName);
+                                continue;
+                            }
                             final String parameterDslRefName = dataSetList.getName();
                             final List<Attribute> refAttributes = dataSetList.getAttributes();
                             importContext.setAttributes(attributeName, refAttributes);
