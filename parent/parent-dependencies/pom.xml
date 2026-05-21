@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qubership.atp.dataset</groupId>
         <artifactId>atp-dataset-aggregator</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -25,7 +25,7 @@
 
         <atp.common.version>1.0.1-SNAPSHOT</atp.common.version>
         <atp-crypt.version>1.0.1-SNAPSHOT</atp-crypt.version>
-        <atp.integration.version>1.0.1-SNAPSHOT</atp.integration.version>
+        <atp.integration.version>1.0.2-SNAPSHOT</atp.integration.version>
         <atp.saga.coordinator.version>0.0.9</atp.saga.coordinator.version>
 
         <querydsl.version>5.0.0</querydsl.version>
@@ -40,7 +40,7 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.44</lombok.version>
         <undertow.version>2.3.21.Final</undertow.version>
-        <bouncycastle.version>1.80</bouncycastle.version>
+        <bouncycastle.version>1.84</bouncycastle.version>
 
         <spring-security.version>6.5.9</spring-security.version>
         <netty.version>4.1.132.Final</netty.version>
@@ -71,6 +71,11 @@
                 <version>6.5.3.Final</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>10.9</version>
+            </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
