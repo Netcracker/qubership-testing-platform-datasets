@@ -145,9 +145,9 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public Integer getAttributesCount() {
         String nativeQuery = "select count(1) from attribute where datasetlist_id = :dsl_id";
-        return (Integer) entityManager.createNativeQuery(nativeQuery)
+        return toInteger(entityManager.createNativeQuery(nativeQuery)
                 .setParameter("dsl_id", getId())
-                .getSingleResult();
+                .getSingleResult());
     }
 
     /**
@@ -178,11 +178,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where id in (:ds_ids)";
-        List<Integer> queryResult = entityManager.createNativeQuery(nativeQuery)
+        List<Number> queryResult = entityManager.createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_ids", dataSetIds)
                 .getResultList();
-        queryResult.forEach(bigInteger -> result.add(bigInteger - 1));
+        queryResult.forEach(number -> result.add(number.intValue() - 1));
         return result;
     }
 
@@ -198,11 +198,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where name = :ds_name";
-        return (Integer) entityManager
+        return toInteger(entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_name", dataSetName)
-                .getSingleResult() - 1;
+                .getSingleResult()) - 1;
     }
 
     /**
@@ -217,11 +217,11 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                         + " order by ordering"
                         + ") ds_ordered"
                         + " where id = :ds_id";
-        return (Integer) entityManager
+        return toInteger(entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .setParameter("ds_id", dataSetId)
-                .getSingleResult() - 1;
+                .getSingleResult()) - 1;
     }
 
     /**
@@ -243,7 +243,7 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                 .getResultList();
         List<Integer> result = new ArrayList<>();
         for (Object o : untypedResult) {
-            result.add((Integer) o - 1);
+            result.add(toInteger(o) - 1);
         }
         return result;
     }
@@ -310,10 +310,10 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
      */
     public Integer getDataSetsCount() {
         String nativeQuery = "select count(1) from dataset where datasetlist_id = :list_id";
-        return (Integer) entityManager
+        return toInteger(entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
-                .getSingleResult();
+                .getSingleResult());
     }
 
     public List<LabelEntity> getLabels() {
@@ -493,10 +493,14 @@ public class DataSetList extends AbstractObjectWrapper<DataSetListEntity> {
                 "select COALESCE(max(ordering), 1) max_order_number "
                         + " from attribute "
                         + " where datasetlist_id = :list_id";
-        return ((Integer) entityManager
+        return toInteger(entityManager
                 .createNativeQuery(nativeQuery)
                 .setParameter("list_id", getId())
                 .getSingleResult());
+    }
+
+    private static Integer toInteger(Object value) {
+        return ((Number) value).intValue();
     }
 
     /**
