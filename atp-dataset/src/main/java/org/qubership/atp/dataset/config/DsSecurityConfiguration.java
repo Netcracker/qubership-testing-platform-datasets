@@ -16,57 +16,53 @@
 
 package org.qubership.atp.dataset.config;
 
-import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.qubership.atp.auth.springbootstarter.config.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+@Configuration
 @Order(1)
-@KeycloakConfiguration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 @Profile("default")
 public class DsSecurityConfiguration extends SecurityConfiguration {
 
     @Value("${atp-auth.headers.content-security-policy}")
     private String contentSecurityPolicy;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http
-                .headers()
-                .xssProtection().xssProtectionEnabled(false)
-                .and()
-                .contentSecurityPolicy(contentSecurityPolicy)
-                .and()
-                .frameOptions()
-                .sameOrigin()
-                .and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/metrics",
-                        "/info",
-                        "/scheduledtasks")
-                .permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    public void configure(HttpSecurity http) throws Exception {
+        configureHttpSecurity(http);
     }
 
     @Override
+    public void configureHttpSecurity(HttpSecurity http) throws Exception {
+        super.configureHttpSecurity(http);
+        http
+                .headers(headers -> headers
+                        .xssProtection(HeadersConfigurer.XXssConfig::disable)
+                        .contentSecurityPolicy(policy -> policy
+                                .policyDirectives(contentSecurityPolicy))
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/metrics",
+                                "/info", "/scheduledtasks")
+                        .permitAll())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/**")
+                        .authenticated())
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    }
+
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/health/**");
+        web.ignoring().requestMatchers("/health/**");
     }
 }

@@ -21,21 +21,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
-
-import com.google.common.collect.Lists;
 import org.qubership.atp.dataset.macros.EvalContextImpl;
 import org.qubership.atp.dataset.macros.MacroRegistry;
 import org.qubership.atp.dataset.macros.cache.MacroCacheKey;
 import org.qubership.atp.dataset.macros.cache.NoCache;
-import org.qubership.atp.dataset.macros.exception.CtxEvalException;
 import org.qubership.atp.dataset.macros.impl.RefToRefTestData;
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -47,6 +41,10 @@ import org.qubership.atp.dataset.service.direct.AliasWrapperService;
 import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
 import org.qubership.atp.dataset.service.direct.helper.SimpleCreationFacade;
 import org.qubership.atp.dataset.service.direct.macros.EvaluateDsParamStrategyImpl;
+
+import com.google.common.collect.Lists;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Isolated
 public class EvalContextImplTest {
@@ -101,7 +99,7 @@ public class EvalContextImplTest {
 
 
     @Test
-    public void refDslToRefThis_ChildRefPointsToUninitializedParameter_GotEmptyString() throws Exception {
+    public void refDslToRefThis_ChildRefPointsToUninitializedParameter_GotEmptyString() {
         RefToRefTestData.RefDslChildRefTargetParamIsUninitialized data = new RefToRefTestData.RefDslChildRefTargetParamIsUninitialized(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -121,7 +119,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refDslToRefThis_ChildRefPointsToUnreachableAttribute_FoundInParentRefContext() throws Exception {
+    public void refDslToRefThis_ChildRefPointsToUnreachableAttribute_FoundInParentRefContext() {
         RefToRefTestData.RefDslChildRefTargetAttrIsUnreachable data = new RefToRefTestData.RefDslChildRefTargetAttrIsUnreachable(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -145,7 +143,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refDslToRefThis_ChildRefPointsToInitializedParameter_GotTwoStrictContexts() throws Exception {
+    public void refDslToRefThis_ChildRefPointsToInitializedParameter_GotTwoStrictContexts() {
         RefToRefTestData.RefDslChildRefTargetParamIsInitialized data = new RefToRefTestData.RefDslChildRefTargetParamIsInitialized(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -169,7 +167,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThisToRefThis_ChildRefPointsToUnreachableAttribute_FoundInParentRefContext() throws Exception {
+    public void refThisToRefThis_ChildRefPointsToUnreachableAttribute_FoundInParentRefContext() {
         RefToRefTestData.RefThisChildRefTargetAttrIsUnreachable data = new RefToRefTestData.RefThisChildRefTargetAttrIsUnreachable(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -193,7 +191,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThisToRefThis_ChildRefPointsToUninitializedParameter_GotEmptyString() throws Exception {
+    public void refThisToRefThis_ChildRefPointsToUninitializedParameter_GotEmptyString() {
         RefToRefTestData.RefThisChildRefTargetParamIsUninitialized data = new RefToRefTestData.RefThisChildRefTargetParamIsUninitialized(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -217,7 +215,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThisToRefThis_ChildRefIsOverlapped_ContextOfDefaultIsUsed() throws Exception {
+    public void refThisToRefThis_ChildRefIsOverlapped_ContextOfDefaultIsUsed() {
         RefToRefTestData.ChildRefIsOverlapped data = new RefToRefTestData.ChildRefIsOverlapped(FACADE);
 
         OverlapItem.Reachable nextParam;
@@ -242,7 +240,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThisToRefThis_ChildRefPointsToInitializedParameter_GotThreeStrictContexts() throws Exception {
+    public void refThisToRefThis_ChildRefPointsToInitializedParameter_GotThreeStrictContexts() {
         RefToRefTestData.RefThisChildRefTargetParamIsInitialized data = new RefToRefTestData.RefThisChildRefTargetParamIsInitialized(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -266,7 +264,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThis_RefTargetIsOverlapped_ContextOfOverlapIsUsed() throws Exception {
+    public void refThis_RefTargetIsOverlapped_ContextOfOverlapIsUsed() {
         RefToRefTestData.RefTargetParamIsOverlapped data = new RefToRefTestData.RefTargetParamIsOverlapped(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -286,7 +284,7 @@ public class EvalContextImplTest {
     }
 
     @Test
-    public void refThisToRefThis_RefTargetIsOverlapped_ContextOfOverlapIsUsed() throws Exception {
+    public void refThisToRefThis_RefTargetIsOverlapped_ContextOfOverlapIsUsed() {
         RefToRefTestData.ChildRefTargetParamIsOverlapped data = new RefToRefTestData.ChildRefTargetParamIsOverlapped(FACADE);
         OverlapItem.Reachable nextParam;
         TestEvalContext curCtx;
@@ -368,7 +366,7 @@ public class EvalContextImplTest {
 
         @Nonnull
         @Override
-        protected String evaluate(@Nonnull String inputText, @Nonnull MacroCacheKey cacheKey) throws CtxEvalException {
+        protected String evaluate(@Nonnull String inputText, @Nonnull MacroCacheKey cacheKey) {
             leaf = this;
             return inputText;
         }

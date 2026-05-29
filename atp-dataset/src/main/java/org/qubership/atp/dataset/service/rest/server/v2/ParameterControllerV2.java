@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.service.rest.server.v2;
 import java.net.URI;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.api.ParameterRequest;

@@ -24,7 +24,6 @@ import java.util.UUID;
 import org.qubership.atp.dataset.model.Filter;
 import org.qubership.atp.dataset.service.direct.FilterService;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,9 +43,8 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/filter")
 public class LabelFilterController {
 
-    private FilterService filterService;
+    private final FilterService filterService;
 
-    @Autowired
     public LabelFilterController(FilterService filterService) {
         this.filterService = filterService;
     }

@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,9 +18,6 @@ package org.qubership.atp.dataset.service.jpa.service;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.dataset.service.jpa.JpaAttributeService;
@@ -31,6 +28,8 @@ import org.qubership.atp.dataset.service.jpa.JpaVisibilityAreaService;
 import org.qubership.atp.dataset.versioning.service.DataSetListSnapshotService;
 import org.qubership.atp.macros.core.calculator.MacrosCalculator;
 import org.qubership.atp.macros.core.client.MacrosFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @Disabled
 @Isolated
@@ -47,12 +46,12 @@ public class AbstractJpaTest {
     protected JpaVisibilityAreaService visibilityAreaService;
     @Autowired
     protected DataSetListSnapshotService snapshotService;
-    @MockBean
+    @MockitoBean
     protected Encryptor encryptor;
-    @MockBean
+    @MockitoBean
     protected Decryptor decryptor;
-    @MockBean
+    @MockitoBean
     protected MacrosFeignClient macrosFeignClient;
-    @MockBean
+    @MockitoBean
     protected MacrosCalculator scriptMacrosCalculator;
 }

@@ -8,7 +8,6 @@ import org.qubership.atp.dataset.service.rest.dto.versioning.HistoryItemDto;
 import org.qubership.atp.dataset.versioning.model.domain.DataSetListSnapshot;
 import org.qubership.atp.dataset.versioning.service.ChangeProcessorsChain;
 import org.qubership.atp.dataset.versioning.service.changes.DataSetListComparable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ public class JaversHistoryCacheableService {
 
     private final ChangeProcessorsChain changeProcessorsChain;
 
-    @Autowired
     public JaversHistoryCacheableService(Javers javers, ChangeProcessorsChain changeProcessorsChain) {
         this.javers = javers;
         this.changeProcessorsChain = changeProcessorsChain;

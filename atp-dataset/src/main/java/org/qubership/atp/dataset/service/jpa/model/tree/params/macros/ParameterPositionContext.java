@@ -51,8 +51,7 @@ public class ParameterPositionContext {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ParameterPositionContext) {
-            ParameterPositionContext other = (ParameterPositionContext)obj;
+        if (obj instanceof ParameterPositionContext other) {
             boolean pathEquals = path.equals(other.getPath());
             boolean columnEquals = dataSetColumn == other.getDataSetColumn();
             boolean orderEquals = order.equals(other.getOrder());

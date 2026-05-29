@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.qubership.atp.dataset.exception.dataset.DataSetContextParseException;
@@ -56,7 +56,7 @@ import org.qubership.atp.dataset.service.rest.QueryParamFlag;
 import org.qubership.atp.dataset.service.rest.dto.manager.AbstractEntityResponse;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManAttribute;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -19,9 +19,9 @@ package org.qubership.atp.dataset.migration.repo;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.AttributeRepository;
 import org.qubership.atp.dataset.db.CacheRepository;

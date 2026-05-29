@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.migration.model;
 import java.util.Objects;
 import java.util.Properties;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

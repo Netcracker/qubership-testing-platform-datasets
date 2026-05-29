@@ -24,7 +24,6 @@ import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.Filter;
 import org.qubership.atp.dataset.model.impl.FilterImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Sets;
@@ -40,7 +39,6 @@ public class FilterRepository extends AbstractRepository {
     private final SQLQueryFactory queryFactory;
     private final FilterProjection filterProjection = new FilterProjection();
 
-    @Autowired
     public FilterRepository(SQLQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }

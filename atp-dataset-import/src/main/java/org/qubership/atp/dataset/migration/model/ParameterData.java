@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.migration.model;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;
@@ -66,7 +66,7 @@ public abstract class ParameterData<T extends ParamContainer> {
     public abstract ToCreate toCreate();
 
     public String getLocation() {
-        return String.format("%s.%s.%s", getDsl().getName(), getDs().getName(), getAttrName());
+        return "%s.%s.%s".formatted(getDsl().getName(), getDs().getName(), getAttrName());
     }
 
     @Override

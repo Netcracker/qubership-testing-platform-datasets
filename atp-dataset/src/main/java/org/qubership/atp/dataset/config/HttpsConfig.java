@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.config;
 
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.security.KeyStore;
 
 import javax.net.ssl.KeyManager;
@@ -56,9 +56,8 @@ public class HttpsConfig {
      */
     @Bean
     public WebServerFactoryCustomizer<UndertowServletWebServerFactory> containerCustomizer() {
-        return factory -> factory.getBuilderCustomizers().add(builder -> {
-            builder.addHttpsListener(httpsPort, httpInterface, sslContext());
-        });
+        return factory -> factory.getBuilderCustomizers()
+                .add(builder -> builder.addHttpsListener(httpsPort, httpInterface, sslContext()));
     }
 
     /**
@@ -66,7 +65,7 @@ public class HttpsConfig {
      */
     @Bean
     public KeyStore loadKeyStore() {
-        try (InputStream stream = Files.newInputStream(Paths.get(keyStoreLocation))) {
+        try (InputStream stream = Files.newInputStream(Path.of(keyStoreLocation))) {
             KeyStore loadedKeystore = KeyStore.getInstance(keyStoreType);
             loadedKeystore.load(stream, keyStorePassword.toCharArray());
 

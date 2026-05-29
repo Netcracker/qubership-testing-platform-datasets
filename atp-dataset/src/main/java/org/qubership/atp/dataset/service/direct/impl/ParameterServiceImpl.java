@@ -31,8 +31,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -84,7 +84,7 @@ public class ParameterServiceImpl implements ParameterService {
     private static final String EMPTY_STRING = "";
     private static final int OVERLAP_MAX_LEVELS = 15;
 
-    private final javax.inject.Provider<DataSetService> dsServiceProvider;
+    private final jakarta.inject.Provider<DataSetService> dsServiceProvider;
     private final DateAuditorService dateAuditorService;
     private final ParameterRepository repo;
     private final AliasWrapperService aliasWrapperService;
@@ -230,8 +230,7 @@ public class ParameterServiceImpl implements ParameterService {
             return parameter;
         }
         if (attrPathIds.size() > OVERLAP_MAX_LEVELS) {
-            String message = String.format(
-                    "You cannot overlap parameters deeper than %s levels down", OVERLAP_MAX_LEVELS);
+            String message = "You cannot overlap parameters deeper than %s levels down".formatted(OVERLAP_MAX_LEVELS);
             log.error(message);
             throw new ParameterOverlapLevelDownException(message);
         }
@@ -557,7 +556,7 @@ public class ParameterServiceImpl implements ParameterService {
         if (text != null) {
             Attribute attribute = attributeService.get(attrId);
             if (attribute == null) {
-                log.error(String.format("Attribute %s not found", attrId));
+                log.error("Attribute %s not found".formatted(attrId));
                 throw new AttributeNotFoundException();
             }
             if (AttributeType.ENCRYPTED.equals(attribute.getType())

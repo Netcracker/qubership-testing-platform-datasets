@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.migration.config;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.config.ServiceConfiguration;
 import org.qubership.atp.dataset.db.CacheRepository;

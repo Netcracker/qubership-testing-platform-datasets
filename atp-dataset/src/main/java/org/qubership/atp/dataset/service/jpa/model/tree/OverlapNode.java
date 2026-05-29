@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.tree;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OverlapNode implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2784126984197713421L;
     private UUID dataSetListId;
     private UUID id;
@@ -114,10 +116,7 @@ public class OverlapNode implements Serializable {
      * */
     public boolean containsOverlapsInPath(List<UUID> path, int column) {
         if (path.isEmpty()) {
-            if (overlaps[column] != null) {
-                return true;
-            }
-            return false;
+            return overlaps[column] != null;
         } else {
             for (OverlapNode childNode : childNodes) {
                 if (childNode.getId().equals(path.get(0))) {

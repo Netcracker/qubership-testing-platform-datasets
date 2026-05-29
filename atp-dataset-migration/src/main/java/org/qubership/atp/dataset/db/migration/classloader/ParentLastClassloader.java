@@ -22,7 +22,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -47,8 +46,8 @@ public class ParentLastClassloader extends URLClassLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParentLastClassloader.class);
     private static final String Q_CLASSES_JAR_EXPRESSION = "atp-dataset-q-classes-generation.+\\.jar";
     private final String sourcePath;
-    private Map<String, ChildClassLoader> urlClassLoaders = new HashMap<>();
-    private String jdbcType;
+    private final Map<String, ChildClassLoader> urlClassLoaders = new HashMap<>();
+    private final String jdbcType;
 
     /**
      * ClassLoader based on {@link URLClassLoader} for loading classes from self. In case class not
@@ -74,7 +73,7 @@ public class ParentLastClassloader extends URLClassLoader {
                     + "atp-dataset-q-classes-generation-pg.jar - there is jdbc_type is 'pg'");
         }
         this.sourcePath = sourcePath;
-        try (Stream<Path> walk = Files.walk(Paths.get(sourcePath))) {
+        try (Stream<Path> walk = Files.walk(Path.of(sourcePath))) {
             walk
                     .filter(path -> !Utils.isJarFile(path))
                     .forEach(path -> {
@@ -164,7 +163,7 @@ public class ParentLastClassloader extends URLClassLoader {
             return urlClassLoader;
         }
         try {
-            Path dir = Paths.get(sourcePath, jarPath);
+            Path dir = Path.of(sourcePath, jarPath);
             List<Path> jarList = Files.list(dir).filter(Utils::isJarFile).collect(Collectors.toList());
             urlClassLoader = createNewUrlClassLoader(jarList);
             urlClassLoaders.put(jarPath, urlClassLoader);

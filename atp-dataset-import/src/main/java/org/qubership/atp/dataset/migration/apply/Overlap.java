@@ -20,7 +20,7 @@ import static org.qubership.atp.dataset.migration.formula.model.AttachedFiles.cr
 
 import java.io.ByteArrayInputStream;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.migration.formula.model.Formula;
 import org.qubership.atp.dataset.migration.formula.model.TransformationException;

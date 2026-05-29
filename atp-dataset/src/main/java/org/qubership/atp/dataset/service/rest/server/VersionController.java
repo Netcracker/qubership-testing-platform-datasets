@@ -18,7 +18,6 @@ package org.qubership.atp.dataset.service.rest.server;
 
 import org.qubership.atp.dataset.db.DBConfig;
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +27,8 @@ import io.swagger.v3.oas.annotations.Operation;
 @RestController
 public class VersionController {
 
-    private DBConfig dbConfig;
+    private final DBConfig dbConfig;
 
-    @Autowired
     public VersionController(DBConfig dbConfig) {
         this.dbConfig = dbConfig;
     }

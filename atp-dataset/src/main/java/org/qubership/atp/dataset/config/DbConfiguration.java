@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ import org.qubership.atp.dataset.config.listeners.ConnectionClosedListener;
 import org.qubership.atp.dataset.db.DBConfig;
 import org.qubership.atp.dataset.db.DbConfigImpl;
 import org.qubership.atp.dataset.service.direct.helper.DbCreationFacade;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -61,6 +63,7 @@ public class DbConfiguration {
      */
 
     @Bean
+    @ConditionalOnMissingBean(DataSource.class)
     public DataSource dataSource(DBConfig dbconfig) {
         HikariConfig config = new HikariConfig();
         config.setLeakDetectionThreshold(SECONDS.toMillis(dbconfig.getLeakDetectionThreshold()));
@@ -97,6 +100,7 @@ public class DbConfiguration {
     }
 
     @Bean
+    @DependsOnDatabaseInitialization
     public SQLQueryFactory queryFactory(DataSource dataSource, Configuration qdslConfig) {
         return new SQLQueryFactory(qdslConfig, new TransactionAwareDataSourceProxy(dataSource));
     }

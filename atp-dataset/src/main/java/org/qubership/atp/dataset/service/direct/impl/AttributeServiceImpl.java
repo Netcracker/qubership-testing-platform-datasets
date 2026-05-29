@@ -30,9 +30,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.javers.common.string.Strings;
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +62,6 @@ import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSetList;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManParameter;
 import org.qubership.atp.dataset.service.ws.entities.Pair;
 import org.qubership.atp.dataset.versioning.service.DataSetListSnapshotService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,7 +89,6 @@ public class AttributeServiceImpl implements AttributeService {
     /**
      * Constructor with autowire.
      */
-    @Autowired
     public AttributeServiceImpl(
             ListValueRepository listValueRepository,
             AttributeRepository attributeRepository,
@@ -162,8 +160,8 @@ public class AttributeServiceImpl implements AttributeService {
             paramsToDelete.addAll(ds.getParameters()
                     .stream()
                     .filter(param -> param.getAttribute().getId().equals(attribute.getId())
-                            || param instanceof ParameterOverlap
-                            && ((ParameterOverlap) param).getAttributePath().getPath()
+                            || param instanceof ParameterOverlap po
+                            && po.getAttributePath().getPath()
                             .stream()
                             .anyMatch(attr -> attr.getId().equals(attribute.getId())))
                     .collect(Collectors.toSet()));

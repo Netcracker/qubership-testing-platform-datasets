@@ -50,8 +50,7 @@ public class CachedParameter {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof CachedParameter) {
-            CachedParameter other = (CachedParameter) obj;
+        if (obj instanceof CachedParameter other) {
             boolean sameParameter = other.getParameter().equals(parameter);
             boolean samePath = other.getParameterPath().equals(parameterPath);
             boolean sameDataSet = other.getTopDataSetId().equals(topDataSetId);

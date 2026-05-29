@@ -21,8 +21,8 @@ import static org.qubership.atp.dataset.service.rest.MixInIdSerializer.CHARSET;
 import java.util.Base64;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.impl.MixInIdImpl;
 import org.qubership.atp.dataset.service.rest.MixInIdSerializer;

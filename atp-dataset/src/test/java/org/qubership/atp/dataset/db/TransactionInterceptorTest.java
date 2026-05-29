@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,12 +23,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.dataset.config.TransactionTestConfiguration;
@@ -39,10 +33,12 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.direct.AttributeService;
 import org.qubership.atp.dataset.service.direct.DataSetListService;
 import org.qubership.atp.dataset.service.direct.VisibilityAreaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @Disabled
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TransactionTestConfiguration.class})
+@SpringJUnitConfig(classes = {TransactionTestConfiguration.class})
 public class TransactionInterceptorTest {
 
     private final String dslName = "TransactionInterceptorTestDsl";
@@ -55,9 +51,9 @@ public class TransactionInterceptorTest {
     private AttributeService attributeService;
     @Autowired
     private DbUtils dbUtils;
-    @MockBean
+    @MockitoBean
     protected Encryptor encryptor;
-    @MockBean
+    @MockitoBean
     protected Decryptor decryptor;
 
     private VisibilityArea va;

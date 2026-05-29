@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -17,15 +17,14 @@
 package org.qubership.atp.dataset.macros.impl;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.dataset.macros.processor.Evaluator;
 import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {
@@ -40,12 +39,12 @@ import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
         "atp-dataset.archive.job.thread.queue-capacity=100"
 })
 public abstract class AbstractMacrosTest {
-    @MockBean
+    @MockitoBean
     Encryptor encryptor;
-    @MockBean
+    @MockitoBean
     Decryptor decryptor;
     @Autowired
     Evaluator evaluator;
-    @MockBean
+    @MockitoBean
     ClearCacheServiceImpl clearCacheService;
 }

@@ -27,12 +27,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Sets;
 import org.qubership.atp.dataset.JsonMatcher;
 import org.qubership.atp.dataset.config.MockJaversCommitEntityServiceConfiguration;
 import org.qubership.atp.dataset.config.TestConfiguration;
@@ -43,6 +37,12 @@ import org.qubership.atp.dataset.model.utils.MultiplyTestData;
 import org.qubership.atp.dataset.model.utils.Utils;
 import org.qubership.atp.dataset.service.AbstractTest;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSetList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Sets;
 
 @Isolated
 @ContextConfiguration(classes = {TestConfiguration.class, MockJaversCommitEntityServiceConfiguration.class})
@@ -59,7 +59,7 @@ public class ItfMultiplyTest extends AbstractTest {
     }
 
     @Test
-    public void dsWithMixins_GetAllEvaluated_HasValidNames() throws IOException {
+    public void dsWithMixins_GetAllEvaluated_HasValidNames() {
         MultiplyTestData d = createTestDataInstance(MultiplyTestData::new);
         List<DataSet> children = dataSetListService.getChildren(d.mix.getDataSetList().getId(), true);
         List<String> childrenNames = children.stream().map(Named::getName).collect(Collectors.toList());

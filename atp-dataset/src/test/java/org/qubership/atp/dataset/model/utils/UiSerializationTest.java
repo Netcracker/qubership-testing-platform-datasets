@@ -24,17 +24,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import org.qubership.atp.dataset.JsonMatcher;
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -48,6 +41,12 @@ import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
 import org.qubership.atp.dataset.service.direct.helper.SimpleCreationFacade;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManAttribute;
 import org.qubership.atp.dataset.service.rest.dto.manager.UiManDataSetList;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+import jakarta.annotation.Nonnull;
 
 @ExtendWith(SpringExtension.class)
 public class UiSerializationTest {
@@ -174,26 +173,20 @@ public class UiSerializationTest {
             Identified next = items.next();
             String id = next.getId().toString();
             String name;
-            if (next instanceof Named) {
-                name = ((Named) next).getName();
+            if (next instanceof Named named) {
+                name = named.getName();
             } else {
                 name = "not_supported";
             }
-            String type;
-            if (next instanceof DataSetList) {
-                type = "dsl";
-            } else if (next instanceof Attribute) {
-                type = "attr";
-            } else if (next instanceof DataSet) {
-                type = "ds";
-            } else if (next instanceof Parameter) {
-                type = "param";
-            } else if (next instanceof ListValue) {
-                type = "lv";
-            } else {
-                type = next.getClass().getSimpleName();
-            }
-            jsonTarget = jsonTarget.replaceAll(id, String.format("\\$\\{%s: %s\\}", type, name));
+            String type = switch (next) {
+                case DataSetList dataSetList -> "dsl";
+                case Attribute attribute -> "attr";
+                case DataSet dataSet -> "ds";
+                case Parameter parameter -> "param";
+                case ListValue listValue -> "lv";
+                default -> next.getClass().getSimpleName();
+            };
+            jsonTarget = jsonTarget.replaceAll(id, "\\$\\{%s: %s\\}".formatted(type, name));
         }
         return jsonTarget;
     }

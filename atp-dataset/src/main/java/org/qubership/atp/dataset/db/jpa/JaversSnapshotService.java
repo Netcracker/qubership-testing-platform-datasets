@@ -33,7 +33,6 @@ import org.qubership.atp.dataset.db.jpa.repositories.JpaJvCommitPropertyReposito
 import org.qubership.atp.dataset.db.jpa.repositories.JpaJvCommitRepository;
 import org.qubership.atp.dataset.db.jpa.repositories.JpaJvGlobalIdRepository;
 import org.qubership.atp.dataset.db.jpa.repositories.JpaJvSnapshotRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,7 +67,6 @@ public class JaversSnapshotService {
      * @param commitRepository   commitRepository
      * @param commitPropertyRepository commitPropertyRepository
      */
-    @Autowired
     public JaversSnapshotService(JpaJvSnapshotRepository snapshotRepository,
                                  JpaJvGlobalIdRepository globalIdRepository,
                                  JpaJvCommitRepository commitRepository,

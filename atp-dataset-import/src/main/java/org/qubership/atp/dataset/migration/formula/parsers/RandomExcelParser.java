@@ -36,7 +36,7 @@ public class RandomExcelParser extends RegexpFormulaAdapter {
     @Override
     public String transform(CellData cellData) throws TransformationException {
         final Matcher matcher = getMatcher(cellData);
-        return String.format("#RANDOMBETWEEN(%s, %s)", matcher.group(1), matcher.group(2));
+        return "#RANDOMBETWEEN(%s, %s)".formatted(matcher.group(1), matcher.group(2));
     }
 
     @Override

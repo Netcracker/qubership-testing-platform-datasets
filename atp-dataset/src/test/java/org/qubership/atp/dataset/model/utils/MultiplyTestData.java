@@ -141,7 +141,7 @@ public class MultiplyTestData implements Supplier<VisibilityArea> {
                 + "            \"parameters\": [{"
                 + "                    \"dataSet\": \"" + mix.getId() + "\","
                 + "                    \"value\": "
-                + String.format("          \"MULTIPLY %s %s\"", resCA.getId(), b2bCA.getId())
+                + "          \"MULTIPLY %s %s\"".formatted(resCA.getId(), b2bCA.getId())
                 + "                    ,"
                 + "                    \"overlap\": false"
                 + "                }"
@@ -154,7 +154,7 @@ public class MultiplyTestData implements Supplier<VisibilityArea> {
                 + "            \"parameters\": [{"
                 + "                    \"dataSet\": \"" + mix.getId() + "\","
                 + "                    \"value\": "
-                + String.format("          \"MULTIPLY %s %s %s\"", baseCheck.getId(), proStart.getId(), base.getId())
+                + "          \"MULTIPLY %s %s %s\"".formatted(baseCheck.getId(), proStart.getId(), base.getId())
                 + "                    ,"
                 + "                    \"overlap\": false"
                 + "                }"

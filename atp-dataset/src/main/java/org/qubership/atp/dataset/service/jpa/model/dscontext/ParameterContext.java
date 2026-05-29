@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.dscontext;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ParameterContext implements Serializable {
+    @Serial
     private static final long serialVersionUID = -2995730089590160691L;
     private UUID attributeId;
     private UUID parameterId;

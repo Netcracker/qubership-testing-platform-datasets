@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.impl;
 
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
 import org.qubership.atp.dataset.macros.Macros;

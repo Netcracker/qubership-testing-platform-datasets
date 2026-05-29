@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.db.dto;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.google.common.base.MoreObjects;
 

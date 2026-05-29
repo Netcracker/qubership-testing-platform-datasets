@@ -325,7 +325,7 @@ public class ModelsProvider {
         if (id == null) {
             return null;
         }
-        ListValueEntity entity = listValueRepository.getById(id);
+        ListValueEntity entity = listValueRepository.getReferenceById(id);
         return new ListValue(entity);
     }
 
@@ -355,7 +355,7 @@ public class ModelsProvider {
         dataSetListEntity.setModifiedBy(modifiedBy);
         dataSetListEntity.setModifiedWhen(modifiedWhen);
         Optional<VisibilityAreaEntity> visibilityArea = visibilityAreaRepository.findById(visibilityAreaId);
-        if (!visibilityArea.isPresent()) {
+        if (visibilityArea.isEmpty()) {
             throw new DataSetServiceException("Visibility Area with id " + visibilityAreaId + " not found");
         }
         dataSetListEntity.setVisibilityArea(visibilityArea.get());
@@ -380,7 +380,7 @@ public class ModelsProvider {
         dataSetEntity.setName(name);
         dataSetEntity.setId(id);
         Optional<DataSetListEntity> dataSetListEntity = dataSetListRepository.findById(dataSetListId);
-        if (!dataSetListEntity.isPresent()) {
+        if (dataSetListEntity.isEmpty()) {
             throw new DataSetServiceException("Data Set with id " + dataSetListEntity + " not found");
         }
         dataSetEntity.setDataSetList(dataSetListEntity.get());
@@ -409,7 +409,7 @@ public class ModelsProvider {
         attributeEntity.setName(name);
         attributeEntity.setId(id);
         Optional<DataSetListEntity> dataSetListEntity = dataSetListRepository.findById(dataSetListId);
-        if (!dataSetListEntity.isPresent()) {
+        if (dataSetListEntity.isEmpty()) {
             throw new DataSetServiceException("Data Set with id " + dataSetListEntity + " not found");
         }
         attributeEntity.setDataSetList(dataSetListEntity.get());
@@ -438,14 +438,14 @@ public class ModelsProvider {
         parameterEntity.setSourceId(sourceId);
 
         Optional<DataSetEntity> dataSetEntity = dataSetRepository.findById(dataSetId);
-        if (!dataSetEntity.isPresent()) {
+        if (dataSetEntity.isEmpty()) {
             throw new DataSetServiceException("Data Set with id " + dataSetEntity + " not found");
         }
         parameterEntity.setDataSet(dataSetEntity.get());
 
-        AbstractAttributeEntity attributeEntity = attributeRepository.getById(attributeId);
+        AbstractAttributeEntity attributeEntity = attributeRepository.getReferenceById(attributeId);
         if (attributeEntity == null) {
-            attributeEntity = attributeKeyRepository.getById(attributeId);
+            attributeEntity = attributeKeyRepository.getReferenceById(attributeId);
         }
         if (attributeEntity == null) {
             throw new DataSetServiceException("Attribute with id " + attributeId + " not found");

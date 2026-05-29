@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.junit.jupiter.api.Assertions;
 import org.mockito.InOrder;
@@ -53,7 +53,7 @@ class Position<T> {
 
     public static <T> Position<T> ofLeafsDetector(Function<T, Iterator<? extends T>> childrenSup, Iterator<? extends T> data) {
         TraverseHandlerToMock<T> h = Mockito.spy(new TraverseHandlerToMock<>(childrenSup));
-        LeafsDetector<T, T, T> detector = new LeafsDetector<T, T, T>(data, h, null) {
+        LeafsDetector<T, T, T> detector = new LeafsDetector<>(data, h, null) {
             @Nullable
             @Override
             protected Iterator<? extends T> getChildren(@Nonnull T parent) {

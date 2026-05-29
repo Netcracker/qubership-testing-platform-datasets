@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.model.utils.tree;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Adds leafs detector functionality to {@link AllRefsIterator}. <br/>Designed to be used in
@@ -37,12 +37,10 @@ class LeafsDetector<I extends T, O extends T, T> extends AllRefsIterator<T> {
      * of current iteration, same as {@link AllRefsIterator}. <br/>Reports about vertical level
      * changes using childrenSup and backToParentsCb. <br/>Does not resolve recursion by default.
      * You can do that in childrenSup or itemsFilter. <br/>Reports about leafs found using
-     * leafsConsumer. <br/>One iteration may result in invocation of leafsConsumer no more then one
-     * time.
+     * leafsConsumer. <br/>One iteration may result in invocation of leafsConsumer no more than one time.
      *
      * @param parents     to iterate over. Inclusive.
-     * @param itemsFilter filters objects to iterate over. Delegates to {@link
-     *                    AllRefsIterator#itemsFilter}
+     * @param itemsFilter filters objects to iterate over. Delegates to {@link AllRefsIterator}.
      */
     LeafsDetector(@Nonnull Iterator<? extends I> parents,
                   @Nonnull TraverseHandler<I, O> traverseHandler,

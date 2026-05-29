@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -61,8 +61,7 @@ class ChangeParameter {
             case MULTIPLY:
                 return new Multiplication(targetAttribute, targetParameter, change);
             default:
-                throw new UnsupportedOperationException(String.format(
-                        "Unknown type of structure change %s in %s", change, targetParameter));
+                throw new UnsupportedOperationException("Unknown type of structure change %s in %s".formatted(change, targetParameter));
         }
     }
 
@@ -121,7 +120,7 @@ class ChangeParameter {
             Optional<Parameter> parameter = changeAttr.getParameters().stream()
                     .filter(param -> source.getId().equals(param.getDataSet().getId()))
                     .findAny();
-            if (!parameter.isPresent()) {
+            if (parameter.isEmpty()) {
                 continue;
             }
             String text = parameter.get().getText();

@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;

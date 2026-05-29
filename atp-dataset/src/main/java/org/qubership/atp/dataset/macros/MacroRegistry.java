@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.macros;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface MacroRegistry {
 

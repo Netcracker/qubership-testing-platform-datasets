@@ -16,8 +16,8 @@
 
 package org.qubership.atp.dataset.model.utils.tree;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Describes paths to iterate over and explains how to construct leaf. Make possible to iterate over

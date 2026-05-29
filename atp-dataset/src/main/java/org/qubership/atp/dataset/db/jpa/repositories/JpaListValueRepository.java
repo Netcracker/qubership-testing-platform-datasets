@@ -28,7 +28,7 @@ public interface JpaListValueRepository extends JpaRepository<ListValueEntity, U
 
     List<ListValueEntity> getByAttributeId(UUID id);
 
-    ListValueEntity getById(UUID id);
+    ListValueEntity getReferenceById(UUID id);
 
     List<ListValueEntity> getByAttributeIdAndSourceId(UUID id, UUID sourceId);
 

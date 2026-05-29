@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.service.rest.server;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.qubership.atp.integration.configuration.configuration.AuditAction;
 import org.springframework.security.access.prepost.PreAuthorize;

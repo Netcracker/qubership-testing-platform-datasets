@@ -21,8 +21,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 import org.qubership.atp.auth.springbootstarter.entities.UserInfo;
@@ -96,9 +96,7 @@ public class TestPlanServiceImpl implements TestPlanService {
         TestPlan testPlan = getByNameUnderVisibilityArea(vaId, name);
         if (testPlan != null) {
             dataSetListRepo.getUnderTestPlan(testPlan.getId())
-                    .forEach(dataSetList -> {
-                        dataSetListSnapshotService.commitEntity(dataSetList.getId());
-                    });
+                    .forEach(dataSetList -> dataSetListSnapshotService.commitEntity(dataSetList.getId()));
         }
         return repo.delete(vaId, name, modifiedBy, modifiedWhen);
     }

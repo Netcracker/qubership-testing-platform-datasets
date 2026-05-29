@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;
@@ -96,7 +96,7 @@ public class FlatDataImpl implements Consumer<Identified> {
         } else if (DataSetList.class.isAssignableFrom(clazz)) {
             fillEntry((DataSetList) entry, this::getDataSetLists, this::setDataSetLists);
         } else {
-            throw new IllegalArgumentException(String.format("[%s] is not designed to accept [%s]", this, clazz));
+            throw new IllegalArgumentException("[%s] is not designed to accept [%s]".formatted(this, clazz));
         }
     }
 

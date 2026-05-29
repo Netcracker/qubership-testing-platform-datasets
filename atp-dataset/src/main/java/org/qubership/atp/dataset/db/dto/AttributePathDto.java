@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.db.dto;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.google.common.base.MoreObjects;
 

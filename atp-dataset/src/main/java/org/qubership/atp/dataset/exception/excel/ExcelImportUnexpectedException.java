@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-7005")
 public class ExcelImportUnexpectedException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Unexpected error while import. Exception: '%s'";
+    private static final String DEFAULT_MESSAGE = "Unexpected error while import. Exception: '%s'";
 
     public ExcelImportUnexpectedException(Exception e) {
-        super(String.format(DEFAULT_MESSAGE, e.getMessage()));
+        super(DEFAULT_MESSAGE.formatted(e.getMessage()));
     }
 }

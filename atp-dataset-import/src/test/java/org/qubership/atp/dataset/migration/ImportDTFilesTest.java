@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -28,20 +28,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.crypt.api.Decryptor;
 import org.qubership.atp.crypt.api.Encryptor;
 import org.qubership.atp.dataset.migration.config.TestConfiguration;
@@ -58,9 +49,14 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.model.utils.OverlapIterator;
 import org.qubership.atp.dataset.service.direct.AliasWrapperService;
 import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfiguration.class})
+import jakarta.annotation.Nullable;
+
+@SpringJUnitConfig(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {
         "jdbc.leak.detection.threshold=10",
         "atp-dataset.last.revision.count=200",
@@ -81,15 +77,15 @@ public class ImportDTFilesTest {
     DsServicesFacade services;
     @Autowired
     AliasWrapperService wrapperService;
-    @MockBean
+    @MockitoBean
     protected Encryptor encryptor;
-    @MockBean
+    @MockitoBean
     protected Decryptor decryptor;
-    @MockBean
+    @MockitoBean
     ClearCacheServiceImpl clearCacheService;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         EvaluationContext.getContext().clear();
     }
 

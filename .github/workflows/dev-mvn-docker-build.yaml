@@ -1,5 +1,5 @@
 ---
-# The workflow to deploy snapshot artifact versions to Github packages
+# The workflow to deploy snapshot artifact versions to GitHub packages
 # Fill free to adjust java version and additional mvn command-line parameters
 # The workflow will trigger on pushes into branches different from main and release
 # Please make sure that the version in the pom.xml file has the SNAPSHOT postfix
@@ -64,7 +64,7 @@ jobs:
 
       - name: Maven Docker build
         id: maven_build
-        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@cabbb90e9471163cfac84bd50ff0296b2803b44c # v2.3.0
+        uses: netcracker/qubership-workflow-hub/actions/maven-snapshot-deploy@8d542a426ce561c7dce745f6b9cee068d1d7e101 # v2.0.10
         with:
           java-version: "21"
           additional-mvn-args: ${{ env.additional-mvn-args }}
@@ -161,11 +161,12 @@ jobs:
   run-tests:
     needs: [ build-and-push ]
     if: |
-      needs.build-and-push.result == 'success' &&
+      github.event_name == 'workflow_dispatch' ||
+      (needs.build-and-push.result == 'success' &&
       (
         github.event_name == 'pull_request' ||
         (github.event_name == 'push' && github.ref == 'refs/heads/main')
-      )
+      ))
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
       repository_name: 'qubership-testing-platform-datasets'

@@ -16,11 +16,12 @@
 
 package org.qubership.atp.dataset.service.jpa.delegates;
 
+import java.io.Serial;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.NoResultException;
+import jakarta.persistence.NoResultException;
 
 import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.ParameterEntity;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AttributeKey extends AbstractObjectWrapper<AttributeKeyEntity> {
+    @Serial
     private static final long serialVersionUID = 3769738483534840381L;
     private Parameter cachedParameter = null;
 

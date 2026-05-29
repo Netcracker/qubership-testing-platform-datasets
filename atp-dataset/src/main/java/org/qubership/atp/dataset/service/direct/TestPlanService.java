@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.service.direct;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.TestPlan;

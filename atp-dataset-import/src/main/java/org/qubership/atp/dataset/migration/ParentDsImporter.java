@@ -18,8 +18,6 @@ package org.qubership.atp.dataset.migration;
 
 import java.util.Iterator;
 
-import javax.annotation.Nonnull;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.qubership.atp.dataset.migration.formula.model.EvaluationContext;
@@ -37,12 +35,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterators;
+import jakarta.annotation.Nonnull;
 
 public class ParentDsImporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ParentDsImporter.class);
 
-    private ImportResources res;
+    private final ImportResources res;
 
     public ParentDsImporter(ImportResources res) {
         this.res = res;
@@ -51,8 +50,7 @@ public class ParentDsImporter {
     /**
      * create parent dataset.
      *
-     * @param resources see {@link ImportResources#create(DsServicesFacade, String, String, String,
-     *                  String)}.
+     * @param resources see {@link ImportResources#create(DsServicesFacade, String, String, String, String)}.
      */
     public static ParentDsImporter create(ImportResources resources) {
         return new ParentDsImporter(resources);

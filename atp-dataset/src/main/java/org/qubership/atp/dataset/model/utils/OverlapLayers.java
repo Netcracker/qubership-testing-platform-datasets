@@ -27,8 +27,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.AttributeType;
@@ -113,7 +113,7 @@ public class OverlapLayers {
             }
             OverlapItem.Reachable reachable = refSup.asReachable();
             Optional<Parameter> parameterOpt = reachable.getParameter();
-            if (!parameterOpt.isPresent() || reachable.getAttribute().getType() != AttributeType.DSL) {
+            if (parameterOpt.isEmpty() || reachable.getAttribute().getType() != AttributeType.DSL) {
                 return endOfData();
             }
             DataSet dataSetReference = parameterOpt.get().getDataSetReference();

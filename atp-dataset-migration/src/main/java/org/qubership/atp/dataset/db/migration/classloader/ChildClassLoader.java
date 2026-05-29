@@ -60,7 +60,7 @@ public class ChildClassLoader extends URLClassLoader {
                 return realParent.loadClass(name);
             } catch (ClassNotFoundException | NoClassDefFoundError ex) {
                 ClassNotFoundException detailedException = new ClassNotFoundException(
-                        String.format("Error while loading [%s]", name));
+                        "Error while loading [%s]".formatted(name));
                 detailedException.addSuppressed(ex);
                 throw detailedException;
             }

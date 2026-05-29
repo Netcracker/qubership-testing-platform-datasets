@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.model.dscontext;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -36,6 +37,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DataSetContext implements Serializable {
+    @Serial
     private static final long serialVersionUID = -7846470332343480118L;
     private UUID id;
     private String name;

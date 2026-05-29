@@ -87,12 +87,12 @@ public class MatcherFactory {
 
     // Example: frowvtswvlelibsqlmdn
     public static Matcher<String> isChars(int count) {
-        return new RegexMatcher(String.format("[a-z]{%d}", count));
+        return new RegexMatcher("[a-z]{%d}".formatted(count));
     }
 
     // Example: LENVTCOJPDZZBRCNNJWK
     public static Matcher<String> isCharsUpperCase(int count) {
-        return new RegexMatcher(String.format("[A-Z]{%d}", count));
+        return new RegexMatcher("[A-Z]{%d}".formatted(count));
     }
 
     // Example: NaN

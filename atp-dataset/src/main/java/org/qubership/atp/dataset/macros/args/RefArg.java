@@ -21,8 +21,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
 import org.qubership.atp.dataset.macros.impl.reference.ReferenceAliasType;

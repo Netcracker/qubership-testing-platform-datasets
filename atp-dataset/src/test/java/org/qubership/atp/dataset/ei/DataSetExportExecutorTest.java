@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package org.qubership.atp.dataset.ei;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,7 +25,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,18 +40,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Sets;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.GridFsRepository;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetEntity;
@@ -64,7 +56,6 @@ import org.qubership.atp.dataset.db.jpa.repositories.JpaDataSetListRepository;
 import org.qubership.atp.dataset.db.jpa.repositories.JpaDataSetRepository;
 import org.qubership.atp.dataset.ei.model.DataSet;
 import org.qubership.atp.dataset.model.impl.file.FileData;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
 import org.qubership.atp.dataset.service.jpa.JpaDataSetListService;
 import org.qubership.atp.dataset.service.jpa.impl.DataSetListContextService;
 import org.qubership.atp.dataset.service.jpa.impl.JpaDataSetServiceImpl;
@@ -74,60 +65,84 @@ import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ExportScope;
 import org.qubership.atp.ei.node.services.FileService;
 import org.qubership.atp.ei.node.services.ObjectSaverToDiskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.MicrometerTracingAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 
 @Isolated
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@EnableAutoConfiguration(exclude = {
+        BraveAutoConfiguration.class,
+        ZipkinAutoConfiguration.class,
+        MicrometerTracingAutoConfiguration.class})
+@MockitoSettings(strictness = Strictness.LENIENT)
+@TestPropertySource(properties = {
+        "atp.export.pretty-print=true",
+        "management.zipkin.tracing.enabled=false",
+        "management.tracing.enabled=false"})
 public class DataSetExportExecutorTest {
 
     @Spy
     private ObjectSaverToDiskService objectSaverToDiskService =
             new ObjectSaverToDiskService(new FileService(), true);
-    @Mock
+    @MockitoBean
     private JpaDataSetListRepository jpaDataSetListRepository;
-    @Mock
+    @MockitoBean
     private JpaDataSetRepository jpaDataSetRepository;
-    @Mock
+    @MockitoBean
     private GridFsRepository gridFsRepository;
-    @Mock
+    @MockitoBean
     private MacroContextService macroContextService;
-    @Mock
+    @MockitoBean
     private DataSetListContextService dataSetListContextService;
     @Spy
     private ObjectMapper objectMapper;
-    @InjectMocks
+    @Autowired
     DataSetExportExecutor dataSetExportExecutor;
-    @Mock
+    @MockitoBean
     private JpaDataSetListService dslService;
-    @Mock
+    @MockitoBean
     private JpaDataSetServiceImpl dsService;
     @TempDir
     private Path tempDir;
 
-    private String erDatasetFile =
-                    "{\n" +
-                    "  \"id\" : \"8147cd6a-b742-4f63-be42-59c7c1ab5f2f\",\n" +
-                    "  \"name\" : \"ds1\",\n" +
-                    "  \"ordering\" : null,\n" +
-                    "  \"dataSetList\" : \"70030fdd-816a-4455-b117-b2e718f0396c\",\n" +
-                    "  \"sourceId\" : null,\n" +
-                    "  \"isLocked\" : false\n" +
-                    "}\n";
+    private final String erDatasetFile =
+                    """
+                    {
+                      "id" : "8147cd6a-b742-4f63-be42-59c7c1ab5f2f",
+                      "name" : "ds1",
+                      "ordering" : null,
+                      "dataSetList" : "70030fdd-816a-4455-b117-b2e718f0396c",
+                      "sourceId" : null,
+                      "isLocked" : false
+                    }
+                    """;
 
-    private String serviceName = "dataset-export";
-    private String dataSetListName = "dsl";
+    private final String serviceName = "dataset-export";
+    private final String dataSetListName = "dsl";
     private static final String PROJECT_BODY_DATA_SET_IN_NTT_EXPORT =
-            "dsName=ds1\n" +
-                    "\n" +
-                    "name=attribute 2; description=; value=./files/dsl/ds1/filename.txt\n"
-                    +
-                    "name=attribute 1; description=; value=123\n";
+            """
+            dsName=ds1
+            
+            name=attribute 2; description=; value=./files/dsl/ds1/filename.txt
+            name=attribute 1; description=; value=123
+            """;
     private String dsName;
-    private UUID dsId = UUID.fromString("8147cd6a-b742-4f63-be42-59c7c1ab5f2f");
-    private UUID dslId = UUID.fromString("70030fdd-816a-4455-b117-b2e718f0396c");
+    private final UUID dsId = UUID.fromString("8147cd6a-b742-4f63-be42-59c7c1ab5f2f");
+    private final UUID dslId = UUID.fromString("70030fdd-816a-4455-b117-b2e718f0396c");
     private UUID paramId;
     private ExportScope atpExportScope;
-    private DataSetEntity dataSet = new DataSetEntity();
-    private DataSetListEntity dataSetList = new DataSetListEntity();
+    private final DataSetEntity dataSet = new DataSetEntity();
+    private final DataSetListEntity dataSetList = new DataSetListEntity();
 
     @BeforeEach
     public void setUp() {
@@ -206,7 +221,6 @@ public class DataSetExportExecutorTest {
         Set<UUID> datasetIds = new HashSet<>();
         datasetIds.add(dsId);
         Path path = Files.createDirectories(tempDir.resolve("dsExport"));
-//        Path path = folder.newFolder("dsExport").toPath();
         UUID visibilityAreaId = UUID.fromString("0cce99d6-ef89-4163-8518-9e1dbf173a6d");
         ExportImportData exportData = new ExportImportData(visibilityAreaId, atpExportScope, ExportFormat.ATP);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASETS,
@@ -234,7 +248,6 @@ public class DataSetExportExecutorTest {
         UUID dataSetId = UUID.fromString("8147cd6a-b742-4f63-be42-59c7c1ab5f2f");
         datasetIds.add(dataSetId);
         Path path = Files.createDirectories(tempDir.resolve("dsExport"));
-//        Path path = folder.newFolder("dsExport").toPath();
         UUID visibilityAreaId = UUID.fromString("0cce99d6-ef89-4163-8518-9e1dbf173a6d");
         ExportImportData exportData = new ExportImportData(visibilityAreaId, atpExportScope, ExportFormat.NTT);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASETS,
@@ -251,12 +264,12 @@ public class DataSetExportExecutorTest {
                 assertEquals(dsName, _dsName);
             } else if (s.startsWith("name=attribute 2;")) {
                 String filePath = s.replace("name=attribute 2; description=; value=", "");
-                String expectedFilePath = "./files/" + dslId.toString() + "/" + dsId.toString() + "/" + paramId.toString();
-                assertEquals(Paths.get(filePath).toString(), Paths.get(expectedFilePath).toString());
+                String expectedFilePath = "./files/" + dslId + "/" + dsId + "/" + paramId.toString();
+                assertEquals(Path.of(filePath).toString(), Path.of(expectedFilePath).toString());
             } else if (s.startsWith("name=attribute 1;")) {
                 String value = s.replace("name=attribute 1; description=; value=", "");
                 String expectedValue = "123";
-                assertEquals(value, expectedValue);
+                assertEquals(expectedValue, value);
             }
         });
 
@@ -268,19 +281,19 @@ public class DataSetExportExecutorTest {
     }
 
     @Test
-    public void expandExportScope_exportSpecificDsls_DslForDsIsCollected() throws DataSetServiceException {
+    public void expandExportScope_exportSpecificDsls_DslForDsIsCollected() {
         ExportImportData exportData = new ExportImportData(UUID.randomUUID(), atpExportScope, ExportFormat.ATP);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASET_STORAGE, new HashSet<>());
         Set<UUID> idsFromDb = new HashSet<>();
         idsFromDb.add(dslId);
-        Mockito.when(jpaDataSetListRepository.getDslIdsByVa(exportData.getProjectId())).thenReturn(idsFromDb);
+        Mockito.when(jpaDataSetListRepository.getDslIdsByVa(Mockito.eq(exportData.getProjectId()))).thenReturn(idsFromDb);
         dataSetExportExecutor.expandExportScope(exportData);
         assertTrue(exportData.getExportScope().getEntities()
                 .getOrDefault(Constants.ENTITY_DATASET_STORAGE, new HashSet<>()).contains(dslId.toString()));
     }
 
     @Test
-    public void expandExportScope_DsReferencedFromParamIsAndCorrespondingDslIsCollected() throws DataSetServiceException {
+    public void expandExportScope_DsReferencedFromParamIsAndCorrespondingDslIsCollected() {
         ExportImportData exportData = new ExportImportData(null, atpExportScope, ExportFormat.ATP);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASET_STORAGE, new HashSet<>());
 
@@ -310,7 +323,7 @@ public class DataSetExportExecutorTest {
         Mockito.when(jpaDataSetRepository.findById(referencedDataSetId)).thenReturn(Optional.of(referencedDataSet));
         Mockito.when(jpaDataSetRepository.findById(referencedDataSetId2)).thenReturn(Optional.of(referencedDataSet2));
 
-        ParameterEntity parameterEntity = dataSet.getParameters().get(0);
+        ParameterEntity parameterEntity = dataSet.getParameters().getFirst();
         parameterEntity.setDataSetReferenceId(referencedDataSetId);
 
         ParameterEntity ds2Param = new ParameterEntity();
@@ -318,7 +331,7 @@ public class DataSetExportExecutorTest {
         ds2Param.setDataSetReferenceId(referencedDataSetId2);
         ds2Param.setAttribute(new AttributeEntity());
         ds2Param.getAttribute().setId(UUID.randomUUID());
-        referencedDataSet.setParameters(asList(ds2Param));
+        referencedDataSet.setParameters(List.of(ds2Param));
 
         dataSetExportExecutor.expandExportScope(exportData);
 
@@ -335,7 +348,7 @@ public class DataSetExportExecutorTest {
     }
 
     @Test
-    public void expandExportScope_specificDsls_circlesShouldBeHandledProperly() throws DataSetServiceException {
+    public void expandExportScope_specificDsls_circlesShouldBeHandledProperly() {
         ExportImportData exportData = new ExportImportData(null, atpExportScope, ExportFormat.ATP);
         exportData.getExportScope().getEntities().put(Constants.ENTITY_DATASET_STORAGE, new HashSet<>());
 
@@ -352,7 +365,7 @@ public class DataSetExportExecutorTest {
         referencedDataSet.setName("ds2");
         referencedDataSet.setParameters(new ArrayList<>());
 
-        ParameterEntity parameterEntity = dataSet.getParameters().get(0);
+        ParameterEntity parameterEntity = dataSet.getParameters().getFirst();
         parameterEntity.setDataSetReferenceId(referencedDataSetId);
 
         ParameterEntity ds2Param = new ParameterEntity();
@@ -360,7 +373,7 @@ public class DataSetExportExecutorTest {
         ds2Param.setDataSetReferenceId(dataSet.getId());
         ds2Param.setAttribute(new AttributeEntity());
         ds2Param.getAttribute().setId(UUID.randomUUID());
-        referencedDataSet.setParameters(asList(ds2Param));
+        referencedDataSet.setParameters(List.of(ds2Param));
 
         Set<UUID> idsFromDb = new HashSet<>();
         idsFromDb.add(dslId);
@@ -376,7 +389,7 @@ public class DataSetExportExecutorTest {
     }
 
     @Test
-    public void expandExportScope_exportAllDsls_noDslExpansion() throws DataSetServiceException {
+    public void expandExportScope_exportAllDsls_noDslExpansion() {
         ExportImportData exportData = new ExportImportData(UUID.randomUUID(), atpExportScope, ExportFormat.ATP);
         Set<UUID> dslIds = new HashSet<>();
         dslIds.add(dslId);
@@ -392,7 +405,7 @@ public class DataSetExportExecutorTest {
     }
 
     @Test
-    public void expandExportScope_DslReferencedFromAttributesAreCollected() throws DataSetServiceException {
+    public void expandExportScope_DslReferencedFromAttributesAreCollected() {
         ExportImportData exportData = new ExportImportData(null, atpExportScope, ExportFormat.ATP);
 
         UUID referencedDataSetListId = UUID.randomUUID();
@@ -420,7 +433,7 @@ public class DataSetExportExecutorTest {
     }
 
     @Test
-    public void expandExportScope_circlesAreHandledProperlyForAttributesDslReference() throws DataSetServiceException {
+    public void expandExportScope_circlesAreHandledProperlyForAttributesDslReference() {
         ExportImportData exportData = new ExportImportData(null, atpExportScope, ExportFormat.ATP);
 
         UUID referencedDataSetListId = UUID.randomUUID();

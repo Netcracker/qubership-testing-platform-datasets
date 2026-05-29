@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "TDS-7003")
 public class ExcelImportNotExistingChildAttributeException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Failed to import child dsl : attribute '%s' doesn't exist in DSL schema";
+    private static final String DEFAULT_MESSAGE = "Failed to import child dsl : attribute '%s' doesn't exist in DSL schema";
 
     public ExcelImportNotExistingChildAttributeException(String attributeName) {
-        super(String.format(DEFAULT_MESSAGE, attributeName));
+        super(DEFAULT_MESSAGE.formatted(attributeName));
     }
 
 }

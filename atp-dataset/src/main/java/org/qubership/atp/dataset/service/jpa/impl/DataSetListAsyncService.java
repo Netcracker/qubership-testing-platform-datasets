@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;

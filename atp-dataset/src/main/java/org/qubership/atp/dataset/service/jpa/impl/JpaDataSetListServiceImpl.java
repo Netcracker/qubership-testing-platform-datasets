@@ -30,7 +30,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.exception.attribute.AttributeNotFoundException;
@@ -439,7 +439,7 @@ public class JpaDataSetListServiceImpl implements JpaDataSetListService {
     public void checkDslNames(UUID visibilityArea) {
         List<String> names = modelsProvider.getNotUniqueDslNames(visibilityArea);
         if (!names.isEmpty()) {
-            throw new RuntimeException(String.format("There are duplicated DSL names: %s", names));
+            throw new RuntimeException("There are duplicated DSL names: %s".formatted(names));
         }
     }
 }

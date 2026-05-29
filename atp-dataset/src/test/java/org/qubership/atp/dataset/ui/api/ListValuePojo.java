@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.Identified;
 import org.qubership.atp.dataset.model.ListValue;

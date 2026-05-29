@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.service.direct.impl;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 import org.qubership.atp.dataset.db.VisibilityAreaRepository;

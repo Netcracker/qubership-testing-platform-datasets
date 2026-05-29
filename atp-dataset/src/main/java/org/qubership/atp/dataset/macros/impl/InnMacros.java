@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.macros.impl;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
@@ -39,7 +40,7 @@ public class InnMacros extends Macros<String> {
         StringBuilder result = new StringBuilder();
         int last = 0;
         for (int i = 0; i < 9; i++) {
-            int floor = (int) Math.floor(Math.random() * (10 - 1) + 1);
+            int floor = (int) Math.floor(ThreadLocalRandom.current().nextDouble() * (10 - 1) + 1);
             result.append(floor);
             last += FACTORS[i] * floor;
         }

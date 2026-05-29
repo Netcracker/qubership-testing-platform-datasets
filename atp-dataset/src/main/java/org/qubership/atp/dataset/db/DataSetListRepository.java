@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Provider;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.inject.Provider;
 
 import org.qubership.atp.dataset.db.utils.Proxies;
 import org.qubership.atp.dataset.model.Attribute;
@@ -39,7 +39,6 @@ import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.model.impl.DataSetListImpl;
 import org.qubership.atp.dataset.model.impl.TableResponse;
 import org.qubership.atp.dataset.service.rest.dto.manager.AffectedDataSetList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -66,7 +65,6 @@ public class DataSetListRepository extends AbstractRepository {
      *
      * @param queryFactory is used for creating sql queries.
      */
-    @Autowired
     public DataSetListRepository(@Nonnull SQLQueryFactory queryFactory,
                                  @Nonnull Provider<VisibilityAreaRepository> vaRepo,
                                  @Nonnull Provider<DataSetRepository> dsRepo,

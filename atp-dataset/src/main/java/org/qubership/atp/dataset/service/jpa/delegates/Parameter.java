@@ -16,10 +16,11 @@
 
 package org.qubership.atp.dataset.service.jpa.delegates;
 
+import java.io.Serial;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
@@ -33,6 +34,7 @@ import org.qubership.atp.dataset.model.impl.file.FileData;
 
 public class Parameter extends AbstractObjectWrapper<ParameterEntity> {
 
+    @Serial
     private static final long serialVersionUID = -7205269656851827042L;
 
     public Parameter(ParameterEntity entity) {
@@ -123,8 +125,7 @@ public class Parameter extends AbstractObjectWrapper<ParameterEntity> {
         if (attribute == null || attribute.isAttributeKey()) {
             return null;
         }
-        if (attribute instanceof HibernateProxy) {
-            HibernateProxy hibernateProxy = (HibernateProxy) attribute;
+        if (attribute instanceof HibernateProxy hibernateProxy) {
             LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
             return modelsProvider.getAttribute((AttributeEntity) initializer.getImplementation());
         } else {

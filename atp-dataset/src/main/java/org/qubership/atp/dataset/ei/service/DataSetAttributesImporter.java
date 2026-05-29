@@ -16,7 +16,6 @@
 
 package org.qubership.atp.dataset.ei.service;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,7 +104,7 @@ public class DataSetAttributesImporter {
         }
         log.debug("importDataSetAttributes import object: {}", object);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -147,7 +146,7 @@ public class DataSetAttributesImporter {
         }
         log.debug("import object: {}", object);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -163,7 +162,7 @@ public class DataSetAttributesImporter {
                 attrService.replicateListValue(object.getId(), object.getText(),
                         object.getAttribute(), object.getSourceId());
             } catch (DataSetServiceException e) {
-                String message = String.format("Cannot create list value by import object %s", object);
+                String message = "Cannot create list value by import object %s".formatted(object);
                 log.error(message);
                 throw new ExportException(message, e);
             }
@@ -192,7 +191,7 @@ public class DataSetAttributesImporter {
             attribute.setTypeDataSetListId(object.getTypeDataSetList());
             attrService.save(attribute);
         } catch (DataSetServiceException e) {
-            String message = String.format("Cannot create new attribute by import object %s", object);
+            String message = "Cannot create new attribute by import object %s".formatted(object);
             log.error(message);
             throw new ExportException(message, e);
         }
@@ -255,7 +254,7 @@ public class DataSetAttributesImporter {
         }
         log.debug("import object: {}", object);
         if (object == null) {
-            String message = String.format("Cannot load file by path %s", path.toString());
+            String message = "Cannot load file by path %s".formatted(path.toString());
             log.error(message);
             throw new RuntimeException(message);
         }
@@ -273,7 +272,7 @@ public class DataSetAttributesImporter {
                                               object.getDataSet(), object.getDataSetList(), object.getSourceId());
             } catch (DataSetServiceException e) {
                 String message =
-                        String.format("Cannot create new attribute key by import object %s", object);
+                        "Cannot create new attribute key by import object %s".formatted(object);
                 log.error(message);
                 throw new ExportException(message, e);
             }

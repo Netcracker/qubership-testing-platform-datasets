@@ -16,16 +16,13 @@
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import org.qubership.atp.dataset.db.migration.Main;
 import org.qubership.atp.dataset.db.migration.config.DbConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @Disabled
-@ContextConfiguration(classes = {DbConfiguration.class})
-@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig(classes = {DbConfiguration.class})
 public class TestSample {
 
     @Test

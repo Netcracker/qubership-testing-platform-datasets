@@ -19,8 +19,8 @@ package org.qubership.atp.dataset.model.utils;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.DataSet;
 import org.qubership.atp.dataset.model.DataSetList;

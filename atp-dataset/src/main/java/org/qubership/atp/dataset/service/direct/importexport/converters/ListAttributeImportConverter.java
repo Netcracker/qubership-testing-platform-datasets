@@ -29,7 +29,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.service.direct.ParameterService;
 import org.qubership.atp.dataset.service.direct.importexport.models.AttributeImportContext;
@@ -71,7 +70,7 @@ public class ListAttributeImportConverter extends AbstractAttributeConverter imp
 
         boolean attributeShouldOverlap = isAttributeShouldOverlap(importModel, datasetParameterValue, importContext,
                 (parameter) -> !parameterValue.equals(parameter.getListValue().getName())
-                        && (Strings.isNotBlank(parameterValue) || hasNotParent));
+                        && (StringUtils.isNotBlank(parameterValue) || hasNotParent));
 
         List<UUID> attributePath = !attributeShouldOverlap ? Collections.emptyList() : importModel.getPath();
 

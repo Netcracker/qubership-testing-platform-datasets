@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import static org.qubership.atp.dataset.service.direct.importexport.utils.Stream
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,8 +51,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
@@ -66,6 +63,9 @@ import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;
 import org.qubership.atp.dataset.db.jpa.Wrapper;
 import org.qubership.atp.dataset.db.jpa.entities.AttributeEntity;
@@ -105,10 +105,10 @@ import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.delegates.ListValue;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.collect.ImmutableMap;
+import jakarta.persistence.EntityManager;
 
 /*  DSL 2                        DSL 3                        DSL 4
  * ------------------------------------------------------------------------------
@@ -170,7 +170,8 @@ import com.google.common.collect.ImmutableMap;
  */
 
 @Isolated
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 public class DatasetListImportServiceTest {
 
@@ -439,7 +440,7 @@ public class DatasetListImportServiceTest {
         when(dataSetListService.getById(targetDslId)).thenReturn(dsl1);
 
         try {
-            Path path = Paths.get("src/test/resources/excel/import/valid_import_file.xlsx");
+            Path path = Path.of("src/test/resources/excel/import/valid_import_file.xlsx");
             importService.importDataSetList(targetProjectId, targetDslId, Files.newInputStream(path), false);
         } catch (ImportFailedException e) {
             Assertions.assertTrue(e.getMessage().contains("Failed to import DataSetList"));
@@ -448,7 +449,7 @@ public class DatasetListImportServiceTest {
 
     @Test
     public void importDataSetList() throws Exception {
-        File file = Paths.get("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
+        File file = Path.of("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
         importService.importDataSetList(targetProjectId, targetDslId, Files.newInputStream(file.toPath()), false);
 
         final UUID ds1Id = ds1.getId();
@@ -559,7 +560,7 @@ public class DatasetListImportServiceTest {
     @Test
     public void importDataSetList_ThereAreDuplicateDslNames_ErrorWhileImportDataSetList() {
         doThrow( new RuntimeException("There are duplicate DSL names : []")).when(dataSetListService).checkDslNames(targetProjectId);
-        File file = Paths.get("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
+        File file = Path.of("src/test/resources/excel/import/valid_import_file.xlsx").toFile();
 
         assertThrows(Exception.class, () ->
                 importService.importDataSetList(targetProjectId, targetDslId, Files.newInputStream(file.toPath()), false));
@@ -729,10 +730,10 @@ public class DatasetListImportServiceTest {
             final String datasetName = dataset.getName();
             final UUID datasetId = dataset.getId();
 
-            final String datasetsMapErrorMsg = String.format("Dataset map should contain dataset: %s", datasetName);
+            final String datasetsMapErrorMsg = "Dataset map should contain dataset: %s".formatted(datasetName);
             assertThat(datasetsMapErrorMsg, datasetsMap, IsMapContaining.hasEntry(datasetId, dataset));
 
-            final String datasetsNameIdMapErrorMsg = String.format("Dataset name to id map should contain dataset: %s",
+            final String datasetsNameIdMapErrorMsg = "Dataset name to id map should contain dataset: %s".formatted(
                     datasetName);
             assertThat(datasetsNameIdMapErrorMsg, datasetsNameIdMap, IsMapContaining.hasEntry(datasetName, datasetId));
         });
@@ -744,8 +745,7 @@ public class DatasetListImportServiceTest {
             final UUID datasetId = refDataset.getId();
             final String datasetKey = ImportUtils.getDatasetKey(refDataset);
 
-            final String refDatasetsNameIdMapErrorMsg = String.format(
-                    "Ref dataset name to id map should contain dataset with key: %s", datasetKey);
+            final String refDatasetsNameIdMapErrorMsg = "Ref dataset name to id map should contain dataset with key: %s".formatted(datasetKey);
             assertThat(refDatasetsNameIdMapErrorMsg, refDatasetsNameIdMap,
                     IsMapContaining.hasEntry(datasetKey, datasetId));
         });
@@ -755,14 +755,13 @@ public class DatasetListImportServiceTest {
         refDatasetLists.forEach(refDatasetList -> {
             final String refDatasetListName = refDatasetList.getName();
 
-            final String refDslDatasetsErrorMsg = String.format("Ref DSL datasets map should contain DSL with key: %s",
+            final String refDslDatasetsErrorMsg = "Ref DSL datasets map should contain DSL with key: %s".formatted(
                     refDatasetListName);
             assertThat(refDslDatasetsErrorMsg, refDslDatasetsMap, IsMapContaining.hasKey(refDatasetListName));
 
             final Set<UUID> dslDatasetIds = refDslDatasetsMap.get(refDatasetListName);
             dslDatasetIds.forEach(dslDatasetId -> {
-                final String refDslDatasetsIdErrorMsg = String.format(
-                        "Ref DSL datasets map DSL '%s' should contain dataset with id: %s", refDatasetListName,
+                final String refDslDatasetsIdErrorMsg = "Ref DSL datasets map DSL '%s' should contain dataset with id: %s".formatted(refDatasetListName,
                         dslDatasetId);
                 Assertions.assertTrue(refDslDatasetIds.contains(dslDatasetId), refDslDatasetsIdErrorMsg);
             });
@@ -831,7 +830,7 @@ public class DatasetListImportServiceTest {
 
     private ListIterator<Map<Integer, String>> getFileRowIterator(String filePath) {
         String locationPrefix = "src/test/resources/excel/import/";
-        Path path = Paths.get(locationPrefix + filePath);
+        Path path = Path.of(locationPrefix + filePath);
 
         List<Map<Integer, String>> sheetConvertList = new ArrayList<>();
         try {

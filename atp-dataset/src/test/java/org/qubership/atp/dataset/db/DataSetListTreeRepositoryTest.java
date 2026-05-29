@@ -24,20 +24,9 @@ import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.db.utils.StrongIdentifiedCache;
 import org.qubership.atp.dataset.model.Attribute;
@@ -48,10 +37,17 @@ import org.qubership.atp.dataset.model.Parameter;
 import org.qubership.atp.dataset.model.VisibilityArea;
 import org.qubership.atp.dataset.service.AbstractTest;
 import org.qubership.atp.dataset.service.direct.helper.CreationFacade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Isolated
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestConfiguration.class})
+@SpringJUnitConfig(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {
         "atp-dataset.javers.enabled=false"
 })
@@ -61,22 +57,26 @@ public class DataSetListTreeRepositoryTest extends AbstractTest {
     DataSetListTreeRepository repo;
 
     @Test
-    public void loadDslTree_WithDsRefOverlap_EachGroupIsLazyLoaded() throws Exception {
+    public void loadDslTree_WithDsRefOverlap_EachGroupIsLazyLoaded() {
         TestData d = createTestDataInstance(TestData::new);
         IdentifiedCache cache = new StrongIdentifiedCache();
         DataSetListTreeRepository.ToLoadLater loadLater = new DataSetListTreeRepository.ToLoadLater(repo, cache);
         DataSetList dsl = repo.getDslTree(d.dslTop.getId(), ImmutableList.of(d.dsTop.getId()), loadLater);
         Assertions.assertEquals(d.dslTop, dsl);
         Attribute topIntoMiddle = cache.getIfPresent(Attribute.class, d.topIntoMiddle.getAttribute().getId());
+        Assertions.assertNotNull(topIntoMiddle);
         DataSetList dslMiddle = topIntoMiddle.getDataSetListReference();
         Assertions.assertEquals(d.erTop, cache);
         //will load 2nd level
+        Assertions.assertNotNull(dslMiddle);
         dslMiddle.getName();
         Assertions.assertEquals(d.dslMiddle, dslMiddle);
         Parameter middleIntoLowOverlap = cache.getIfPresent(Parameter.class, d.middleIntoLowOverlap.getId());
+        Assertions.assertNotNull(middleIntoLowOverlap);
         DataSet dsLowOverlap = middleIntoLowOverlap.getDataSetReference();
         Assertions.assertEquals(d.erMiddle, cache);
         //will load 3rd level
+        Assertions.assertNotNull(dsLowOverlap);
         dsLowOverlap.getName();
         Assertions.assertEquals(d.dsLowOverlap, dsLowOverlap);
         Assertions.assertEquals(d.erLow, cache);

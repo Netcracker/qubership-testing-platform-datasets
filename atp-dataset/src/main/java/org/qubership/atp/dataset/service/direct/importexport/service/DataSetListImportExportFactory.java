@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.qubership.atp.dataset.exception.attribute.AttributeExportException;
 import org.qubership.atp.dataset.exception.attribute.AttributeImportException;

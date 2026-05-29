@@ -28,14 +28,13 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.service.jpa.ContextType;
@@ -49,16 +48,16 @@ import org.qubership.atp.dataset.service.jpa.model.tree.ds.DataSetTree;
 import org.qubership.atp.macros.core.clients.api.dto.macros.MacrosDto;
 
 @Disabled
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
-@ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig(classes = {TestConfiguration.class})
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 public class JpaIntegrationTest extends AbstractJpaTest {
 
     @Mock
     MacrosDto macrosDto;
 
-    private String EXPECTED_ATP_EVALUATED_CONTEXT =
+    private final String EXPECTED_ATP_EVALUATED_CONTEXT =
             "{\"parameters\":{\"Attr 1\":{\"type\":\"TEXT\"},\"Attr 2\":{\"type\":\"TEXT\","
                     + "\"value\":\"32OK_MACRO_VALUE\"},\"Attr list 1\":{\"type\":\"LIST\",\"value\":\"Value 2\"}},"
                     + "\"groups\":{\"DSL reference\":{\"type\":\"DSL\",\"value\":\"Test DataSet2  2\",\"dsl\":\"Test "
@@ -69,7 +68,7 @@ public class JpaIntegrationTest extends AbstractJpaTest {
                     + "\"parameters\":{\"Attr3  1\":{\"type\":\"TEXT\"},\"Attr3  2\":{\"type\":\"TEXT\","
                     + "\"value\":\"Some value3 4\"}},\"dataSetId\":\"b893b683-0b17-4f76-a96f-c997af88f7b2\"}},"
                     + "\"dataSetId\":\"96ba075a-1436-488a-90a0-30b3d58584f9\"}}}";
-    private String EXPECTED_ATP_UNEVALUATED_CONTEXT =
+    private final String EXPECTED_ATP_UNEVALUATED_CONTEXT =
             "{\"parameters\":{\"Attr 1\":{\"type\":\"TEXT\"},\"Attr 2\":{\"type\":\"TEXT\","
                     + "\"value\":\"32OK_MACRO_VALUE\"},\"Attr list 1\":{\"type\":\"LIST\","
                     + "\"value\":\"Value 2\"}},\"groups\":{\"DSL reference\":{\"type\":\"DSL\",\"value\":\"Test "
@@ -80,49 +79,49 @@ public class JpaIntegrationTest extends AbstractJpaTest {
                     + "\"parameters\":{\"Attr3  1\":{\"type\":\"TEXT\"},\"Attr3  2\":{\"type\":\"TEXT\","
                     + "\"value\":\"Some value3 4\"}},\"dataSetId\":\"b893b683-0b17-4f76-a96f-c997af88f7b2\"}},"
                     + "\"dataSetId\":\"96ba075a-1436-488a-90a0-30b3d58584f9\"}}}";
-    private String EXPECTED_ITF_CONTEXT =
+    private final String EXPECTED_ITF_CONTEXT =
             "{\"Attr 1\":\"\",\"Attr 2\":\"32OK_MACRO_VALUE\",\"Attr list 1\":\"Value 2\",\"DSL reference\":{\"Attr2 "
                     + " 1\":\"32OK_MACRO_VALUE\",\"Attr2  2\":\"Some overlap value\",\"Attr2  list 1\":\"Value2 2\","
                     + "\"DSL reference 2\":{\"Attr3  1\":\"\",\"Attr3  2\":\"Some value3 4\"}}}";
 
-    private String FULL_ATP_EXPECTED_RESULT =
+    private final String FULL_ATP_EXPECTED_RESULT =
             "{\"parameters\":{\"Some text 1\":{\"type\":\"TEXT\",\"value\":\"32OK_MACRO_VALUE\"},\"Some text "
                     + "2\":{\"type\":\"TEXT\",\"value\":\"Val2\"}},\"groups\":{\"DSL reference\":{\"type\":\"DSL\","
                     + "\"dsl\":\"Child DSL\",\"parameters\":{\"Some var 1\":{\"type\":\"TEXT\"},\"Some var "
                     + "2\":{\"type\":\"TEXT\",\"value\":\"Some overlap value\"}}}}}";
-    private String OBJECT_ATP_EXPECTED_RESULT =
+    private final String OBJECT_ATP_EXPECTED_RESULT =
             "{\"parameters\":{\"Some text 1\":{\"type\":\"TEXT\",\"value\":\"32OK_MACRO_VALUE\"},\"Some text "
                     + "2\":{\"type\":\"TEXT\",\"value\":\"Val2\"}},\"groups\":{\"DSL reference\":{\"type\":\"DSL\","
                     + "\"dsl\":\"Child DSL\"}}}";
-    private String OPTIMIZED_ATP_EXPECTED_RESULT =
+    private final String OPTIMIZED_ATP_EXPECTED_RESULT =
             "{\"parameters\":{\"Some text 1\":{\"type\":\"TEXT\",\"value\":\"32OK_MACRO_VALUE\"},\"Some text "
                     + "2\":{\"type\":\"TEXT\",\"value\":\"Val2\"}},\"groups\":{\"DSL reference\":{\"type\":\"DSL\","
                     + "\"dsl\":\"Child DSL\",\"parameters\":{\"Some var 2\":{\"type\":\"TEXT\",\"value\":\"Some "
                     + "overlap value\"}}}}}";
-    private String OBJECT_EXTENDED_ATP_EXPECTED_RESULT =
+    private final String OBJECT_EXTENDED_ATP_EXPECTED_RESULT =
             "{\"parameters\":{\"Some text 1\":{\"type\":\"TEXT\",\"value\":\"32OK_MACRO_VALUE\"},\"Some text "
                     + "2\":{\"type\":\"TEXT\",\"value\":\"Val2\"}},\"groups\":{\"DSL reference\":{\"type\":\"DSL\","
                     + "\"dsl\":\"Child DSL\",\"parameters\":{\"Some var 2\":{\"type\":\"TEXT\",\"value\":\"Some "
                     + "overlap value\"}}}}}";
 
-    private static UUID dataSetToCheck = UUID.fromString("f05b4368-a1ff-41f6-bf8f-9c7f0f139e1c");
-    private static UUID sourceAttributeEncNoParameterId = UUID.fromString("89520827-8daf-4f3a-ba05-d1369b63e636");
+    private static final UUID dataSetToCheck = UUID.fromString("f05b4368-a1ff-41f6-bf8f-9c7f0f139e1c");
+    private static final UUID sourceAttributeEncNoParameterId = UUID.fromString("89520827-8daf-4f3a-ba05-d1369b63e636");
 
-    private UUID visibilityAreaId = UUID.fromString("f261ed65-a491-44b0-af38-f0d97a46008c");
-    private UUID sourceDsId = UUID.fromString("336e0cc9-dee2-458c-887e-bcdc406ae4be");
-    private UUID sourceAttributeTextId = UUID.fromString("2e70a5cf-815a-40ee-b258-90a1b05f709b");
-    private UUID sourceAttributeListId = UUID.fromString("36f8ff3d-3291-4274-bbee-5a468db5f7d2");
-    private UUID sourceAttributeDslId = UUID.fromString("9923d9ec-81b8-4dca-b762-f663ed24595b");
-    private UUID sourceAttributeChangeId = UUID.fromString("4079aab2-3d5e-4d86-9217-f66524808ec3");
-    private UUID sourceAttributeEncId = UUID.fromString("81a84637-62a4-4d8b-8159-a6aeb20e52f5");
-    private UUID sourceAttributeTextNoParameterId = UUID.fromString("6871e447-2f61-4fd7-ae4c-dc26aebdc607");
-    private UUID sourceAttributeListNoParameterId = UUID.fromString("575e88a0-f83d-48d6-bf3a-adfda05d00f4");
-    private UUID sourceAttributeDslNoParameterId = UUID.fromString("132eadd7-4f7e-4fe3-91b8-e36a5e36b672");
-    private UUID sourceAttributeChangeNoParameterId = UUID.fromString("062276b4-29a6-48a5-8348-af3a1165fcd8");
-    private UUID dataSetToCheckContextTypes = UUID.fromString("fe703972-1b4b-41d5-837b-ab3824de5269");
+    private final UUID visibilityAreaId = UUID.fromString("f261ed65-a491-44b0-af38-f0d97a46008c");
+    private final UUID sourceDsId = UUID.fromString("336e0cc9-dee2-458c-887e-bcdc406ae4be");
+    private final UUID sourceAttributeTextId = UUID.fromString("2e70a5cf-815a-40ee-b258-90a1b05f709b");
+    private final UUID sourceAttributeListId = UUID.fromString("36f8ff3d-3291-4274-bbee-5a468db5f7d2");
+    private final UUID sourceAttributeDslId = UUID.fromString("9923d9ec-81b8-4dca-b762-f663ed24595b");
+    private final UUID sourceAttributeChangeId = UUID.fromString("4079aab2-3d5e-4d86-9217-f66524808ec3");
+    private final UUID sourceAttributeEncId = UUID.fromString("81a84637-62a4-4d8b-8159-a6aeb20e52f5");
+    private final UUID sourceAttributeTextNoParameterId = UUID.fromString("6871e447-2f61-4fd7-ae4c-dc26aebdc607");
+    private final UUID sourceAttributeListNoParameterId = UUID.fromString("575e88a0-f83d-48d6-bf3a-adfda05d00f4");
+    private final UUID sourceAttributeDslNoParameterId = UUID.fromString("132eadd7-4f7e-4fe3-91b8-e36a5e36b672");
+    private final UUID sourceAttributeChangeNoParameterId = UUID.fromString("062276b4-29a6-48a5-8348-af3a1165fcd8");
+    private final UUID dataSetToCheckContextTypes = UUID.fromString("fe703972-1b4b-41d5-837b-ab3824de5269");
 
         @BeforeEach
-    public void generateData() throws Exception {
+    public void generateData() {
         when(scriptMacrosCalculator.calculate(any(), any(), any())).thenReturn("OK_MACRO_VALUE");
         when(macrosFeignClient.findAllByProject(any(UUID.class)))
                 .thenReturn(new ResponseEntity<>(Collections.singletonList(macrosDto), HttpStatus.OK));
@@ -171,7 +170,7 @@ public class JpaIntegrationTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/jpa_integration_test/JpaIntegrationTest.sql")
-    public void     checkItfContextEvaluated_resultMatches() throws Exception {
+    public void     checkItfContextEvaluated_resultMatches() {
         String result = dataSetService.getDataSetTreeInItfFormat(dataSetToCheck);
         Assertions.assertEquals(EXPECTED_ITF_CONTEXT, result);
     }
@@ -261,7 +260,7 @@ public class JpaIntegrationTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/jpa_integration_test/JpaIntegrationTest.sql")
-    public void copyDsAttributeValue_withAllValuesDiffTypes() throws Exception {
+    public void copyDsAttributeValue_withAllValuesDiffTypes() {
         // given
         DataSetList targetDslAllParametersDiffTypes = dataSetListService.create("TargetDsl2", visibilityAreaId);
         UUID targetDslId = targetDslAllParametersDiffTypes.getId();
@@ -358,7 +357,7 @@ public class JpaIntegrationTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/jpa_integration_test/JpaIntegrationTest.sql")
-    public void copyDsAttributeValue_noTargetParameters_parametersShouldBeCreated() throws Exception {
+    public void copyDsAttributeValue_noTargetParameters_parametersShouldBeCreated() {
         // given
         DataSetList targetDslOnlyAttributes = dataSetListService.create("TargetDsl3", visibilityAreaId);
         UUID targetDslId = targetDslOnlyAttributes.getId();
@@ -422,7 +421,7 @@ public class JpaIntegrationTest extends AbstractJpaTest {
 
     @Test
     @Sql(scripts = "classpath:test_data/sql/jpa_integration_test/JpaIntegrationTest.sql")
-    public void copyDsAttributeValue_noTargetAttributes() throws Exception {
+    public void copyDsAttributeValue_noTargetAttributes() {
         // given
         DataSetList targetDslNoAttributes = dataSetListService.create("TargetDsl4", visibilityAreaId);
         UUID targetDslId = targetDslNoAttributes.getId();

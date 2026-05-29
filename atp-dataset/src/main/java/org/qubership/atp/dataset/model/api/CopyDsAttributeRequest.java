@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.model.api;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

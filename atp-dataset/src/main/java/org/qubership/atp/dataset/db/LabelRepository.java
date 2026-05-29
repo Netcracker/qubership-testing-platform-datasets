@@ -19,12 +19,11 @@ package org.qubership.atp.dataset.db;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.model.Label;
 import org.qubership.atp.dataset.model.impl.LabelImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Preconditions;
@@ -47,7 +46,6 @@ public class LabelRepository extends AbstractRepository {
      *
      * @param queryFactory is used for creating sql queries.
      */
-    @Autowired
     public LabelRepository(@Nonnull SQLQueryFactory queryFactory) {
         super();
         this.queryFactory = queryFactory;

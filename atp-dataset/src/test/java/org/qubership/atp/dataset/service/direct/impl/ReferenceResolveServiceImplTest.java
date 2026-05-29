@@ -112,7 +112,7 @@ public class ReferenceResolveServiceImplTest extends AbstractTest {
         UUID dslRef = data.dsl.getId();
         UUID dsRef = data.ds.getId();
         UUID attrRef = data.attr.getId();
-        String expected = String.format("dasdasd #REF_DSL(%s.#REF(%s.%s).#REF_THIS(%s)) 123 #REF_DSL(%s.%s.%s)",
+        String expected = "dasdasd #REF_DSL(%s.#REF(%s.%s).#REF_THIS(%s)) 123 #REF_DSL(%s.%s.%s)".formatted(
                 dslRef, dsRef, attrRef, attrRef, dslRef, dsRef, attrRef);
         Assertions.assertEquals(expected, wrapped);
         String unwrapped = wrapperService.unWrapAlias(wrapped);
@@ -126,7 +126,7 @@ public class ReferenceResolveServiceImplTest extends AbstractTest {
         UUID dslRef = data.dsl.getId();
         UUID dsRef = data.ds.getId();
         UUID attrRef = data.attr.getId();
-        String expected = String.format("dasdasd #REF_DSL(%s.#REF(%s.%s).ATTR) 123 #REF_DSL(%s.%s.%s)",
+        String expected = "dasdasd #REF_DSL(%s.#REF(%s.%s).ATTR) 123 #REF_DSL(%s.%s.%s)".formatted(
                 dslRef, dsRef, attrRef, dslRef, dsRef, attrRef);
         Assertions.assertEquals(expected, wrapped);
         String unwrapped = wrapperService.unWrapAlias(wrapped);

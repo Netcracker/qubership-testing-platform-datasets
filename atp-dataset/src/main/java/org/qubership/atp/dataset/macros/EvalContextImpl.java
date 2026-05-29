@@ -30,8 +30,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.macros.args.RefArg;
 import org.qubership.atp.dataset.macros.cache.Cache;
@@ -115,7 +115,7 @@ public class EvalContextImpl implements EvaluationContext {
             throws Exception {
         try {
             Optional<RefArg.Signature<T>> sigOpt = arg.asSignature();
-            if (!sigOpt.isPresent()) {
+            if (sigOpt.isEmpty()) {
                 RefArg.Context<T> ctx = arg.asContextRef().orElseThrow(() ->
                         new IllegalArgumentException("Expected to be context ref: " + arg));
                 return ctx.resolve(context);
@@ -344,7 +344,7 @@ public class EvalContextImpl implements EvaluationContext {
     @Nonnull
     @Override
     public Iterator<EvalContextImpl> getStrictContexts() {
-        return new AbstractIterator<EvalContextImpl>() {
+        return new AbstractIterator<>() {
 
             private EvalContextImpl next = EvalContextImpl.this;
 
@@ -363,7 +363,7 @@ public class EvalContextImpl implements EvaluationContext {
     @Nonnull
     @Override
     public Iterator<EvalContextImpl> getNonStrictContexts() {
-        return new AbstractIterator<EvalContextImpl>() {
+        return new AbstractIterator<>() {
             private final TreeSet<EvalContextImpl> checked = new TreeSet<>(SAME_NON_STRICT);
             private EvalContextImpl next = EvalContextImpl.this;
             private boolean isStrict = true;
@@ -390,7 +390,7 @@ public class EvalContextImpl implements EvaluationContext {
 
     private static class AppendDebugIdentifier implements Function<String, String> {
 
-        private static AppendDebugIdentifier INSTANCE = new AppendDebugIdentifier();
+        private static final AppendDebugIdentifier INSTANCE = new AppendDebugIdentifier();
 
         @Override
         public String apply(String s) {

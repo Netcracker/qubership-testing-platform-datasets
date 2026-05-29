@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -49,6 +49,7 @@ import org.qubership.atp.ei.node.services.ObjectLoaderFromDiskService;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class DataSetListImporterTest {
 
     private ObjectLoaderFromDiskService objectLoaderFromDiskService;
@@ -75,8 +76,8 @@ public class DataSetListImporterTest {
     }
 
     @Test
-    public void importDataSetLists_createNewVa() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
+    public void importDataSetLists_createNewVa() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
         when(vaService.getById(any())).thenReturn(null);
 
         List<UUID> result = dataSetListImporter.importDataSetLists(workDir, importData);
@@ -93,8 +94,8 @@ public class DataSetListImporterTest {
     }
 
     @Test
-    public void importDataSetLists_vaExistsDoNotCreateIt() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
+    public void importDataSetLists_vaExistsDoNotCreateIt() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
         when(vaService.getById(any())).thenReturn(mock(VisibilityArea.class));
         List<UUID> result = dataSetListImporter.importDataSetLists(workDir, importData);
         Assertions.assertTrue(result.contains(UUID.fromString("cb6fc56b-392c-456a-82d6-46fc38836a75")));
@@ -109,8 +110,8 @@ public class DataSetListImporterTest {
     }
 
     @Test
-    public void importDataSetLists_1() throws DataSetServiceException, IOException {
-        Path workDir = Paths.get("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
+    public void importDataSetLists_1() throws DataSetServiceException {
+        Path workDir = Path.of("src/test/resources/ei/import/1d554fe3-4a15-4e1c-964a-1585e3206208");
         when(vaService.getById(any())).thenReturn(mock(VisibilityArea.class));
         when(dslService.getById(any()))
                 .thenReturn(mock(DataSetList.class));
@@ -137,7 +138,7 @@ public class DataSetListImporterTest {
 
         dataSetListImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -159,7 +160,7 @@ public class DataSetListImporterTest {
 
         dataSetListImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -180,7 +181,7 @@ public class DataSetListImporterTest {
 
         dataSetListImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name);
+        Assertions.assertEquals(name, object.getName());
     }
 
     @Test
@@ -210,6 +211,6 @@ public class DataSetListImporterTest {
 
         dataSetListImporter.checkAndCorrectName(object);
 
-        Assertions.assertEquals(object.getName(), name + " Copy _2");
+        Assertions.assertEquals(name + " Copy _2", object.getName());
     }
 }

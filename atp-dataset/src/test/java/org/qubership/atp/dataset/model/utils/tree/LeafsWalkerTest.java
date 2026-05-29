@@ -25,8 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,8 +39,8 @@ public class LeafsWalkerTest extends TestData {
     private static final Logger LOG = LoggerFactory.getLogger(LeafsWalkerTest.class);
 
     LinkedList path = new LinkedList();
-    private StringToInt stringToInt = new StringToInt();
-    private IntToString intToString = new IntToString();
+    private final StringToInt stringToInt = new StringToInt();
+    private final IntToString intToString = new IntToString();
 
     @Test
     public void IterateOverTree_OneRoot_TraverseHandlerMethodsInvocationOrderIsCorrect() throws Exception {

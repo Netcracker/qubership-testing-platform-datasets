@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.constants.CacheEnum;
 import org.qubership.atp.dataset.db.jpa.ModelsProvider;

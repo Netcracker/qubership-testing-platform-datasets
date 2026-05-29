@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "TDS-6006")
 public class FileExcelExportNotFoundException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Excel file with name '%s' not found";
+    private static final String DEFAULT_MESSAGE = "Excel file with name '%s' not found";
 
     public FileExcelExportNotFoundException(String message) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

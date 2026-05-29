@@ -23,7 +23,7 @@ public class EvalException extends Exception {
     }
 
     public EvalException(String format, Object... args) {
-        super(String.format(format, args));
+        super(format.formatted(args));
     }
 
     public EvalException(String message, Throwable cause) {

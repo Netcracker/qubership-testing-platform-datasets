@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.model.utils;
 
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.Attribute;
 import org.qubership.atp.dataset.model.DataSet;

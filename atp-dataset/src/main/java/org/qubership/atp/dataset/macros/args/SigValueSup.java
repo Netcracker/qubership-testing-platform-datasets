@@ -18,7 +18,7 @@ package org.qubership.atp.dataset.macros.args;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.model.DataSetList;
 import org.qubership.atp.dataset.model.VisibilityArea;

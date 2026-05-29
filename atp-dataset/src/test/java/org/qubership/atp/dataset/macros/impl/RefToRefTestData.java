@@ -162,7 +162,7 @@ public class RefToRefTestData {
             b2bRatesIntoBelgiumRoamingZoneRef = create.refParam(b2bRates, "Belgium", belgiumRoamingZone);
             //#REF_DSL(International Voice Rates.#REF_THIS(Subscription.TariffName).#REF_THIS(UsageType).#REF_THIS
             // (DestinationCountry.IntenationalZone)) //Bel - magreb
-            String vlookupMacro = String.format("#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s).#REF_THIS(%s.%s))",
+            String vlookupMacro = "#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s).#REF_THIS(%s.%s))".formatted(
                     internationalVoiceRates.getName(),
                     belToEgyptIntoSubscriptionRef.getAttribute().getName(),
                     tariffName.getAttribute().getName(),
@@ -173,7 +173,7 @@ public class RefToRefTestData {
                     null, b2bRatesIntoBelgiumRoamingZoneRef.getAttribute());
             //#REF_DSL(Roaming SMS Rates.#REF_THIS(Account.AccountType).#REF_THIS(OriginCountry.Zone).#REF_THIS
             // (DestinationCountry.Zone)) bel - egy
-            String vlookupMacro2 = String.format("#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s.%s).#REF_THIS(%s.%s))",
+            String vlookupMacro2 = "#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s.%s).#REF_THIS(%s.%s))".formatted(
                     roamingSmsRates.getName(),
                     belToEgyptIntoAccountRef.getAttribute().getName(),
                     b2bAccType.getAttribute().getName(),

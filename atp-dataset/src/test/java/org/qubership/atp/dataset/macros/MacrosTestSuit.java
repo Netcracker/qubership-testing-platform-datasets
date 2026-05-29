@@ -17,9 +17,8 @@
 package org.qubership.atp.dataset.macros;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.Suite;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 import org.qubership.atp.dataset.macros.impl.DateMacrosTest;
 import org.qubership.atp.dataset.macros.impl.InnMacrosTest;
 import org.qubership.atp.dataset.macros.impl.LookupMacrosTest;
@@ -36,9 +35,11 @@ import org.qubership.atp.dataset.macros.parser.ParsingStateTest;
 import org.qubership.atp.dataset.macros.parser.TokensIteratorTest;
 import org.qubership.atp.dataset.macros.processor.AbstractMacroProcessorTest;
 import org.qubership.atp.dataset.macros.processor.RefAliasProcessorTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
         ParsingStateTest.class,
         TokensIteratorTest.class,
         AbstractMacroProcessorTest.class,

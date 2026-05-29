@@ -34,6 +34,6 @@ public class RegexMatcher extends TypeSafeMatcher<String> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText(String.format("should matches regular expression: %s", regex));
+        description.appendText("should matches regular expression: %s".formatted(regex));
     }
 }

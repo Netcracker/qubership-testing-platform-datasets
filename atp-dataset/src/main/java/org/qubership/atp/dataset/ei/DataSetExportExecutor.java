@@ -39,7 +39,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.antlr4.TextParameterParser;
 import org.qubership.atp.dataset.db.GridFsRepository;
@@ -164,7 +164,7 @@ public class DataSetExportExecutor implements ExportExecutor {
     }
 
     @Override
-    public void exportToFolder(ExportImportData exportData, Path workDir) throws Exception {
+    public void exportToFolder(ExportImportData exportData, Path workDir) {
         log.info("Start export by request {}", exportData);
         switch (exportData.getFormat()) {
             case ATP:
@@ -239,7 +239,7 @@ public class DataSetExportExecutor implements ExportExecutor {
         log.debug("start collectReferencesOnDslFromAttribute(dataSetListId: {})", dataSetListId);
         collectedDsl.add(dataSetListId);
         Optional<DataSetListEntity> dataSetListEntity = dataSetListRepository.findById(UUID.fromString(dataSetListId));
-        if (!dataSetListEntity.isPresent()) {
+        if (dataSetListEntity.isEmpty()) {
             log.info("Data Set List not found by id {}", dataSetListId);
             return;
         }
@@ -275,7 +275,7 @@ public class DataSetExportExecutor implements ExportExecutor {
                 dataSetId, macroContext, attrPath);
         alreadyCollectedDs.add(dataSetId);
         Optional<DataSetEntity> dataSet = dataSetRepository.findById(UUID.fromString(dataSetId));
-        if (!dataSet.isPresent()) {
+        if (dataSet.isEmpty()) {
             log.info("Data Set not found by id {}", dataSetId);
             return;
         }
@@ -410,9 +410,9 @@ public class DataSetExportExecutor implements ExportExecutor {
                 walkThroughResultTree(parameter, dataSets, dataSetLists);
             }
         }
-        if (parseResult instanceof RefDslMacro) {
-            dataSets.addAll(((RefDslMacro) parseResult).getDataSets());
-            dataSetLists.addAll(((RefDslMacro) parseResult).getDataSetLists());
+        if (parseResult instanceof RefDslMacro macro) {
+            dataSets.addAll(macro.getDataSets());
+            dataSetLists.addAll(macro.getDataSetLists());
         }
     }
 
@@ -446,7 +446,7 @@ public class DataSetExportExecutor implements ExportExecutor {
     private void exportDataSet(UUID dataSetId, Path workDir, Map<UUID, Short> attributeTypes,
                                ExportScope atpScopeExport) {
         Optional<DataSetEntity> dataSet = dataSetRepository.findById(dataSetId);
-        if (!dataSet.isPresent()) {
+        if (dataSet.isEmpty()) {
             log.info("Data Set not found by id {}", dataSetId);
             return;
         }
@@ -490,7 +490,7 @@ public class DataSetExportExecutor implements ExportExecutor {
             Optional<InputStream> file = entry.getValue();
             if (file.isPresent()) {
                 Optional<FileData> fileInfo = gridFsRepository.getFileInfo(parameterId);
-                if (!fileInfo.isPresent()) {
+                if (fileInfo.isEmpty()) {
                     log.info("File not found for parameter with id {}", parameterId);
                     continue;
                 }
@@ -506,11 +506,11 @@ public class DataSetExportExecutor implements ExportExecutor {
                                          DataSetParameter exportParameter, Path workDir) {
         AbstractAttributeEntity listValueAttr = listValue.getAttribute();
         AbstractAttributeEntity paramAttr = param.getAttribute();
-        if (paramAttr instanceof AttributeEntity) {
+        if (paramAttr instanceof AttributeEntity entity) {
             UUID attrParamId = paramAttr.getId();
             UUID attrListValueId = listValueAttr.getId();
             if (!attrParamId.equals(attrListValueId)) {
-                Optional<ListValueEntity> optionalListValue = ((AttributeEntity) paramAttr).getListValues().stream()
+                Optional<ListValueEntity> optionalListValue = entity.getListValues().stream()
                         .filter(value -> value.getText().equals(listValue.getText())).findFirst();
                 if (optionalListValue.isPresent()) {
                     exportParameter.setListValue(optionalListValue.get().getId());
@@ -564,7 +564,7 @@ public class DataSetExportExecutor implements ExportExecutor {
                                       Map<UUID, Short> attributeTypes,
                                       ExportScope atpScopeExport) {
         Optional<DataSetListEntity> dataSetListEntity = dataSetListRepository.findById(dataSetListId);
-        if (!dataSetListEntity.isPresent()) {
+        if (dataSetListEntity.isEmpty()) {
             log.info("Data Set List not found by id {}", dataSetListId);
             return;
         }
@@ -710,8 +710,8 @@ public class DataSetExportExecutor implements ExportExecutor {
         for (ParameterContext param : dataset.getParameters()) {
             processParameter(param, dataset, macroContext, dataSetListContext.getGroups(), parameters, null);
         }
-        String dsName = String.format("%s.%s", dataSetListContext.getDataSetListName(), dataset.getName());
-        String fileName = String.format("%s.%s", dsName, DATASET);
+        String dsName = "%s.%s".formatted(dataSetListContext.getDataSetListName(), dataset.getName());
+        String fileName = "%s.%s".formatted(dsName, DATASET);
         ExportPostmanDataset exportDataset = new ExportPostmanDataset(dataset.getId(), dsName, parameters);
         objectSaverToDiskService.writeAtpEntityToFile(fileName, exportDataset, DATASET, workDir, true);
     }
@@ -759,7 +759,7 @@ public class DataSetExportExecutor implements ExportExecutor {
         if (Strings.isNullOrEmpty(attrPath)) {
             return paramName;
         } else {
-            return String.format("%s.%s", attrPath, paramName);
+            return "%s.%s".formatted(attrPath, paramName);
         }
     }
 

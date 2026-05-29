@@ -19,7 +19,7 @@ package org.qubership.atp.dataset.migration.model;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -82,12 +82,12 @@ public class ImportResources implements Closeable {
                                          String bookName,
                                          String groupDataSetName) throws IOException, InvalidFormatException {
         FalloutReport falloutReport = new FalloutReport(bookName + ".fallout.tsv");
-        ExcelEvaluator excelEvaluator = new ExcelEvaluator(Files.find(Paths.get(excelDataFolder), Integer.MAX_VALUE,
+        ExcelEvaluator excelEvaluator = new ExcelEvaluator(Files.find(Path.of(excelDataFolder), Integer.MAX_VALUE,
                 (path, basicFileAttributes) -> basicFileAttributes.isRegularFile()
                         && !path.startsWith("~$")
                         && path.getFileName().toString().toLowerCase().matches(".+\\.xlsx"))
                 .collect(Collectors.toList()), new ExcelFormulasEvaluator(falloutReport));
-        XSSFWorkbook book = excelEvaluator.register(Paths.get(bookName));
+        XSSFWorkbook book = excelEvaluator.register(Path.of(bookName));
         VisibilityArea va = services.get_VA_ByNameOrCreate(visibilityAreaName);
         return new ImportResources(services, excelEvaluator, falloutReport, bookName, groupDataSetName, book, va);
     }

@@ -16,6 +16,7 @@
 
 package org.qubership.atp.dataset.service.jpa.delegates;
 
+import java.io.Serial;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,12 +28,10 @@ import org.qubership.atp.dataset.db.jpa.entities.AttributeKeyEntity;
 import org.qubership.atp.dataset.db.jpa.entities.DataSetListEntity;
 import org.qubership.atp.dataset.db.jpa.entities.ListValueEntity;
 import org.qubership.atp.dataset.service.jpa.model.AttributeTypeName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Attribute extends AbstractObjectWrapper<AttributeEntity> {
+    @Serial
     private static final long serialVersionUID = -55774378413986230L;
-    private static final Logger LOG = LoggerFactory.getLogger(Attribute.class);
 
     public Attribute(AttributeEntity entity) {
         super(entity);

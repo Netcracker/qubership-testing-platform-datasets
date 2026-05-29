@@ -18,8 +18,6 @@ package org.qubership.atp.dataset.macros.processor;
 
 import java.util.Collections;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.qubership.atp.dataset.macros.EvalContextImpl;
 import org.qubership.atp.dataset.macros.MacroRegistry;
 import org.qubership.atp.dataset.macros.cache.NoCache;
@@ -33,7 +31,6 @@ public class MacrosEvaluator implements Evaluator {
     private final MacroRegistry registry;
     private final AliasWrapperService wrapperService;
 
-    @Autowired
     public MacrosEvaluator(MacroRegistry registry, AliasWrapperService wrapperService) {
         this.registry = registry;
         this.wrapperService = wrapperService;

@@ -20,27 +20,17 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.ei.Constants;
 import org.qubership.atp.dataset.ei.DataSetExportExecutor;
@@ -48,16 +38,20 @@ import org.qubership.atp.dataset.service.jpa.service.AbstractJpaTest;
 import org.qubership.atp.ei.node.dto.ExportFormat;
 import org.qubership.atp.ei.node.dto.ExportImportData;
 import org.qubership.atp.ei.node.dto.ExportScope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 
 @Isolated
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
     public class DataSetExportExecutorPostman extends AbstractJpaTest {
 
     @Autowired
     DataSetExportExecutor dataSetExportExecutor;
-
 
     @Test
     @Sql(scripts = {"classpath:test_data/sql/postman.export/clear_postman_export.sql",
@@ -65,7 +59,7 @@ import org.qubership.atp.ei.node.dto.ExportScope;
 
     public void exportToFolder_PostmanFormat_successfulExport() throws Exception {
         String path = "src/test/resources/ei/postman";
-        Path workDir = Paths.get(path);
+        Path workDir = Path.of(path);
         Files.createDirectories(workDir);
         UUID visibilityAreaId = UUID.fromString("46094b3a-dc76-46f6-9a38-e3af2a8cc9fb");
         ExportImportData exportData = new ExportImportData(visibilityAreaId, new ExportScope(), ExportFormat.POSTMAN);
@@ -84,7 +78,7 @@ import org.qubership.atp.ei.node.dto.ExportScope;
         String actualFileValue2 = getFileValue(
                 "src/test/resources/ei/postman/dataset/postman_test_dsl.postman_ds2.dataset.json");
         File folder = new File(path + "/dataset");
-        int count = folder.list().length;
+        int count = Objects.requireNonNull(folder.list()).length;
 
         Assertions.assertEquals(2, count);
         Assertions.assertEquals(expectedFile1, actualFileValue1);
@@ -93,9 +87,8 @@ import org.qubership.atp.ei.node.dto.ExportScope;
         FileUtils.deleteDirectory(new File(path));
     }
 
-
-    public String getFileValue (String stringPath) throws IOException {
-        Path path = Paths.get(stringPath);
-      return   new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+    public String getFileValue(String stringPath) throws IOException {
+        Path path = Path.of(stringPath);
+        return Files.readString(path);
     }
 }

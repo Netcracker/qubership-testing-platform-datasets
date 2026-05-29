@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-2002")
 public class DataSetListExistsException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Dataset list with name '%s' already exists";
+    private static final String DEFAULT_MESSAGE = "Dataset list with name '%s' already exists";
 
     public DataSetListExistsException(String message) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

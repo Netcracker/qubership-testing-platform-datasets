@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.service.rest;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class QueryParamFlag {
 

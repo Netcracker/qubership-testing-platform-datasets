@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public enum AttributeType {
     TEXT((short) 1), FILE((short) 2), LIST((short) 3), DSL((short) 4), CHANGE((short) 5), ENCRYPTED((short) 6);

@@ -86,8 +86,8 @@ Datasets Service is used to store and manage test case data.
 3. Main class: org.qubership.atp.dataset.Main
 4. VM options:
     ````properties
-    -Dspring.config.location=target/config/application.properties
-    -Dspring.cloud.bootstrap.location=target/config/bootstrap.properties
+    -Dspring.config.location=file:./target/config/application.properties
+    -Dspring.cloud.bootstrap.location=file:./target/config/bootstrap.properties
     -Dlogging.level.org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor=debug
     -Dlogging.level.org.qubership.atp.catalogue.service.client.feign.DatasetFeignClient=debug
     -Dds.logger.level=DEBUG

@@ -62,7 +62,7 @@ public class AttachmentControllerFacade {
         Optional<InputStream> optional = gridFsService.get(parameterUuid);
         FileData info = gridFsService.getFileInfo(parameterUuid);
 
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         InputStreamResource inputStreamResource = new InputStreamResource(optional.get());

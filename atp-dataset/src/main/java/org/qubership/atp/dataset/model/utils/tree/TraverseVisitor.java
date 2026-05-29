@@ -16,7 +16,7 @@
 
 package org.qubership.atp.dataset.model.utils.tree;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public interface TraverseVisitor<I, O> extends TraverseHandler<I, O> {
 

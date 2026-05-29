@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.qubership.atp.dataset.config.TestConfiguration;
 import org.qubership.atp.dataset.service.jpa.delegates.DataSetList;
 import org.qubership.atp.dataset.service.jpa.model.dsllazyload.referencedcontext.RefDataSetListFlat;
@@ -40,7 +39,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,7 +47,6 @@ import lombok.Data;
 @Disabled
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JpaDataSetListServiceImplTest extends AbstractJpaTest {
 

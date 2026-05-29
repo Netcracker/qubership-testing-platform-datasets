@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.migration.model.OverlapParamContainer;
 import org.qubership.atp.dataset.migration.model.ToOverlap;

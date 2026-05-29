@@ -188,7 +188,7 @@ public class LookupMacrosTest extends AbstractTest {
     @Test
     public void vLookup_RefDslUsingRefThis_ResolvedProperly() throws Exception {
         PhoneCallTestData data = createTestDataInstance(PhoneCallTestData::new);
-        String vlookupMacro = String.format("#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s.%s))",
+        String vlookupMacro = "#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s.%s))".formatted(
                 data.internationalRateCost.getName(),
                 data.voiceCallIntoOriginCountryRef.getAttribute().getName(),
                 data.countryZone.getName(),
@@ -207,7 +207,7 @@ public class LookupMacrosTest extends AbstractTest {
                 .VoiceCaseRefToDslWithOverlap::new);
         //#REF_DSL(International Voice Rates.#REF_THIS(Subscription.TariffName).#REF_THIS(UsageType).#REF_THIS
         // (DestinationCountry.IntenationalZone))
-        String vlookupMacro = String.format("#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s).#REF_THIS(%s.%s))",
+        String vlookupMacro = "#REF_DSL(%s.#REF_THIS(%s.%s).#REF_THIS(%s).#REF_THIS(%s.%s))".formatted(
                 data.internationalVoiceRates.getName(),
                 data.belToUsaIntoSubscriptionRef.getAttribute().getName(),
                 data.tariffName.getAttribute().getName(),

@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "TDS-6003")
 public class FileDsUploadException extends DataSetException {
 
-    private static String DEFAULT_MESSAGE = "Cannot bulk upload file '%s'";
+    private static final String DEFAULT_MESSAGE = "Cannot bulk upload file '%s'";
 
     public FileDsUploadException(String message) {
-        super(String.format(DEFAULT_MESSAGE, message));
+        super(DEFAULT_MESSAGE.formatted(message));
     }
 }

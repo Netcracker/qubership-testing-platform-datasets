@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.macros.EvaluationContext;
 import org.qubership.atp.dataset.macros.MacroRegistry;
@@ -140,7 +140,7 @@ public final class MacroContext extends MacroContextBase {
         Iterator<SignatureArg> iterator = parsed.iterator();
         for (int i = 0; i < wrappedArgs; i++) {
             Optional<? extends RefArg.Signature<?>> signature = iterator.next().asRef();
-            if (!signature.isPresent()) {
+            if (signature.isEmpty()) {
                 continue;//nothing to init
             }
             RefArg.Signature<?> arg = signature.get();

@@ -27,41 +27,36 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.qubership.atp.dataset.config.TestConfiguration;
+import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
+import org.qubership.atp.dataset.service.jpa.delegates.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import org.qubership.atp.dataset.config.TestConfiguration;
-import org.qubership.atp.dataset.service.direct.impl.ClearCacheServiceImpl;
-import org.qubership.atp.dataset.service.jpa.DataSetServiceException;
-import org.qubership.atp.dataset.service.jpa.delegates.Parameter;
 
 //@Isolated
 @Disabled
 @SpringBootTest
 @ContextConfiguration(classes = {TestConfiguration.class})
-@ExtendWith(SpringExtension.class)
 @TestPropertySource(properties = {"atp-dataset.javers.enabled=false"})
 public class JpaParameterServiceImplTest extends AbstractJpaTest {
 
     @Autowired
     ClearCacheServiceImpl clearCacheService;
 
-    private UUID visibilityAreaId = UUID.fromString("c904edfc-310d-4b01-8af2-5cc4f1d86fcd");
-    private UUID dataSetList1 = UUID.fromString("b8444ae9-bb06-47b6-a895-eedd5f2f4f60");
-    private UUID dataSet11 = UUID.fromString("2f27efc6-bfa0-4a00-9064-f20cb2afb3b8");
-    private UUID dataSet12 = UUID.fromString("18a8b8db-4c8b-41a8-af5e-ca366dc99f91");
-    private UUID attribute11 = UUID.fromString("beb2484b-fb54-44dd-84fd-d759329c163b");
-    private UUID attribute12 = UUID.fromString("08582328-90b8-49c7-9ab8-e676e8b896f8");
-    private UUID parameter1ds1 = UUID.fromString("4cfd2426-ad08-4d02-8501-dbcb83ce6825");
-    private UUID parameter2ds2 = UUID.fromString("ccedbecc-deb6-456e-9b30-ae77ddfde157");
+    private final UUID visibilityAreaId = UUID.fromString("c904edfc-310d-4b01-8af2-5cc4f1d86fcd");
+    private final UUID dataSetList1 = UUID.fromString("b8444ae9-bb06-47b6-a895-eedd5f2f4f60");
+    private final UUID dataSet11 = UUID.fromString("2f27efc6-bfa0-4a00-9064-f20cb2afb3b8");
+    private final UUID dataSet12 = UUID.fromString("18a8b8db-4c8b-41a8-af5e-ca366dc99f91");
+    private final UUID attribute11 = UUID.fromString("beb2484b-fb54-44dd-84fd-d759329c163b");
+    private final UUID attribute12 = UUID.fromString("08582328-90b8-49c7-9ab8-e676e8b896f8");
+    private final UUID parameter1ds1 = UUID.fromString("4cfd2426-ad08-4d02-8501-dbcb83ce6825");
+    private final UUID parameter2ds2 = UUID.fromString("ccedbecc-deb6-456e-9b30-ae77ddfde157");
 
     @BeforeEach
-    public void clearCache() throws InterruptedException {
+    public void clearCache() {
         List<UUID> parameters = Arrays.asList(UUID.fromString("4cfd2426-ad08-4d02-8501-dbcb83ce6825"),
                 UUID.fromString("57a9e15e-0cdb-4b85-ba17-d70812b0b1df"),
                 UUID.fromString("210fb6ac-08dc-4e47-bfd7-2ae980bcf586"),
@@ -73,7 +68,7 @@ public class JpaParameterServiceImplTest extends AbstractJpaTest {
 
     @Test()
     @Sql(scripts = "classpath:test_data/sql/jpa_parameter_service_impl_test/JpaParameterServceImplTest.sql")
-    public void bulkUpdateValues_datasetLockedTrue_NotUpdateValuesThrowException() throws DataSetServiceException {
+    public void bulkUpdateValues_datasetLockedTrue_NotUpdateValuesThrowException() {
         dataSetService.lock(dataSetList1, Collections.singletonList(dataSet11), true);
         String updateValue = "txtUpdateValue";
 
@@ -88,7 +83,7 @@ public class JpaParameterServiceImplTest extends AbstractJpaTest {
 
     @Test()
     @Sql(scripts = "classpath:test_data/sql/jpa_parameter_service_impl_test/JpaParameterServceImplTest.sql")
-    public void bulkUpdateValues_datasetLockFalse_UpdateValuesSuccessfully() throws DataSetServiceException {
+    public void bulkUpdateValues_datasetLockFalse_UpdateValuesSuccessfully() {
         String updateValue = "txtUpdateValue";
 
         Assertions.assertDoesNotThrow(() ->
@@ -101,7 +96,7 @@ public class JpaParameterServiceImplTest extends AbstractJpaTest {
 
     @Test()
     @Sql(scripts = "classpath:test_data/sql/jpa_parameter_service_impl_test/JpaParameterServceImplTest.sql")
-    public void createParameter_datasetLockedTrue_NotCreatParameterThrowException() throws DataSetServiceException {
+    public void createParameter_datasetLockedTrue_NotCreatParameterThrowException() {
         dataSetService.lock(dataSetList1, Collections.singletonList(dataSet12), true);
         String newValue = "New text value";
 
@@ -115,7 +110,7 @@ public class JpaParameterServiceImplTest extends AbstractJpaTest {
 
     @Test()
     @Sql(scripts = "classpath:test_data/sql/jpa_parameter_service_impl_test/JpaParameterServceImplTest.sql")
-    public void createParameter_datasetLockedFalse_CreatTextParameterSuccessfully() throws DataSetServiceException {
+    public void createParameter_datasetLockedFalse_CreatTextParameterSuccessfully() {
         String newValue = "New text value";
 
         Parameter parameter = parameterService.createParameter(dataSet12, attribute12,

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,7 @@ public class IntegrationTestConfiguration {
     }
 
     @Bean
+    @DependsOnDatabaseInitialization
     public SQLQueryFactory queryFactory() {
         return serverContext().getBean(SQLQueryFactory.class);
     }

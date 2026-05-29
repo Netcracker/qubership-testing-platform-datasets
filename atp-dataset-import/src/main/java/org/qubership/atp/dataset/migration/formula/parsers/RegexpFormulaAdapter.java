@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.qubership.atp.dataset.migration.formula.model.CellData;
 import org.qubership.atp.dataset.migration.formula.model.ExcelFormulaAdapter;
@@ -36,7 +36,7 @@ public abstract class RegexpFormulaAdapter implements ExcelFormulaAdapter {
     @Nonnull
     protected final Matcher getMatcher(CellData cellData) throws TransformationException {
         final Optional<Matcher> matcher = getValidMatcher(cellData);
-        if (!matcher.isPresent()) {
+        if (matcher.isEmpty()) {
             throw new TransformationException(
                     "Text '" + cellData + "' is not supported expression: " + getFormulaDescription());
         }

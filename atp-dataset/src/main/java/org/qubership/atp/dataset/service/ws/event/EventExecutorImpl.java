@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import org.qubership.atp.dataset.service.ws.entities.Pair;
 import org.slf4j.LoggerFactory;
@@ -76,7 +76,7 @@ public class EventExecutorImpl implements EventExecutor {
         Collection<WebSocketSession> sockets = handler.getWebSockets(event);
         Stream<WebSocketSession> webSocketStream = sockets.stream().filter(webSocket -> webSocket != sourceSocket
                 && webSocket.isOpen());
-        List<WebSocketSession> collect = webSocketStream.collect(Collectors.toList());
+        List<WebSocketSession> collect = webSocketStream.toList();
         collect.forEach(socket -> sendEvent(event, socket));
     }
 

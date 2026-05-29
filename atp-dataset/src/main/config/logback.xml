@@ -15,12 +15,12 @@
                 <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
                 <maximumMessageSize>8192</maximumMessageSize>
 
-                <!-- This are static fields -->
+                <!-- These are static fields -->
                 <additionalFields>environment=TA,application=${project.artifactId}</additionalFields>
                 <!-- Optional: Specify field types -->
                 <additionalFieldTypes>environment=String,application=String</additionalFieldTypes>
 
-                <!-- This are fields using MDC -->
+                <!-- These are fields using MDC -->
                 <mdcFields>mdc.userId,mdc.projectId,mdc.executionRequestId,mdc.testRunId,mdc.bvTestRunId,mdc.bvTestCaseId,mdc.environmentId,mdc.systemId,mdc.subscriberId,mdc.tsgSessionId,mdc.svpSessionId,mdc.dataSetId,mdc.dataSetListId,mdc.attributeId,mdc.itfLiteRequestId,mdc.reportType,mdc.itfSessionId,mdc.itfContextId,mdc.callChainId,mdc.engineName,mdc.requestId</mdcFields>
                 <dynamicMdcFieldTypes>userId=String,projectId=String,executionRequestId=String,testRunId=String,environmentId=String,systemId=String,bvTestRunId=String,bvTestCaseId=String,subscriberId=String,tsgSessionId=String,svpSessionId=String,dataSetId=String,dataSetListId=String,attributeId=String,itfLiteRequestId=String,reportType=String,itfSessionId=String,itfContextId=String,callChainId=String,engineName=String,requestId=String</dynamicMdcFieldTypes>
                 <dynamicMdcFields>mdc.*,(mdc|MDC)fields</dynamicMdcFields>
@@ -58,8 +58,7 @@
                 <file>console.log</file>
                 <encoder class="org.qubership.atp.integration.configuration.logging.logback.AtpPatternLayoutEncoder">
                     <!--See also https://logback.qos.ch/manual/layouts.html-->
-                    <pattern>%date{YYYY-MM-dd HH:mm:ss.SS} %-7([%level]) "%thread" %X{requestId} [%logger#%method] - %message%n
-                    </pattern>
+                    <pattern>%date{YYYY-MM-dd HH:mm:ss.SS} %-7([%level]) "%thread" %X{requestId} [%logger#%method] - %message%n</pattern>
                     <charset>${project.reporting.outputEncoding}</charset>
                 </encoder>
                 <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -70,7 +69,19 @@
                     <maxFileSize>10Mb</maxFileSize>
                 </triggeringPolicy>
             </appender>
+
+            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <!-- encoders are assigned the type
+                 ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+                <encoder class="org.qubership.atp.integration.configuration.logging.logback.AtpPatternLayoutEncoder">
+                    <!--See also https://logback.qos.ch/manual/layouts.html-->
+                    <pattern>%date{HH:mm:ss.SS} %-7([%level]) "%thread" [%logger#%method] - %message%n</pattern>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+
             <root  level="${log.level}">
+                <appender-ref ref="STDOUT"/>
                 <appender-ref ref="FILE"/>
             </root>
             <if condition='${ATP_HTTP_LOGGING:-false}'>

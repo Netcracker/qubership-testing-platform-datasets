@@ -16,6 +16,14 @@
 
 package org.qubership.atp.dataset.service.jpa.model.tree.params.macros;
 
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.math.NumberUtils.isParsable;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.TestUtils.getCharsMacros;
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.TestUtils.getCharsUpperCaseMacros;
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.TestUtils.getContextMacros;
@@ -36,14 +44,6 @@ import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.mat
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.matcher.MatcherFactory.isNaN;
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.matcher.MatcherFactory.isUuid;
 import static org.qubership.atp.dataset.service.jpa.model.tree.params.macros.matcher.MatcherFactory.isUuidUpperCase;
-import static java.util.Arrays.asList;
-import static org.apache.commons.lang3.math.NumberUtils.isParsable;
-import static org.hamcrest.CoreMatchers.both;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,12 +55,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Isolated;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.qubership.atp.dataset.service.jpa.impl.macro.MacroContext;
 import org.qubership.atp.dataset.service.jpa.model.tree.params.TextParameter;
 import org.qubership.atp.macros.core.calculator.ScriptMacrosCalculator;
 import org.qubership.atp.macros.core.model.Macros;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @Isolated
 @ExtendWith(SpringExtension.class)
