@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -57,7 +57,10 @@ public class AtpSwaggerConfig {
                         .addSecuritySchemes("Bearer Authentication", createApiKeyScheme()))
                 .info(new Info()
                         .title("ATP-Datasets")
-                        .license(new License().name("(C) Copyright Qubership Technology")));
+                        .license(new License()
+                                .name("Apache-2.0")
+                                .url("https://www.apache.org/licenses/LICENSE-2.0")
+                        ));
     }
 
     /**
