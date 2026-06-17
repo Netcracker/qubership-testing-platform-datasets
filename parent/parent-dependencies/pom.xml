@@ -19,7 +19,7 @@
         <javers.spring.boot.starter.sql.version>7.9.0</javers.spring.boot.starter.sql.version>
         <kotlin.version>1.9.25</kotlin.version>
 
-        <atp.auth.version>2.0.0</atp.auth.version>
+        <atp.auth.version>2.0.1</atp.auth.version>
         <ei.version>1.0.0</ei.version>
         <macros.core.version>2.0.0</macros.core.version>
         <atp.common.version>1.0.0</atp.common.version>
