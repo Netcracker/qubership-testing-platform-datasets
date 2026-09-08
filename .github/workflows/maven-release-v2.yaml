@@ -237,7 +237,7 @@ jobs:
     if: ${{ needs.docker-build.result == 'success' }}
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
-      repository_name: 'qubership-testing-platform-datasets'
+      repository_name: ${{ github.event.repository.name }}
       service_name: 'atp-datasets'
       namespace: 'datasets'
       pipeline_branch: 'main'
