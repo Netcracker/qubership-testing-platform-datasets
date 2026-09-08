@@ -32,10 +32,11 @@ jobs:
     uses: netcracker/qubership-testing-platform-helm-hook-helper/.github/workflows/deploy-run-tests.yaml@main
     with:
       repository_name: ${{ github.event.repository.name }}
-      service_name: 'atp-environments'
-      namespace: 'env'
+      service_name: 'atp-datasets'
+      namespace: 'datasets'
       pipeline_branch: ${{ github.ref }}
       docker_tag: ${{ inputs.docker_tag }}
       transfer_image: ${{ inputs.transfer_image }}
       postgres: enable
       enable_test: enable
+      
