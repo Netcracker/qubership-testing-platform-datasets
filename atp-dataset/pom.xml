@@ -936,6 +936,26 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <!--
+                The db.generated Q-classes (QAttribute, QDataset, etc.) are not project sources: they are compiled
+                by the atp-dataset-q-classes-generation module and copied into this module's target/classes as
+                resources (see the copy-generated-q-classes-module-* executions of maven-resources-plugin above).
+                maven-compiler-plugin picks them up because its classpath always includes the output directory, but
+                maven-javadoc-plugin's classpath does not, so it needs them added explicitly here.
+                -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalDependencies>
+                        <additionalDependency>
+                            <groupId>org.qubership.atp.dataset</groupId>
+                            <artifactId>atp-dataset-q-classes-generation</artifactId>
+                            <version>${project.version}</version>
+                        </additionalDependency>
+                    </additionalDependencies>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
