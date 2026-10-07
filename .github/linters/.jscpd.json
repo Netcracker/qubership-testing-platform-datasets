@@ -4,6 +4,7 @@
   "ignore": [
     "**/resources/**",
     "**/.github/**",
+    "**/test/**",
     "**/*/*.xml",
     "**/*/*.yaml",
     "**/*/*.yml",
